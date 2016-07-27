@@ -4,7 +4,7 @@ Un petit projet Python et PyQt pour gérer sa collection d'animés.
 
 # Installation
 
-## Windows
+## Windows 32bits
 
 -Python 2 (https://www.python.org/ftp/python/2.7.12/python-2.7.12.msi)
 
