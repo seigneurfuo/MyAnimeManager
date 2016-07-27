@@ -434,7 +434,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 # Fonction principale
 if __name__ == "__main__":
     # Chemins
-    dossier = "N:\Temp [Auto]\python.MyAnimeManager\data\covers"
+    dossier = "./data/covers"
     #dossier = config["coverPath"]
 
     # Nom de la base de donnée
