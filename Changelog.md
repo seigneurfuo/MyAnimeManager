@@ -7,11 +7,11 @@
 	Lors du remplissage des informations par MyanimeList, la cover de l'animé est téléchargée
 	
     23/07/2016
-	Ajout d'icones sur les boutons et les onglets,
+	Ajout d'icones sur les boutons et les onglets
     Ajout d'un bouton qui permet d'afficher ses animés préférés d'un seul clic
 						   
     20/07/2016
-	Correction du bug de texte dans l'entrée MAL,
+	Correction du bug de texte dans l'entrée MAL
     Ajout d'une entrée Ajouté le dans les informations des animés
 						   
     09/07/2016
@@ -41,14 +41,14 @@
 	Ajout d'une fonction de calcul des animés
 				   
 	26/06/2016
-	Correction du bug qui empéchait l'enregistrement final (commit de la bdd),
+	Correction du bug qui empéchait l'enregistrement final (commit de la bdd)
 	Ajout d'une fonction planning qui permet d'afficher et de rajouter des animés vus grace a un calendrier.,
-	Ajout d'une table dans la bdd pour la fonction précédente,
-	Réorganisation légère de l'interface,
+	Ajout d'une table dans la bdd pour la fonction précédente
+	Réorganisation légère de l'interface
 	Ajout d'informations chargées a partir du code dans l'ongelt \A propos\
 				   
 	19/06/2016
 	Changement de l'interface: Passage a une interface a onglet pour acceuillir les futures fonctions
 	 
 	12/06/2016
-	Utilisation de pyQt car je ne voulais pas utiliser Tkinter]}
+	Lacement du projet: Utilisation de PyQt car je ne voulais pas utiliser Tkinter
