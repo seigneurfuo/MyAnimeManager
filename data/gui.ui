@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>data/icons/icon.png</normaloff>data/icon.png</iconset>
+    <normaloff>data/icons/icon.png</normaloff>data/icons/icon.png</iconset>
   </property>
   <property name="statusTip">
    <string/>
@@ -43,12 +43,12 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="planning">
      <attribute name="icon">
       <iconset>
-       <normaloff>data/icons/address-book-new-2.ico</normaloff>data/address-book-new-2.ico</iconset>
+       <normaloff>data/icons/address-book-new-2.ico</normaloff>data/icons/address-book-new-2.ico</iconset>
      </attribute>
      <attribute name="title">
       <string>Planning</string>
@@ -78,7 +78,7 @@
       <widget class="QPushButton" name="boutonAnnuler_3">
        <property name="geometry">
         <rect>
-         <x>140</x>
+         <x>70</x>
          <y>170</y>
          <width>71</width>
          <height>21</height>
@@ -89,13 +89,13 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>data/icons/edit-delete-5.ico</normaloff>data/edit-delete-5.ico</iconset>
+         <normaloff>data/icons/edit-delete-5.ico</normaloff>data/icons/edit-delete-5.ico</iconset>
        </property>
       </widget>
       <widget class="QPushButton" name="boutonPlanningSauvegarder">
        <property name="geometry">
         <rect>
-         <x>60</x>
+         <x>140</x>
          <y>170</y>
          <width>71</width>
          <height>21</height>
@@ -106,7 +106,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>data/icons/document-export.ico</normaloff>data/document-export.ico</iconset>
+         <normaloff>data/icons/document-export.ico</normaloff>data/icons/document-export.ico</iconset>
        </property>
       </widget>
      </widget>
@@ -146,7 +146,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>data/icons/list-add-6.ico</normaloff>data/list-add-6.ico</iconset>
+         <normaloff>data/icons/list-add-6.ico</normaloff>data/icons/list-add-6.ico</iconset>
        </property>
       </widget>
      </widget>
@@ -156,7 +156,7 @@
         <x>0</x>
         <y>0</y>
         <width>231</width>
-        <height>191</height>
+        <height>201</height>
        </rect>
       </property>
       <property name="title">
@@ -201,7 +201,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>data/icons/today.ico</normaloff>data/today.ico</iconset>
+         <normaloff>data/icons/today.ico</normaloff>data/icons/today.ico</iconset>
        </property>
       </widget>
      </widget>
@@ -209,7 +209,7 @@
     <widget class="QWidget" name="liste">
      <attribute name="icon">
       <iconset>
-       <normaloff>data/icons/application-view-list.ico</normaloff>data/application-view-list.ico</iconset>
+       <normaloff>data/icons/application-view-list.ico</normaloff>data/icons/application-view-list.ico</iconset>
      </attribute>
      <attribute name="title">
       <string>Liste</string>
@@ -244,7 +244,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>data/icons/edit-delete-5.ico</normaloff>data/edit-delete-5.ico</iconset>
+        <normaloff>data/icons/edit-delete-5.ico</normaloff>data/icons/edit-delete-5.ico</iconset>
       </property>
      </widget>
      <widget class="QLabel" name="label_3">
@@ -346,7 +346,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>data/icons/document-export.ico</normaloff>data/document-export.ico</iconset>
+        <normaloff>data/icons/document-export.ico</normaloff>data/icons/document-export.ico</iconset>
       </property>
      </widget>
      <widget class="QLabel" name="label">
@@ -521,7 +521,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>data/icons/edit-clear-2.ico</normaloff>data/edit-clear-2.ico</iconset>
+        <normaloff>data/icons/edit-clear-2.ico</normaloff>data/icons/edit-clear-2.ico</iconset>
       </property>
      </widget>
      <widget class="QLabel" name="label_12">
@@ -631,17 +631,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>data/icons/favorites.ico</normaloff>data/favorites.ico</iconset>
-      </property>
-     </widget>
-     <widget class="QPlainTextEdit" name="plainTextEdit_2">
-      <property name="geometry">
-       <rect>
-        <x>490</x>
-        <y>40</y>
-        <width>161</width>
-        <height>141</height>
-       </rect>
+        <normaloff>data/icons/favorites.ico</normaloff>data/icons/favorites.ico</iconset>
       </property>
      </widget>
      <widget class="QLabel" name="label_23">
@@ -674,7 +664,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>data/icons/go-next-5.ico</normaloff>data/go-next-5.ico</iconset>
+        <normaloff>data/icons/go-next-5.ico</normaloff>data/icons/go-next-5.ico</iconset>
       </property>
      </widget>
      <widget class="QLineEdit" name="malEntry">
@@ -696,11 +686,21 @@
        <string>Id MAL</string>
       </property>
      </widget>
+     <widget class="QTextEdit" name="notesEntry">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>40</y>
+        <width>161</width>
+        <height>141</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="icon">
       <iconset>
-       <normaloff>data/icons/tools-wizard-3.ico</normaloff>data/tools-wizard-3.ico</iconset>
+       <normaloff>data/icons/tools-wizard-3.ico</normaloff>data/icons/tools-wizard-3.ico</iconset>
      </attribute>
      <attribute name="title">
       <string>Outils</string>
@@ -786,7 +786,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>data/icons/go-next-5.ico</normaloff>data/go-next-5.ico</iconset>
+         <normaloff>data/icons/go-next-5.ico</normaloff>data/icons/go-next-5.ico</iconset>
        </property>
       </widget>
       <widget class="QPushButton" name="pushButton_2">
@@ -833,7 +833,7 @@
     <widget class="QWidget" name="tab_3">
      <attribute name="icon">
       <iconset>
-       <normaloff>data/icons/configure-2.ico</normaloff>data/configure-2.ico</iconset>
+       <normaloff>data/icons/configure-2.ico</normaloff>data/icons/configure-2.ico</iconset>
      </attribute>
      <attribute name="title">
       <string>Préférences</string>
@@ -842,7 +842,7 @@
     <widget class="QWidget" name="tab">
      <attribute name="icon">
       <iconset>
-       <normaloff>data/icons/help-about.ico</normaloff>data/help-about.ico</iconset>
+       <normaloff>data/icons/help-about.ico</normaloff>data/icons/help-about.ico</iconset>
      </attribute>
      <attribute name="title">
       <string>A propos</string>

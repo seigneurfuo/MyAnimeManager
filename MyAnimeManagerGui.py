@@ -144,6 +144,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.studioEntry.setText(str())
         self.fansubEntry.setText(str())
         self.malEntry.setText(str())
+        self.notesEntry.setText(str())
 
         # Reset spinbox
         self.spinBox.setValue(0)
@@ -214,6 +215,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             self.anneeEntry.setText(str(ligne["animeAnnee"]).replace("None", ""))
             self.studioEntry.setText(str(ligne["animeStudio"]).replace("None", ""))
             self.fansubEntry.setText(str(ligne["animeFansub"]).replace("None", ""))
+            self.notesEntry.setText(str(ligne["animeNotes"]).replace("None", ""))
 
             # Spinbox 
             if ligne["animeNbVisionnage"] == None:
@@ -296,6 +298,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         animeStudio = self.studioEntry.text()
         animeFansub = self.fansubEntry.text()
         animeNbVisionnage = self.spinBox.value()
+        animeNotes = self.notesEntry.toPlainText()
 
         # Etat du visionnage (boutons radio)
         if self.radiobutton0.isChecked(): animeVisionnage = "0"
@@ -308,7 +311,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         elif self.favorisOuiRadio.isChecked(): animeFavori = "1"
 
         # Génération de la command SQL
-        curseur.execute("INSERT OR REPLACE INTO anime (animeId, animeDateAjout, animeTitre, animeAnnee, animeStudio, animeFansub, animeEtatVisionnage, animeFavori, animeNbVisionnage) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" %(animeId, animeDateAjout, animeTitre, animeAnnee, animeStudio, animeFansub, animeVisionnage, animeFavori, animeNbVisionnage))
+        curseur.execute("INSERT OR REPLACE INTO anime (animeId, animeDateAjout, animeTitre, animeAnnee, animeStudio, animeFansub, animeEtatVisionnage, animeFavori, animeNbVisionnage, animeNotes) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" %(animeId, animeDateAjout, animeTitre, animeAnnee, animeStudio, animeFansub, animeVisionnage, animeFavori, animeNbVisionnage, animeNotes))
 
         # On indique a l'application que quelque chose a été modifié
         self.modifications = True
