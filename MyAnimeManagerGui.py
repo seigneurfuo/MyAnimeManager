@@ -65,11 +65,11 @@ animeId TEXT PRIMARY KEY NOT NULL,
 animeAjout TEXT,
 animeTitre VARCHAR(100) NOT NULL,
 animeAnnee INT,
-animeStudio VARCHAR(20),
-animeFansub VARCHAR(20),
-animeEtatVisionnage VARCHAR(10),
+animeStudio VARCHAR(30),
+animeFansub VARCHAR(30),
+animeEtatVisionnage INT,
 animeFavori TEXT,
-animeDateAjout TEXt,
+animeDateAjout TEXT,
 animeNbVisionnage INT)""")
 
 # Table planning
