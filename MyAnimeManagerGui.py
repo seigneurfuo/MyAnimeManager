@@ -29,7 +29,7 @@ except:
 
 # Informations sur l'application
 __titre__                = "MyAnimeManager"
-__version__              = "0.10.%s" % devtool.buildNumber
+__version__              = "0.11.%s" % devtool.buildNumber
 __auteur__               = "seigneurfuo"
 __db_version__           = 3
 __dateDeCreation__       = "12/06/2016"
