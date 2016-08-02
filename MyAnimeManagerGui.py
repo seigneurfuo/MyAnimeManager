@@ -13,8 +13,8 @@ import os
 import sqlite3
 import pprint
 import re
+import urllib
 from datetime import date, datetime, time, timedelta
-import json
 
 # Librairies de tierces-parties
 import myanimelist
@@ -23,6 +23,7 @@ import devtool; devtool.show_stats(sys.argv[0])
 # Importation de pyQt
 try:
     import PyQt4.QtGui
+    import PyQt4.QtCore
     import PyQt4.uic.loadUiType
 except:
     log.error("L'application n'arrive pas a trouver Qt / pyQt !")
@@ -105,6 +106,8 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.rechercheEntry.textChanged.connect(self.liste_recherche)
         self.rechercheViderBoutton.clicked.connect(self.liste_recherche_vider)
         self.rechercheFavorisBoutton.clicked.connect(self.liste_recherche_favoris)
+        
+        self.testButton.clicked.connect(self.outils_liste_personnages_favoris)
 
         # Onglet planning
         self.calendarWidget.clicked.connect(self.planning_afficher)
@@ -406,6 +409,54 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             self.listWidget_2.addItem(plage) #Ajout de l'élément a la liste
             plageA = plageB # Décale la plage
 
+
+    # Fonction qui permet de télécharger des images et de changer le nom du fichier enregistré
+    def telechargement_image(self, url, filename):
+        filename = "./data/%s" %filename
+        urllib.urlretrieve(url, filename)
+
+
+    # Fonction qui affiche les personnages préférés
+    def outils_liste_personnages_favoris(self):
+        
+        waifuEntry = {1:self.waifu001Entry,
+                      2:self.waifu002Entry,
+                      3:self.waifu003Entry,
+                      4:self.waifu004Entry,
+                      5:self.waifu005Entry,
+                      6:self.waifu006Entry,
+                      7:self.waifu007Entry,
+                      8:self.waifu008Entry}
+                      
+        waifu = {1:self.waifu001,
+                 2:self.waifu002,
+                 3:self.waifu003,
+                 4:self.waifu004,
+                 5:self.waifu005,
+                 6:self.waifu006,
+                 7:self.waifu007,
+                 8:self.waifu008}
+        
+        # Rajouter la sauvegarde dans la base de données
+        for id_ in range(1, 8): 
+            # Lit l'url depuis l'entrée texte
+            url = str(waifuEntry[id_].text())
+            
+            # Si l'url n'est pas vide
+            if url != "": self.telechargement_image(url, id_)
+            
+            # Charge l'image téléchargée
+            pixmap = PyQt4.QtGui.QPixmap("./data/%s" %id_)
+            
+            # Redimentionne l'image a la taille du rectangle - lissage des images et garde l'aspect ratio
+            image = pixmap.scaled(waifu[id_].size(), PyQt4.QtCore.Qt.KeepAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
+            
+            # Applique l'image
+            waifu[id_].setPixmap(image)
+            
+            # Centre l'image
+            waifu[id_].setAlignment(PyQt4.QtCore.Qt.AlignCenter)
+        
 
     # Fonction qui permet de modifier le comportement de l'application en fonction de paramétrages
     def preferences_(self):
