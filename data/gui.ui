@@ -43,7 +43,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="planning">
      <attribute name="icon">
@@ -381,7 +381,7 @@
         <x>0</x>
         <y>0</y>
         <width>181</width>
-        <height>251</height>
+        <height>231</height>
        </rect>
       </property>
      </widget>
@@ -694,6 +694,40 @@
         <width>161</width>
         <height>141</height>
        </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="boutonAjouterAnime">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>230</y>
+        <width>81</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Ajouter</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>data/icons/list-add-6.ico</normaloff>data/icons/list-add-6.ico</iconset>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="boutonSupprimerAnime">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>230</y>
+        <width>81</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Supprimer</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>data/icons/edit-delete-5.ico</normaloff>data/icons/edit-delete-5.ico</iconset>
       </property>
      </widget>
     </widget>

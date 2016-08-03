@@ -107,7 +107,8 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.rechercheViderBoutton.clicked.connect(self.liste_recherche_vider)
         self.rechercheFavorisBoutton.clicked.connect(self.liste_recherche_favoris)
         
-        self.testButton.clicked.connect(self.outils_liste_personnages_favoris)
+        self.boutonAjouterAnime.clicked.connect(self.liste_rafraichir)
+        self.boutonSupprimerAnime.clicked.connect(self.liste_supprimer)
 
         # Onglet planning
         self.calendarWidget.clicked.connect(self.planning_afficher)
@@ -120,12 +121,15 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.boutonPlanningSauvegarder.clicked.connect(self.planning_enregistrer)
 
         # Onglet outils
+        self.testButton.clicked.connect(self.outils_liste_personnages_favoris)
         self.pushButton.clicked.connect(self.outils_calcul_temps_calcul)
-        self.closeEvent = self.fermer
 
         # Remplace le numéro de version A propos
         self.label_7.setText("version " + str(__version__))
 
+		# Evenement de fermeture de l'application
+        self.closeEvent = self.fermer
+		
         # Fonction a lancer en premier
         self.liste_rafraichir()
         self.planning_afficher()
@@ -256,7 +260,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         image = str(ligne["animeId"])
         chemin = os.path.join(dossier, image)
         
-        log.info("Chargé: %s" %chemin)
+        log.info("Cover: %s" %chemin)
 
         # Charge et affiche l'image
         myPixmap = PyQt4.QtGui.QPixmap(chemin)
@@ -324,6 +328,16 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.animes_vus_afficher()
         
         
+    def liste_supprimer(self):
+        animeTitre = [str(x.text()) for x in self.listWidget.selectedItems()]
+        print animeTitre
+        curseur.execute("DELETE FROM anime WHERE animeTitre = '%s'" %animeTitre[0])
+        
+        # Rafraichi après avoir supprimé
+        self.liste_rafraichir()
+        self.animes_vus_afficher()
+        
+
 # Fonctions de l'onglet planning
 
     def animes_vus_afficher(self):
