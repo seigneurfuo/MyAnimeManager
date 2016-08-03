@@ -336,6 +336,9 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # Si un élémément a bien été séléctionné dans la liste
         if animeTitre: 
             curseur.execute("DELETE FROM anime WHERE animeTitre = '%s'" %animeTitre[0])
+
+            # On indique a l'application que quelque chose a été modifié
+            self.modifications = True
             
             # Rafraichi après avoir supprimé
             self.liste_rafraichir()
