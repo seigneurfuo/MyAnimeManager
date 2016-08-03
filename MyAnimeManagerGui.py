@@ -314,8 +314,10 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         elif self.radiobutton2.isChecked(): animeVisionnage = "3"
             
         # Animé favoris ?
-        if self.favorisNonRadio.isChecked(): animeFavori = "0"
-        elif self.favorisOuiRadio.isChecked(): animeFavori = "1"
+        if self.favorisNonRadio.isChecked(): 
+            animeFavori = "0"
+        elif self.favorisOuiRadio.isChecked(): 
+            animeFavori = "1"
 
         # Génération de la command SQL
         curseur.execute("INSERT OR REPLACE INTO anime (animeId, animeDateAjout, animeTitre, animeAnnee, animeStudio, animeFansub, animeEtatVisionnage, animeFavori, animeNbVisionnage, animeNotes) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" %(animeId, animeDateAjout, animeTitre, animeAnnee, animeStudio, animeFansub, animeVisionnage, animeFavori, animeNbVisionnage, animeNotes))
@@ -330,12 +332,14 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         
     def liste_supprimer(self):
         animeTitre = [str(x.text()) for x in self.listWidget.selectedItems()]
-        print animeTitre
-        curseur.execute("DELETE FROM anime WHERE animeTitre = '%s'" %animeTitre[0])
         
-        # Rafraichi après avoir supprimé
-        self.liste_rafraichir()
-        self.animes_vus_afficher()
+        # Si un élémément a bien été séléctionné dans la liste
+        if animeTitre: 
+            curseur.execute("DELETE FROM anime WHERE animeTitre = '%s'" %animeTitre[0])
+            
+            # Rafraichi après avoir supprimé
+            self.liste_rafraichir()
+            self.animes_vus_afficher()
         
 
 # Fonctions de l'onglet planning
