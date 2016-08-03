@@ -1,5 +1,14 @@
 # Changements
 
+    03/08/2016
+    Ajout de fonctionalités: Possibilité d'ajouter / supprimer des animés depuis la liste
+    
+    02/08/2016
+    Ajout d'une fonction WaifuBoard. Permet d'afficher la liste des ces personages préférés -- Ne se syncronise pas encore avec la base de données
+    
+    27/07/2016
+    Mise en place d'un dépot git pour aider a gérer les versions multibranches (ex: tests de fonctionalités)
+
 	25/07/2016
 	Modification du module MAL: Il télécgarge désomais les covers des animés automatiquement
 	

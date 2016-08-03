@@ -1,0 +1,3 @@
+﻿{
+"coverPath":"N:/Vidéos/Animés/data/images/full"
+}
