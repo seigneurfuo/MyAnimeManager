@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>660</width>
+    <width>657</width>
     <height>305</height>
    </rect>
   </property>
@@ -194,9 +194,9 @@
        <property name="geometry">
         <rect>
          <x>134</x>
-         <y>170</y>
+         <y>171</y>
          <width>91</width>
-         <height>21</height>
+         <height>20</height>
         </rect>
        </property>
        <property name="text">
@@ -741,7 +741,7 @@
      <widget class="QLabel" name="waifu008">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>220</x>
         <y>140</y>
         <width>111</width>
         <height>111</height>
@@ -757,7 +757,7 @@
      <widget class="QLabel" name="waifu003">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>220</x>
         <y>0</y>
         <width>111</width>
         <height>111</height>
@@ -773,7 +773,7 @@
      <widget class="QLabel" name="waifu007">
       <property name="geometry">
        <rect>
-        <x>120</x>
+        <x>110</x>
         <y>140</y>
         <width>111</width>
         <height>111</height>
@@ -805,22 +805,22 @@
      <widget class="QPushButton" name="testButton">
       <property name="geometry">
        <rect>
-        <x>600</x>
-        <y>230</y>
-        <width>41</width>
+        <x>560</x>
+        <y>10</y>
+        <width>81</width>
         <height>21</height>
        </rect>
       </property>
       <property name="text">
-       <string>Test</string>
+       <string>Rafraichir</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="waifu007Entry">
       <property name="geometry">
        <rect>
-        <x>120</x>
+        <x>110</x>
         <y>250</y>
-        <width>111</width>
+        <width>51</width>
         <height>20</height>
        </rect>
       </property>
@@ -834,9 +834,9 @@
      <widget class="QLineEdit" name="waifu002Entry">
       <property name="geometry">
        <rect>
-        <x>120</x>
+        <x>110</x>
         <y>110</y>
-        <width>111</width>
+        <width>51</width>
         <height>20</height>
        </rect>
       </property>
@@ -852,7 +852,7 @@
        <rect>
         <x>0</x>
         <y>110</y>
-        <width>111</width>
+        <width>51</width>
         <height>20</height>
        </rect>
       </property>
@@ -869,9 +869,9 @@
      <widget class="QLineEdit" name="waifu008Entry">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>220</x>
         <y>250</y>
-        <width>111</width>
+        <width>51</width>
         <height>20</height>
        </rect>
       </property>
@@ -885,9 +885,9 @@
      <widget class="QLineEdit" name="waifu004Entry">
       <property name="geometry">
        <rect>
-        <x>360</x>
+        <x>330</x>
         <y>110</y>
-        <width>111</width>
+        <width>51</width>
         <height>20</height>
        </rect>
       </property>
@@ -901,9 +901,9 @@
      <widget class="QLineEdit" name="waifu003Entry">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>220</x>
         <y>110</y>
-        <width>111</width>
+        <width>51</width>
         <height>20</height>
        </rect>
       </property>
@@ -917,7 +917,7 @@
      <widget class="QLabel" name="waifu004">
       <property name="geometry">
        <rect>
-        <x>360</x>
+        <x>330</x>
         <y>0</y>
         <width>111</width>
         <height>111</height>
@@ -933,7 +933,7 @@
      <widget class="QLabel" name="waifu002">
       <property name="geometry">
        <rect>
-        <x>120</x>
+        <x>110</x>
         <y>0</y>
         <width>111</width>
         <height>111</height>
@@ -967,7 +967,7 @@
        <rect>
         <x>0</x>
         <y>250</y>
-        <width>111</width>
+        <width>51</width>
         <height>20</height>
        </rect>
       </property>
@@ -981,9 +981,9 @@
      <widget class="QLineEdit" name="waifu005Entry">
       <property name="geometry">
        <rect>
-        <x>480</x>
+        <x>440</x>
         <y>110</y>
-        <width>111</width>
+        <width>51</width>
         <height>20</height>
        </rect>
       </property>
@@ -997,7 +997,7 @@
      <widget class="QLabel" name="waifu005">
       <property name="geometry">
        <rect>
-        <x>480</x>
+        <x>440</x>
         <y>0</y>
         <width>111</width>
         <height>111</height>
@@ -1013,9 +1013,9 @@
      <widget class="QLineEdit" name="waifu010Entry">
       <property name="geometry">
        <rect>
-        <x>480</x>
+        <x>440</x>
         <y>250</y>
-        <width>111</width>
+        <width>51</width>
         <height>20</height>
        </rect>
       </property>
@@ -1029,9 +1029,9 @@
      <widget class="QLineEdit" name="waifu009Entry">
       <property name="geometry">
        <rect>
-        <x>360</x>
+        <x>330</x>
         <y>250</y>
-        <width>111</width>
+        <width>51</width>
         <height>20</height>
        </rect>
       </property>
@@ -1045,7 +1045,7 @@
      <widget class="QLabel" name="waifu010">
       <property name="geometry">
        <rect>
-        <x>480</x>
+        <x>440</x>
         <y>140</y>
         <width>111</width>
         <height>111</height>
@@ -1061,7 +1061,7 @@
      <widget class="QLabel" name="waifu009">
       <property name="geometry">
        <rect>
-        <x>360</x>
+        <x>330</x>
         <y>140</y>
         <width>111</width>
         <height>111</height>
@@ -1077,23 +1077,24 @@
      <widget class="QCheckBox" name="deformerCheckBox">
       <property name="geometry">
        <rect>
-        <x>590</x>
-        <y>250</y>
-        <width>71</width>
-        <height>21</height>
+        <x>560</x>
+        <y>40</y>
+        <width>81</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="text">
-       <string>Déformer</string>
+       <string>Adapter au
+ portrait</string>
       </property>
      </widget>
      <widget class="QLabel" name="waifuWallpaper">
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
-        <width>661</width>
-        <height>281</height>
+        <y>-20</y>
+        <width>651</width>
+        <height>301</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -1101,6 +1102,22 @@
       </property>
       <property name="text">
        <string/>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="waifuWallpaperEntry">
+      <property name="geometry">
+       <rect>
+        <x>560</x>
+        <y>80</y>
+        <width>81</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Url:</string>
       </property>
      </widget>
      <zorder>waifuWallpaper</zorder>
@@ -1126,6 +1143,7 @@
      <zorder>waifu009</zorder>
      <zorder>waifu008</zorder>
      <zorder>deformerCheckBox</zorder>
+     <zorder>waifuWallpaperEntry</zorder>
     </widget>
     <widget class="QWidget" name="outils">
      <attribute name="icon">

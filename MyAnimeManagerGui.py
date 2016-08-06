@@ -476,7 +476,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
 				# Si la case de déformation n'est pas cochee
                 if self.deformerCheckBox.isChecked() == False:
-					                # Redimentionne l'image a la taille du rectangle - lissage des images et garde l'aspect ratio
+                   # Redimentionne l'image a la taille du rectangle - lissage des images et garde l'aspect ratio
 					image = pixmap.scaled(waifu[id_].size(), PyQt4.QtCore.Qt.KeepAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
 				
 				# Sinon, on affiche l'image dans tout le carré
@@ -488,9 +488,22 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 				
                 # Centre l'image
                 waifu[id_].setAlignment(PyQt4.QtCore.Qt.AlignCenter)
-            except Exception, e: 
-				print e
- 
+            
+            except: 
+                pass
+				
+        # Fond de la page
+        # Lit l'url depuis l'entrée texte
+        url = str(self.waifuWallpaperEntry.text())
+        
+        if url != "": self.telechargement_image(url, "wallpaper")
+        # Charge l'image téléchargée
+        pixmap = PyQt4.QtGui.QPixmap("./data/characters/wallpaper")
+		
+        # Application de l'image (avec aspect ratio et lissage)
+        image = pixmap.scaled(self.waifuWallpaper.size(), PyQt4.QtCore.Qt.IgnoreAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
+        self.waifuWallpaper.setPixmap(image)
+	 
 
     # Fonction qui permet de modifier le comportement de l'application en fonction de paramétrages
     def preferences_(self):
