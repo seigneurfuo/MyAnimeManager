@@ -42,8 +42,11 @@
       <height>311</height>
      </rect>
     </property>
+    <property name="tabShape">
+     <enum>QTabWidget::Rounded</enum>
+    </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="planning">
      <attribute name="icon">
@@ -731,6 +734,399 @@
       </property>
      </widget>
     </widget>
+    <widget class="QWidget" name="album">
+     <attribute name="title">
+      <string>Album</string>
+     </attribute>
+     <widget class="QLabel" name="waifu008">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>140</y>
+        <width>111</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="waifu003">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>0</y>
+        <width>111</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="waifu007">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>140</y>
+        <width>111</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="waifu001">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>111</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="testButton">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>230</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Test</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="waifu007Entry">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>250</y>
+        <width>111</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Url:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="waifu002Entry">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>110</y>
+        <width>111</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Url:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="waifu001Entry">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>110</y>
+        <width>111</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="inputMask">
+       <string/>
+      </property>
+      <property name="placeholderText">
+       <string>Url:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="waifu008Entry">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>250</y>
+        <width>111</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Url:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="waifu004Entry">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>110</y>
+        <width>111</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Url:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="waifu003Entry">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>110</y>
+        <width>111</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Url:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="waifu004">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>0</y>
+        <width>111</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="waifu002">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>0</y>
+        <width>111</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="waifu006">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>140</y>
+        <width>111</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="waifu006Entry">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>250</y>
+        <width>111</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Url:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="waifu005Entry">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>110</y>
+        <width>111</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Url:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="waifu005">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>0</y>
+        <width>111</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="waifu010Entry">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>250</y>
+        <width>111</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Url:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="waifu009Entry">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>250</y>
+        <width>111</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Url:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="waifu010">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>140</y>
+        <width>111</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="waifu009">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>140</y>
+        <width>111</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="deformerCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>590</x>
+        <y>250</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Déformer</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="waifuWallpaper">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>661</width>
+        <height>281</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <zorder>waifuWallpaper</zorder>
+     <zorder>testButton</zorder>
+     <zorder>waifu007Entry</zorder>
+     <zorder>waifu002Entry</zorder>
+     <zorder>waifu001Entry</zorder>
+     <zorder>waifu008Entry</zorder>
+     <zorder>waifu004Entry</zorder>
+     <zorder>waifu003Entry</zorder>
+     <zorder>waifu006Entry</zorder>
+     <zorder>waifu005Entry</zorder>
+     <zorder>waifu010Entry</zorder>
+     <zorder>waifu009Entry</zorder>
+     <zorder>waifu007</zorder>
+     <zorder>waifu006</zorder>
+     <zorder>waifu001</zorder>
+     <zorder>waifu002</zorder>
+     <zorder>waifu003</zorder>
+     <zorder>waifu004</zorder>
+     <zorder>waifu005</zorder>
+     <zorder>waifu010</zorder>
+     <zorder>waifu009</zorder>
+     <zorder>waifu008</zorder>
+     <zorder>deformerCheckBox</zorder>
+    </widget>
     <widget class="QWidget" name="outils">
      <attribute name="icon">
       <iconset>
@@ -862,251 +1258,6 @@
         </rect>
        </property>
       </widget>
-     </widget>
-     <widget class="QLabel" name="waifu003">
-      <property name="geometry">
-       <rect>
-        <x>490</x>
-        <y>10</y>
-        <width>81</width>
-        <height>81</height>
-       </rect>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::Box</enum>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QLabel" name="waifu006">
-      <property name="geometry">
-       <rect>
-        <x>410</x>
-        <y>120</y>
-        <width>81</width>
-        <height>81</height>
-       </rect>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::Box</enum>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QLabel" name="waifu005">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>120</y>
-        <width>81</width>
-        <height>81</height>
-       </rect>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::Box</enum>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QLabel" name="waifu007">
-      <property name="geometry">
-       <rect>
-        <x>490</x>
-        <y>120</y>
-        <width>81</width>
-        <height>81</height>
-       </rect>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::Box</enum>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QLabel" name="waifu001">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>10</y>
-        <width>81</width>
-        <height>81</height>
-       </rect>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::Box</enum>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QLabel" name="waifu004">
-      <property name="geometry">
-       <rect>
-        <x>570</x>
-        <y>10</y>
-        <width>81</width>
-        <height>81</height>
-       </rect>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::Box</enum>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QLabel" name="waifu008">
-      <property name="geometry">
-       <rect>
-        <x>570</x>
-        <y>120</y>
-        <width>81</width>
-        <height>81</height>
-       </rect>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::Box</enum>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QLabel" name="waifu002">
-      <property name="geometry">
-       <rect>
-        <x>410</x>
-        <y>10</y>
-        <width>81</width>
-        <height>81</height>
-       </rect>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::Box</enum>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="waifu001Entry">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>90</y>
-        <width>81</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::RightToLeft</enum>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="waifu002Entry">
-      <property name="geometry">
-       <rect>
-        <x>410</x>
-        <y>90</y>
-        <width>81</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::RightToLeft</enum>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="waifu004Entry">
-      <property name="geometry">
-       <rect>
-        <x>570</x>
-        <y>90</y>
-        <width>81</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::RightToLeft</enum>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="waifu003Entry">
-      <property name="geometry">
-       <rect>
-        <x>490</x>
-        <y>90</y>
-        <width>81</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::RightToLeft</enum>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="waifu006Entry">
-      <property name="geometry">
-       <rect>
-        <x>410</x>
-        <y>200</y>
-        <width>81</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::RightToLeft</enum>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="waifu008Entry">
-      <property name="geometry">
-       <rect>
-        <x>570</x>
-        <y>200</y>
-        <width>81</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::RightToLeft</enum>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="waifu005Entry">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>200</y>
-        <width>81</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::RightToLeft</enum>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="waifu007Entry">
-      <property name="geometry">
-       <rect>
-        <x>490</x>
-        <y>200</y>
-        <width>81</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::RightToLeft</enum>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="testButton">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>240</y>
-        <width>88</width>
-        <height>29</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Test</string>
-      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_3">

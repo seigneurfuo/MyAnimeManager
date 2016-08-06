@@ -448,7 +448,9 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
                       5:self.waifu005Entry,
                       6:self.waifu006Entry,
                       7:self.waifu007Entry,
-                      8:self.waifu008Entry}
+                      8:self.waifu008Entry,
+                      9:self.waifu009Entry,
+                      10:self.waifu010Entry}
                       
         waifu = {1:self.waifu001,
                  2:self.waifu002,
@@ -457,7 +459,9 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
                  5:self.waifu005,
                  6:self.waifu006,
                  7:self.waifu007,
-                 8:self.waifu008}
+                 8:self.waifu008,
+                 9:self.waifu009,
+                 10:self.waifu010}
         
         # Rajouter la sauvegarde dans la base de données
         for id_ in range(1, 8): 
@@ -469,9 +473,15 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             try:
                 # Charge l'image téléchargée
                 pixmap = PyQt4.QtGui.QPixmap("./data/characters/%s" %id_)
+
+				# Si la case de déformation n'est pas cochee
+                if deformerCheckBox.checkState() == False:
+					                # Redimentionne l'image a la taille du rectangle - lissage des images et garde l'aspect ratio
+					image = pixmap.scaled(waifu[id_].size(), PyQt4.QtCore.Qt.KeepAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
 				
-                # Redimentionne l'image a la taille du rectangle - lissage des images et garde l'aspect ratio
-                image = pixmap.scaled(waifu[id_].size(), PyQt4.QtCore.Qt.KeepAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
+				# Sinon, on affiche l'image dans tout le carré
+                else:
+					image = pixmap.scaled(waifu[id_].size(), PyQt4.QtCore.Qt.SmoothTransformation)
 				
                 # Applique l'image
                 waifu[id_].setPixmap(image)
