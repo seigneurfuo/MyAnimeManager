@@ -475,21 +475,22 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
                 pixmap = PyQt4.QtGui.QPixmap("./data/characters/%s" %id_)
 
 				# Si la case de déformation n'est pas cochee
-                if deformerCheckBox.checkState() == False:
+                if self.deformerCheckBox.isChecked() == False:
 					                # Redimentionne l'image a la taille du rectangle - lissage des images et garde l'aspect ratio
 					image = pixmap.scaled(waifu[id_].size(), PyQt4.QtCore.Qt.KeepAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
 				
 				# Sinon, on affiche l'image dans tout le carré
                 else:
-					image = pixmap.scaled(waifu[id_].size(), PyQt4.QtCore.Qt.SmoothTransformation)
+					image = pixmap.scaled(waifu[id_].size(), PyQt4.QtCore.Qt.IgnoreAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
 				
                 # Applique l'image
                 waifu[id_].setPixmap(image)
 				
                 # Centre l'image
                 waifu[id_].setAlignment(PyQt4.QtCore.Qt.AlignCenter)
-            except: pass
-        
+            except Exception, e: 
+				print e
+ 
 
     # Fonction qui permet de modifier le comportement de l'application en fonction de paramétrages
     def preferences_(self):
