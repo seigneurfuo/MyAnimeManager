@@ -46,7 +46,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="planning">
      <attribute name="icon">
@@ -1295,12 +1295,16 @@
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>121</width>
-        <height>23</height>
+        <width>141</width>
+        <height>21</height>
        </rect>
       </property>
       <property name="text">
        <string>Supprimer les données</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>data/icons/edit-clear-2.ico</normaloff>data/icons/edit-clear-2.ico</iconset>
       </property>
      </widget>
     </widget>
