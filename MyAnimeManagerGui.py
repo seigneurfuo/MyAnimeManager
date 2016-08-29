@@ -516,24 +516,31 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
     # Fonction qui supprime toutes les données utilisateurs
     def reset(self):
 		# Supression des fichiers individuels
+        log.warning("Suppression des donnes utilisateur. Action irrecuperable!")
+        log.info("Suppression du fichier: MyAnimeManagerGui.py.stats.txt")
         os.remove("MyAnimeManagerGui.py.stats.txt")
         
         # Fermeture de la bdd pour pourvoir la supprimer
         curseur.close()
         bdd.close()
-        log.info("Bdd fermée")
+        log.info("Fermeture de la base de donnees...")
         
+        log.info("Suppression du fichier: ./data/MyAnimeManager.sqlite3")
         os.remove("./data/MyAnimeManager.sqlite3")
+        log.info("Suppression du fichier: ./data/MyAnimeManager.sqlite3-journal")
         os.remove("./data/MyAnimeManager.sqlite3-journal")
         
         # Nettoyage des dossier Characters et Covers
         filelist = [f for f in os.listdir("./data/characters")]
         for f in filelist:
             os.remove("./data/characters/%s" %f)
+        log.info("Nettoyage du dossier: ./data/characters \t %s elements" %len(filelist))
 			
         filelist = [f for f in os.listdir("./data/covers")]
         for f in filelist:
-            os.remove("./data/covers/%s" %f)            
+            os.remove("./data/covers/%s" %f)  
+        log.info("Nettoyage du dossier: ./data/covers \t %s elements" %len(filelist)) 
+        log.info("Nettoyage termine !")    
 
 
     # Ferme le programme et enregistre les modifications apportées à la base de données
