@@ -123,11 +123,14 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # Onglet outils
         self.testButton.clicked.connect(self.outils_liste_personnages_favoris)
         self.pushButton.clicked.connect(self.outils_calcul_temps_calcul)
+        
+        # Onglet préférences
+        self.pushButton_3.clicked.connect(self.reset)
 
         # Remplace le numéro de version A propos
         self.label_7.setText("version " + str(__version__))
 
-		# Evenement de fermeture de l'application
+	# Evenement de fermeture de l'application
         self.closeEvent = self.fermer
 		
         # Fonction a lancer en premier
@@ -506,13 +509,35 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 	 
 
     # Fonction qui permet de modifier le comportement de l'application en fonction de paramétrages
-    def preferences_(self):
+    def preferences(self):
         fname = PyQt4.QtGui.QFileDialog.getOpenFileName(self, 'Open file', 'C:\\')
+
+
+    # Fonction qui supprime toutes les données utilisateurs
+    def reset(self):
+		# Supression des fichiers individuels
+        os.remove("MyAnimeManagerGui.py.stats.txt")
+        
+        # Fermeture de la bdd pour pourvoir la supprimer
+        curseur.close()
+        bdd.close()
+        log.info("Bdd fermée")
+        
+        os.remove("./data/MyAnimeManager.sqlite3")
+        os.remove("./data/MyAnimeManager.sqlite3-journal")
+        
+        # Nettoyage des dossier Characters et Covers
+        filelist = [f for f in os.listdir("./data/characters")]
+        for f in filelist:
+            os.remove("./data/characters/%s" %f)
+			
+        filelist = [f for f in os.listdir("./data/covers")]
+        for f in filelist:
+            os.remove("./data/covers/%s" %f)            
 
 
     # Ferme le programme et enregistre les modifications apportées à la base de données
     def fermer(self, event):
-        
         # Si des modifications on été apportées, on affiche la fenetre d'enregistrement
         if self.modifications == True:
             # Affiche la fenetre de dialogue
