@@ -30,7 +30,7 @@ except:
 
 # Informations sur l'application
 __titre__                = "MyAnimeManager"
-__version__              = "0.11.%s" % devtool.buildNumber
+__version__              = "0.15.%s" % devtool.buildNumber
 __auteur__               = "seigneurfuo"
 __db_version__           = 3
 __dateDeCreation__       = "12/06/2016"
@@ -263,6 +263,8 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # Charge et affiche l'image de l'anime
         image = str(ligne["animeId"])
         chemin = os.path.join(dossier, image)
+        global listeAfficherImageChemin
+        listeAfficherImageChemin = chemin
         
         log.info("Cover: %s" %chemin)
 
