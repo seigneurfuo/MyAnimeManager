@@ -46,7 +46,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="planning">
      <attribute name="icon">
@@ -221,7 +221,7 @@
       <property name="geometry">
        <rect>
         <x>300</x>
-        <y>70</y>
+        <y>40</y>
         <width>41</width>
         <height>21</height>
        </rect>
@@ -254,7 +254,7 @@
       <property name="geometry">
        <rect>
         <x>300</x>
-        <y>100</y>
+        <y>70</y>
         <width>41</width>
         <height>21</height>
        </rect>
@@ -267,7 +267,7 @@
       <property name="geometry">
        <rect>
         <x>300</x>
-        <y>160</y>
+        <y>130</y>
         <width>41</width>
         <height>21</height>
        </rect>
@@ -280,7 +280,7 @@
       <property name="geometry">
        <rect>
         <x>360</x>
-        <y>160</y>
+        <y>130</y>
         <width>121</width>
         <height>20</height>
        </rect>
@@ -290,7 +290,7 @@
       <property name="geometry">
        <rect>
         <x>360</x>
-        <y>130</y>
+        <y>100</y>
         <width>121</width>
         <height>20</height>
        </rect>
@@ -300,7 +300,7 @@
       <property name="geometry">
        <rect>
         <x>360</x>
-        <y>100</y>
+        <y>70</y>
         <width>121</width>
         <height>20</height>
        </rect>
@@ -310,7 +310,7 @@
       <property name="geometry">
        <rect>
         <x>360</x>
-        <y>70</y>
+        <y>40</y>
         <width>121</width>
         <height>20</height>
        </rect>
@@ -369,7 +369,7 @@
       <property name="geometry">
        <rect>
         <x>300</x>
-        <y>130</y>
+        <y>100</y>
         <width>41</width>
         <height>21</height>
        </rect>
@@ -525,35 +525,6 @@
       <property name="icon">
        <iconset>
         <normaloff>data/icons/edit-clear-2.ico</normaloff>data/icons/edit-clear-2.ico</iconset>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_12">
-      <property name="geometry">
-       <rect>
-        <x>300</x>
-        <y>40</y>
-        <width>71</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Ajouté le</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="ajoutEntry">
-      <property name="geometry">
-       <rect>
-        <x>360</x>
-        <y>40</y>
-        <width>121</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="inputMethodHints">
-       <set>Qt::ImhDigitsOnly</set>
-      </property>
-      <property name="text">
-       <string/>
       </property>
      </widget>
      <widget class="QLabel" name="label_5">
@@ -731,6 +702,35 @@
       <property name="icon">
        <iconset>
         <normaloff>data/icons/edit-delete-5.ico</normaloff>data/icons/edit-delete-5.ico</iconset>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_12">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>160</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Ajouté le</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="ajoutEntry">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>160</y>
+        <width>121</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="inputMethodHints">
+       <set>Qt::ImhDigitsOnly</set>
+      </property>
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </widget>
