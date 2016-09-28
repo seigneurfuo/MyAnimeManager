@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#!/usr/bin/python2.7
 # -*- coding: utf8 -*- 
 
 # Logging
@@ -8,14 +8,14 @@ log.setLevel(logging.DEBUG)
 
 # Librairies standards
 import sys
-sys.path.append("./data/libs")
 import os
+import re
 import sqlite3
 import pprint
-import re
 import urllib
 from datetime import date, datetime, time, timedelta
 
+sys.path.append("./data/libs")
 # Librairies de tierces-parties
 import myanimelist
 import devtool; devtool.show_stats(sys.argv[0])
@@ -30,14 +30,14 @@ except:
 
 # Informations sur l'application
 __titre__                = "MyAnimeManager"
-__version__              = "0.15.%s" % devtool.buildNumber
+__version__              = "0.16.%s" % devtool.buildNumber
 __auteur__               = "seigneurfuo"
 __db_version__           = 3
 __dateDeCreation__       = "12/06/2016"
-__derniereModification__ = "23/07/2016"
+__derniereModification__ = "24/08/2016"
 
 # Création d'un formateur qui va ajouter le temps, le niveau de chaque message quand on écrira un message dans le log
-formatter = logging.Formatter('%(asctime)s :: %(levelname)s :: %(message)s') 
+formatter = logging.Formatter('%(asctime)s : %(levelname)s : %(message)s') 
 
 # handler qui va rediriger chaque écriture de log sur la console
 console_handler = logging.StreamHandler()
@@ -50,16 +50,18 @@ toDo = ["Utiliser le titre de l'animé plutot que son identifiant pour la compl�
         "Continuer la fonction de MAJ de la base de donnée pour les prochaines versions",
         "Vider le champ de recherche et MAL lorsque a la fin de l'édition d'un animé",
         "Ajouter des préférences, afin de modifier: l'emplacement de la bdd, l'emplacement des fichiers images",
-        "Images des animés chargés directement via MAL - possibilité de mise en cache ?",
         "Coder la fenetre directement dans le code - sans utilisation de QtDesign",
         "Ou alors enregistrer le contenu du fichier d'interface dans une docstring dans le code",
-        "Renommer les noms des élements génériques. Exemple: Bouton1, bouton2..."]
+        "Renommer les noms des élements génériques. Exemple: Bouton1, bouton2...", 
+		"Empécher de remplir les informations d'un animé si il n'a pas d'indentifiant",
+		"Les animés avec \":\" dans l'url bloquent sur une erreur 404"]
+
 
 # Fonctions générale a l'application
 def creation_de_la_bdd():
     log.info("Création de la base de donnees")
 
-# Table anime
+# Code SQL pour créer la table anime
     curseur.execute(
 """CREATE TABLE anime(
 animeId TEXT PRIMARY KEY NOT NULL,
@@ -73,25 +75,25 @@ animeFavori TEXT,
 animeDateAjout TEXT,
 animeNbVisionnage INT)""")
 
-# Table planning
+# Code SQL pour créer la table planning
     curseur.execute(
 """
 CREATE TABLE planning (
 planningDate TEXT PRIMARY KEY NOT NULL,
 planningAnime)""")
 
-# Table informations
+# Code SQL pour créer la table informations
     curseur.execute(
 """
 CREATE TABLE informations (
     informationsVersion TEXT)""")
+
 
 # Classe de la fenetre principale
 class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): # Chargement des interfaces depuis les fichiers
     def __init__(self, parent=None):
         PyQt4.QtGui.QMainWindow.__init__(self, parent)
         self.setupUi(self)
-        self.setFixedSize(self.frameGeometry().width(), self.frameGeometry().height()) # Bloque le fenetre avec ses dimentions d'origine
 
         # Variables qui enregistre les modifications (Permet de ne pas afficher la fenetre d'enregistrement si rien n'a été modifié)
         self.modifications = False
@@ -111,8 +113,8 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.boutonSupprimerAnime.clicked.connect(self.liste_supprimer)
 
         # Onglet planning
-        self.calendarWidget.clicked.connect(self.planning_afficher)
-        self.calendarWidget.selectionChanged.connect(self.planning_afficher)
+        self.planningCalendrier.clicked.connect(self.planning_afficher)
+        self.planningCalendrier.selectionChanged.connect(self.planning_afficher)
 
         self.boutonPlanningInserer.clicked.connect(self.planning_animes_vus_inserer)
         self.listWidget_3.itemDoubleClicked.connect(self.planning_animes_vus_inserer)
@@ -130,20 +132,21 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # Remplace le numéro de version A propos
         self.label_7.setText("version " + str(__version__))
 
-	# Evenement de fermeture de l'application
+    # Evenement de fermeture de l'application
         self.closeEvent = self.fermer
-		
+        
         # Fonction a lancer en premier
         self.liste_rafraichir()
         self.planning_afficher()
         self.animes_vus_afficher()
         self.outils_liste_personnages_favoris()
 
+
     # La fonction qui efface les entrés (les instructions auraient pus etres contenues dans liste_affiche mais je souhaitais séparer les deux blocs)
     def liste_rafraichir(self, titreRecherche=False, favorisRecherche=False):
         # Image de l'animé vide
         myPixmap = PyQt4.QtGui.QPixmap("./data/ekHFstR.png")
-        image = myPixmap.scaled(self.label_5.size())
+        image = myPixmap.scaled(self.label_5.size(), )
         self.label_5.setPixmap(image)
 
         # On vide la liste et les entrées
@@ -157,7 +160,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.malEntry.setText(str())
         self.notesEntry.setText(str())
 
-        # Reset spinbox
+        # Remise à zéro de la spinbox pour le nombre de visionnages
         self.spinBox.setValue(0)
 
         # Remise par défault des boutons radio
@@ -167,26 +170,31 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.radiobutton2.setChecked(True)
         
         self.favorisNonRadio.setChecked(True)
+        
+        # Nettoyage du champ MAL
+        self.malEntry.setText(str())
 
-        # Si on recherche un animé
+        # Si rien n'est rentré dans la barre de recherche:
         if titreRecherche != False and titreRecherche !="" :  
-            log.info("Mode recherche textuelle")
+            log.info("Filtrage de la liste: Par correspondance")
+            
+            # On afiche la liste normale
             curseur.execute("SELECT * FROM anime WHERE animeTitre LIKE('%s%s%s') ORDER BY animeTitre" %("%", titreRecherche, "%"))
                 
         else :
-			# Si on veut afficher la liste des favoris
+            # Si on veut afficher la liste des favoris
             if favorisRecherche == False:
-                log.info("Affichage normal de la liste")
+                log.info("Affichage normal de la liste des animes")
                 curseur.execute("SELECT * FROM anime ORDER BY animeId")
             
             # Si on veut afficher la liste normale
             else:
-                log.info("Mode favoris recherche")
+                log.info("Filtrage de la liste: Afficher les favoris")
                 curseur.execute("SELECT * FROM anime WHERE animeFavori = '1' ORDER BY animeId")
         
             
         resultats = curseur.fetchall()
-        log.info("anime rechargés %s" %len(resultats))
+        log.info("Anime rechargés %s" %len(resultats))
         
         # Remplissage de la liste
         for anime in resultats:
@@ -198,7 +206,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
     def liste_recherche(self):
         recherche = self.rechercheEntry.text()
 
-        # Si le recherche est vid on ne l'active pas
+        # Si le recherche est vide on ne l'active pas
         self.liste_rafraichir(titreRecherche = recherche)
 
 
@@ -215,6 +223,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
     def liste_afficher(self):
         animeTitre = [str(x.text()) for x in self.listWidget.selectedItems()]
+        
         curseur.execute("SELECT * FROM anime WHERE animeTitre = '%s'" %animeTitre[0])
 
         # Pour les résultats trouvés en SQL (1 max car on recherche l'anime en fonction de son titre)
@@ -228,7 +237,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             self.fansubEntry.setText(str(ligne["animeFansub"]).replace("None", ""))
             self.notesEntry.setText(str(ligne["animeNotes"]).replace("None", ""))
 
-            # Spinbox 
+            # Spinbox
             if ligne["animeNbVisionnage"] == None:
                 self.spinBox.setValue(0)
             else:
@@ -270,33 +279,41 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
         # Charge et affiche l'image
         myPixmap = PyQt4.QtGui.QPixmap(chemin)
-        image = myPixmap.scaled(self.label_5.size())
+        image = myPixmap.scaled(self.label_5.size(), PyQt4.QtCore.Qt.IgnoreAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
         self.label_5.setPixmap(image)
 
 
+    # Fonction qui recherche un identifiant ou un titre d'animé sur MAL
     def liste_remplir_myanimelist(self):
-        # Récupère l'identifiant entré dans l'entrée MAL
+        # Récupère l'identifiant ou le titre entré dans l'entrée MAL
+        texte = self.malEntry.text()
         
-        # Version avec l'identifiant MAL
-        idMyAnimeList = self.malEntry.text()
-        myanimelist.anime(idMyAnimeList)
+        # Si le texte récupéré correspond a un identifiant mal
+        if re.findall("^-?[0-9]+$", texte):
+            idMyAnimeList = self.malEntry.text()
+            myanimelist.anime(str(idMyAnimeList))
+        
+        else:
+            # Sinon, il s'agit d'un titre a rechercher
+            titreMyAnimeList = self.malEntry.text()
+            myanimelist.recherche_titre(str(titreMyAnimeList))
 
         # Remplissage des informations
         self.titreEntry.setText(myanimelist.titre())
         self.anneeEntry.setText(myanimelist.annee())
         self.studioEntry.setText(myanimelist.studio())
 
-        #téléchargement de la cover
+        # Téléchargement de l'image d'illustration
         animeId = str(self.idEntry.text())
         myanimelist.telecharger_image(animeId, "./data/covers/")
 
         # Mise a jour de l'image
         chemin = os.path.join(dossier, animeId)
-        log.info("Chargé: %s" %chemin)
+        log.info("Cover: %s" %chemin)
         
         # Charge et affiche l'image
         myPixmap = PyQt4.QtGui.QPixmap(chemin)
-        image = myPixmap.scaled(self.label_5.size())
+        image = myPixmap.scaled(self.label_5.size(), PyQt4.QtCore.Qt.IgnoreAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
         self.label_5.setPixmap(image)
 
 
@@ -304,38 +321,44 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
     def liste_enregistrer(self):
         # Entrées (entry)
         animeId = self.idEntry.text()
-    
-        animeTitre = self.titreEntry.text()
-        animeDateAjout = self.ajoutEntry.text()
-        animeAnnee = self.anneeEntry.text() 
-        animeStudio = self.studioEntry.text()
-        animeFansub = self.fansubEntry.text()
-        animeNbVisionnage = self.spinBox.value()
-        animeNotes = self.notesEntry.toPlainText()
-
-        # Etat du visionnage (boutons radio)
-        if self.radiobutton0.isChecked(): animeVisionnage = "0"
-        elif self.radiobutton1.isChecked(): animeVisionnage = "1"
-        elif self.radiobutton2_2.isChecked(): animeVisionnage = "2"
-        elif self.radiobutton2.isChecked(): animeVisionnage = "3"
-            
-        # Animé favoris ?
-        if self.favorisNonRadio.isChecked(): 
-            animeFavori = "0"
-        elif self.favorisOuiRadio.isChecked(): 
-            animeFavori = "1"
-
-        # Génération de la command SQL
-        curseur.execute("INSERT OR REPLACE INTO anime (animeId, animeDateAjout, animeTitre, animeAnnee, animeStudio, animeFansub, animeEtatVisionnage, animeFavori, animeNbVisionnage, animeNotes) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" %(animeId, animeDateAjout, animeTitre, animeAnnee, animeStudio, animeFansub, animeVisionnage, animeFavori, animeNbVisionnage, animeNotes))
-
-        # On indique a l'application que quelque chose a été modifié
-        self.modifications = True
-            
-        # Rafraichi après avoir enregistré
-        self.liste_rafraichir()
-        self.animes_vus_afficher()
         
-        
+        # Si un identifiant a été rentré
+        if animeId != "" or re.findall("^-?[0-9]+$", animeId):
+            animeTitre = self.titreEntry.text()
+            animeDateAjout = self.ajoutEntry.text()
+            animeAnnee = self.anneeEntry.text()
+            animeStudio = self.studioEntry.text()
+            animeFansub = self.fansubEntry.text()
+            animeNbVisionnage = self.spinBox.value()
+            animeNotes = str(self.notesEntry.toPlainText()).decode("utf-8") 
+
+            # Etat du visionnage (boutons radio)
+            if self.radiobutton0.isChecked(): animeVisionnage = "0"
+            elif self.radiobutton1.isChecked(): animeVisionnage = "1"
+            elif self.radiobutton2_2.isChecked(): animeVisionnage = "2"
+            elif self.radiobutton2.isChecked(): animeVisionnage = "3"
+                
+            # Animé favoris ?
+            if self.favorisNonRadio.isChecked(): 
+                animeFavori = "0"
+            elif self.favorisOuiRadio.isChecked(): 
+                animeFavori = "1"
+
+            # Génération de la command SQL
+            curseur.execute("INSERT OR REPLACE INTO anime (animeId, animeDateAjout, animeTitre, animeAnnee, animeStudio, animeFansub, animeEtatVisionnage, animeFavori, animeNbVisionnage, animeNotes) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" %(animeId, animeDateAjout, animeTitre, animeAnnee, animeStudio, animeFansub, animeVisionnage, animeFavori, animeNbVisionnage, animeNotes))
+
+            # On indique a l'application que quelque chose a été modifié
+            self.modifications = True
+                
+            # Rafraichi après avoir enregistré
+            self.liste_rafraichir()
+            self.animes_vus_afficher()
+            
+        # Si l'identifiant n'a pas été rempli
+        else:
+            # Remplacer la fenetre par une version 1 bouton.
+            avertissement = PyQt4.QtGui.QMessageBox.information(self, "Message", "Veuillez entrer un identifiant valide !", "Continuer")     
+
     def liste_supprimer(self):
         animeTitre = [str(x.text()) for x in self.listWidget.selectedItems()]
         
@@ -356,7 +379,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
     def animes_vus_afficher(self):
         # On vide la liste des animés
         self.listWidget_3.clear()
-		
+        
         # On éxécute la commande sql qui retourne les animés en cours de visionnage
         curseur.execute("SELECT * FROM anime WHERE animeEtatVisionnage = 1 ORDER BY animeId")
         animes_vus = curseur.fetchall()
@@ -385,13 +408,13 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
         #Affichage du nouveau titre
         self.planningEntry.setText(nouveauTexte)
-		
+        
 
     # Fonction qui affiche les animés vus en fonction de la date sélectionnée sur le calendrier
     def planning_afficher(self):
         # Vide la boite d'entrée
         self.planningEntry.setText(str())
-        date = self.calendarWidget.selectedDate().toPyDate()
+        date = self.planningCalendrier.selectedDate().toPyDate()
         curseur.execute("SELECT * FROM planning WHERE planningDate = '%s'" %date)
 
         # Pour les résultats trouvés en SQL (1 max car on recherche l'anime en fonction de son titre)
@@ -403,12 +426,12 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
     # Fonction qui séléctionne la date actuelle sur le calendrier
     def planning_aujourdhui(self):
         aujourdhui = PyQt4.QtCore.QDate.currentDate ()
-        self.calendarWidget.setSelectedDate(aujourdhui)
+        self.planningCalendrier.setSelectedDate(aujourdhui)
         
 
     # Fonction qui enregistre le planning dans la bdd
     def planning_enregistrer(self):
-        planningDate = str(self.calendarWidget.selectedDate().toPyDate())
+        planningDate = str(self.planningCalendrier.selectedDate().toPyDate())
         planningAnime = str(self.planningEntry.toPlainText())
 
         curseur.execute("INSERT OR REPLACE INTO planning (planningDate, planningAnime) VALUES ('%s', '%s')" %(planningDate, planningAnime))
@@ -439,13 +462,14 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
     # Fonction qui permet de télécharger des images et de changer le nom du fichier enregistré
     def telechargement_image(self, url, filename):
-        filename = "./data/characters/%s" %filename
+        # Identifiant du numéro de page
+        pageId = self.spinboxPageId.value()
+        filename = "./data/characters/%s_%s" %(pageId, filename)
         urllib.urlretrieve(url, filename)
 
 
     # Fonction qui affiche les personnages préférés
     def outils_liste_personnages_favoris(self):
-        
         waifuEntry = {1:self.waifu001Entry,
                       2:self.waifu002Entry,
                       3:self.waifu003Entry,
@@ -469,34 +493,39 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
                  10:self.waifu010}
         
         # Rajouter la sauvegarde dans la base de données
-        for id_ in range(1, 8): 
+        for imageId in range(1, 11): 
             # Lit l'url depuis l'entrée texte
-            url = str(waifuEntry[id_].text())
+            url = str(waifuEntry[imageId].text())
             
             # Si l'url n'est pas vide
-            if url != "": self.telechargement_image(url, id_) 
-            try:
-                # Charge l'image téléchargée
-                pixmap = PyQt4.QtGui.QPixmap("./data/characters/%s" %id_)
+            if url != "": 
+                # On télécharge l'image
+                self.telechargement_image(url, imageId) 
 
-				# Si la case de déformation n'est pas cochee
+            try:
+                # Identifiant du numéro de la page affichée
+                pageId = self.spinboxPageId.value()
+                # Charge l'image téléchargée
+                pixmap = PyQt4.QtGui.QPixmap("./data/characters/%s_%s" %(pageId, imageId))
+
+                # Si la case de déformation n'est pas cochée
                 if self.deformerCheckBox.isChecked() == False:
                    # Redimentionne l'image a la taille du rectangle - lissage des images et garde l'aspect ratio
-					image = pixmap.scaled(waifu[id_].size(), PyQt4.QtCore.Qt.KeepAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
-				
-				# Sinon, on affiche l'image dans tout le carré
+                    image = pixmap.scaled(waifu[imageId].size(), PyQt4.QtCore.Qt.KeepAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
+                
+                # Sinon, on affiche l'image dans tout le carré
                 else:
-					image = pixmap.scaled(waifu[id_].size(), PyQt4.QtCore.Qt.IgnoreAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
-				
+                    image = pixmap.scaled(waifu[imageId].size(), PyQt4.QtCore.Qt.IgnoreAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
+                
                 # Applique l'image
-                waifu[id_].setPixmap(image)
-				
+                waifu[imageId].setPixmap(image)
+                
                 # Centre l'image
-                waifu[id_].setAlignment(PyQt4.QtCore.Qt.AlignCenter)
+                waifu[imageId].setAlignment(PyQt4.QtCore.Qt.AlignCenter)
             
-            except: 
-                pass
-				
+            except Exception, e: 
+                log.error(e)
+                
         # Fond de la page
         # Lit l'url depuis l'entrée texte
         url = str(self.waifuWallpaperEntry.text())
@@ -504,11 +533,11 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         if url != "": self.telechargement_image(url, "wallpaper")
         # Charge l'image téléchargée
         pixmap = PyQt4.QtGui.QPixmap("./data/characters/wallpaper")
-		
+        
         # Application de l'image (avec aspect ratio et lissage)
         image = pixmap.scaled(self.waifuWallpaper.size(), PyQt4.QtCore.Qt.IgnoreAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
         self.waifuWallpaper.setPixmap(image)
-	 
+     
 
     # Fonction qui permet de modifier le comportement de l'application en fonction de paramétrages
     def preferences(self):
@@ -517,7 +546,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
     # Fonction qui supprime toutes les données utilisateurs
     def reset(self):
-		# Supression des fichiers individuels
+        # Supression des fichiers individuels
         log.warning("Suppression des donnes utilisateur. Action irrecuperable!")
         log.info("Suppression du fichier: MyAnimeManagerGui.py.stats.txt")
         os.remove("MyAnimeManagerGui.py.stats.txt")
@@ -529,20 +558,22 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         
         log.info("Suppression du fichier: ./data/MyAnimeManager.sqlite3")
         os.remove("./data/MyAnimeManager.sqlite3")
-        log.info("Suppression du fichier: ./data/MyAnimeManager.sqlite3-journal")
-        os.remove("./data/MyAnimeManager.sqlite3-journal")
+        
+        if os.path.exists("./data/MyAnimeManager.sqlite3-journal"):
+			log.info("Suppression du fichier: ./data/MyAnimeManager.sqlite3-journal")
+			os.remove("./data/MyAnimeManager.sqlite3-journal")
         
         # Nettoyage des dossier Characters et Covers
         filelist = [f for f in os.listdir("./data/characters")]
         for f in filelist:
             os.remove("./data/characters/%s" %f)
         log.info("Nettoyage du dossier: ./data/characters \t %s elements" %len(filelist))
-			
+            
         filelist = [f for f in os.listdir("./data/covers")]
         for f in filelist:
             os.remove("./data/covers/%s" %f)  
-        log.info("Nettoyage du dossier: ./data/covers \t %s elements" %len(filelist)) 
-        log.info("Nettoyage termine !")    
+        log.info("Nettoyage du dossier: ./data/covers - %s elements" %len(filelist)) 
+        log.info("Nettoyage termine !")  
 
 
     # Ferme le programme et enregistre les modifications apportées à la base de données
@@ -550,11 +581,18 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # Si des modifications on été apportées, on affiche la fenetre d'enregistrement
         if self.modifications == True:
             # Affiche la fenetre de dialogue
-            avertissement = PyQt4.QtGui.QMessageBox.question(self, 'Message', "Voulez-vous sauvegarder les modifications ?", "Oui", "Non")
+            avertissement = PyQt4.QtGui.QMessageBox.question(self, "Fermeture de l'application", "Voulez-vous sauvegarder les modifications ?", "Oui", "Non")
 
             if avertissement  == 0: # Si on clique sur Oui (Sauvegarder)
                 bdd.commit() # Enregistre les modifications dans la bdd (il est ansi possible de fermer le programme pour ne pas enregistrer les nouvelles données
                 log.info("Modifications sauvegardées")
+                
+            else:
+				# Annule tout les changements depuis le dernier enregistrement
+				bdd.rollback()
+
+        # Affichage du nombre de notifications
+        log.info("Nombre de changement dans la base: %s" %bdd.total_changes)
 
         # On ferme proprement la bdd
         curseur.close()
@@ -568,6 +606,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         
 # Fonction principale
 if __name__ == "__main__":
+    log.info("Version: %s" %__version__)
     # Chemins
     dossier = "./data/covers"
     #dossier = config["coverPath"]
@@ -588,7 +627,10 @@ if __name__ == "__main__":
     # Si la base de donnée est vierge, on utilise la fonction creation_de_la_bdd()
     if bddVierge == True: 
         #PyQt4.QtGui.QMessageBox.information(Menu, "Information", "L'application va créer une base de donnée pour la première utilisation")
+        log.info("La bdd n'existe pas ! Creation d'un nouveau profil")
         creation_de_la_bdd()
+        
+        
 
     # Boucle principale (menu)
   

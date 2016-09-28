@@ -1,4 +1,9 @@
 # Changements
+	25/09/2016
+	Les images de cover sont maintenant lissées.
+
+	24/09/2016
+	Ajout de 10 pages pour le WaifuBoard
 
     03/08/2016
     Ajout de fonctionalités: Possibilité d'ajouter / supprimer des animés depuis la liste
