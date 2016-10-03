@@ -418,9 +418,10 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # Date correspond a la date sur le jour selectionné sur le calendrier
         date = self.planningCalendrier.selectedDate().toPyDate()
         
-        # Recherche dans la base de donnée la liste des animés vu le jour de la date sélectionnée
-        curseur.execute("SELECT * FROM planning WHERE planningDate = '%s'" %date)
+        # Recherche dans la base de donnée la liste des animés vu le jour de la date sélectionnée (le tri ce fait en fonction del'indentifiant journalier)
+        curseur.execute("SELECT * FROM planning WHERE planningDate = \"%s\" ORDER BY planningIdentifiantJournalier ASC" %date)
 
+        # La ligne du dessous n'est plus vrait avec les identifiants journaliers
         # Pour les résultats trouvés en SQL (1 max car on recherche l'anime en fonction de son titre)
         for ligne in curseur.fetchall():
             #Listes d'entrées 
@@ -429,7 +430,10 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
     # Fonction qui séléctionne la date actuelle sur le calendrier
     def planning_aujourdhui(self):
+        # Demande a Qt la date du jour
         aujourdhui = PyQt4.QtCore.QDate.currentDate ()
+        
+        # Affiche le caldendrier à la date du jour
         self.planningCalendrier.setSelectedDate(aujourdhui)
         
 
