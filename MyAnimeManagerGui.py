@@ -414,7 +414,11 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
     def planning_afficher(self):
         # Vide la boite d'entrée
         self.planningEntry.setText(str())
+        
+        # Date correspond a la date sur le jour selectionné sur le calendrier
         date = self.planningCalendrier.selectedDate().toPyDate()
+        
+        # Recherche dans la base de donnée la liste des animés vu le jour de la date sélectionnée
         curseur.execute("SELECT * FROM planning WHERE planningDate = '%s'" %date)
 
         # Pour les résultats trouvés en SQL (1 max car on recherche l'anime en fonction de son titre)
