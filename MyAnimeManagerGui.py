@@ -423,9 +423,15 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
         # La ligne du dessous n'est plus vrait avec les identifiants journaliers
         # Pour les résultats trouvés en SQL (1 max car on recherche l'anime en fonction de son titre)
+        animes = ""
+        
         for ligne in curseur.fetchall():
-            #Listes d'entrées 
-            self.planningEntry.setText(str(ligne["planningAnime"]))
+            # Ajout les animés dans le label text
+            animes = animes + ligne["planningAnime"] + "\n"
+            log.info(ligne)
+        
+        # Colle la liste des animés
+        self.planningEntry.setText(str(animes))
 
 
     # Fonction qui séléctionne la date actuelle sur le calendrier
@@ -442,8 +448,21 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         planningDate = str(self.planningCalendrier.selectedDate().toPyDate())
         planningAnime = str(self.planningEntry.toPlainText())
 
-        curseur.execute("INSERT OR REPLACE INTO planning (planningDate, planningAnime) VALUES ('%s', '%s')" %(planningDate, planningAnime))
+        # Supprime les entrées du jour dans la base SQL
+        curseur.execute("DELETE FROM planning WHERE planningDate = '%s'" %(planningDate))
 
+        # Sépare les animés (avec le signe \n)
+        animes = planningAnime.split("\n")
+        
+        planningIdentifiantJournalier = 0
+        for anime in animes:
+            curseur.execute("INSERT OR REPLACE INTO planning (planningDate, planningIdentifiantJournalier, planningAnime) VALUES ('%s', '%s', '%s')" %(planningDate, planningIdentifiantJournalier, anime))
+            
+            # Si la ligne est vide, on ne fait rien
+            if anime != "":
+                # Incrémente le numéro de ligne
+                planningIdentifiantJournalier += 1
+    
         # On indique a l'application que quelque chose a été modifié
         self.modifications = True
 
