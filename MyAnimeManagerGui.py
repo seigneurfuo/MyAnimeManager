@@ -428,7 +428,6 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         for ligne in curseur.fetchall():
             # Ajout les animés dans le label text
             animes = animes + ligne["planningAnime"] + "\n"
-            log.info(ligne)
         
         # Colle la liste des animés
         self.planningEntry.setText(str(animes))
