@@ -300,7 +300,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # Récupère l'identifiant ou le titre entré dans l'entrée MAL
         texte = self.malEntry.text()
         
-        # Si le texte récupéré correspond a un identifiant mal
+        # Si le texte récupéré correspond a un identifiant mal (chiffres uniquement)
         if re.findall("^-?[0-9]+$", texte):
             idMyAnimeList = self.malEntry.text()
             myanimelist.anime(str(idMyAnimeList))
@@ -408,15 +408,13 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         ancienTexte = self.planningEntry.toPlainText()
         animeTitre = [str(x.text()) for x in self.listWidget_3.selectedItems()]
         
-        # Si la boite de texte est vide
+        # Si le planning est vide
         if ancienTexte == "":
-            nouveauTexte = str(animeTitre[0])
-        # Si le boite de texte comporte une ligne vide au dessus
-        elif ancienTexte[-2:] == "\n\n":
-            nouveauTexte = ancienTexte[:-1] + str(animeTitre[0])
+            nouveauTexte = str(animeTitre[0] + "-Ep " + str(dernierEpisodeVu))
+        
         # Sinon, on affiche en gardant l'ancien texte
         else:
-            nouveauTexte = ancienTexte + "\n" + str(animeTitre[0])
+            nouveauTexte = ancienTexte + "\n" + str(animeTitre[0] + "-Ep " + str(dernierEpisodeVu))
 
         #Affichage du nouveau titre
         self.planningEntry.setText(nouveauTexte)
@@ -431,7 +429,8 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         date = self.planningCalendrier.selectedDate().toPyDate()
         
         # Recherche dans la base de donnée la liste des animés vu le jour de la date sélectionnée (le tri ce fait en fonction del'indentifiant journalier)
-        curseur.execute("SELECT * FROM planning WHERE planningDate = \"%s\" ORDER BY planningIdentifiantJournalier ASC" %date)
+        # La table planningAnime ne contient que l'identifiant de l'animé. Le nom est récupéré grace a une jointure entre la table anime et planning
+        curseur.execute("SELECT * FROM planning, anime WHERE planningDate = \"%s\" AND planning.planningAnime = anime.AnimeId ORDER BY planningIdentifiantJournalier ASC" %date)
 
         # La ligne du dessous n'est plus vrait avec les identifiants journaliers
         # Pour les résultats trouvés en SQL (1 max car on recherche l'anime en fonction de son titre)
@@ -439,7 +438,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         
         for ligne in curseur.fetchall():
             # Ajout les animés dans le label text
-            animes = animes + ligne["planningAnime"] + "\n"
+            animes = animes + ligne["animeTitre"] + "-Ep " + ligne["planningEpisode"] + "\n"
         
         # Colle la liste des animés
         self.planningEntry.setText(str(animes))
