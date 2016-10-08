@@ -6,6 +6,7 @@ import logging
 log = logging.getLogger()
 log.setLevel(logging.DEBUG)
 
+
 # Librairies standards
 import sys
 import os
@@ -20,13 +21,16 @@ sys.path.append("./data/libs")
 import myanimelist
 import devtool; devtool.show_stats(sys.argv[0])
 
+
 # Importation de pyQt
 try:
     import PyQt4.QtGui
     import PyQt4.QtCore
     import PyQt4.uic.loadUiType
 except:
-    log.error("L'application n'arrive pas a trouver Qt / pyQt !")
+    log.error("L'application n'arrive pas a trouver pyQt !")
+    log.error("Veuillez vous reporter aux notes d'insatallation.")
+
 
 # Informations sur l'application
 __titre__                = "MyAnimeManager"
@@ -36,14 +40,17 @@ __db_version__           = 3
 __dateDeCreation__       = "12/06/2016"
 __derniereModification__ = "24/08/2016"
 
+
 # Création d'un formateur qui va ajouter le temps, le niveau de chaque message quand on écrira un message dans le log
 formatter = logging.Formatter('%(asctime)s : %(levelname)s : %(message)s') 
 
-# handler qui va rediriger chaque écriture de log sur la console
+
+# Les lignes suivantes permettent de rediriger chaque écriture de log sur la console
 console_handler = logging.StreamHandler()
 console_handler.setLevel(logging.INFO)
 console_handler.setFormatter(formatter)
 log.addHandler(console_handler)
+
 
 # Détails
 toDo = ["Utiliser le titre de l'animé plutot que son identifiant pour la complétion MAL",
@@ -61,6 +68,7 @@ toDo = ["Utiliser le titre de l'animé plutot que son identifiant pour la compl�
 def creation_de_la_bdd():
     log.info("Création de la base de donnees")
 
+
 # Code SQL pour créer la table anime
     curseur.execute(
 """CREATE TABLE anime(
@@ -75,18 +83,22 @@ animeFavori TEXT,
 animeDateAjout TEXT,
 animeNbVisionnage INT)""")
 
+
 # Code SQL pour créer la table planning
     curseur.execute(
 """
 CREATE TABLE planning (
 planningDate TEXT PRIMARY KEY NOT NULL,
-planningAnime)""")
+planningAnime)
+""")
+
 
 # Code SQL pour créer la table informations
     curseur.execute(
 """
 CREATE TABLE informations (
-    informationsVersion TEXT)""")
+    informationsVersion TEXT)
+""")
 
 
 # Classe de la fenetre principale
@@ -221,6 +233,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.liste_rafraichir(favorisRecherche=True)
 
 
+    # Fonction qui affiche les information pour l'animé sélectionné
     def liste_afficher(self):
         animeTitre = [str(x.text()) for x in self.listWidget.selectedItems()]
         
@@ -264,7 +277,6 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             # Boutons radios favori
             if ligne["animeFavori"] == "1":
                 self.favorisOuiRadio.setChecked(True)
-            
             else:
                 self.favorisNonRadio.setChecked(True)
                 
@@ -275,7 +287,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         global listeAfficherImageChemin
         listeAfficherImageChemin = chemin
         
-        log.info("Cover: %s" %chemin)
+        log.info("Image de couverture: %s" %chemin)
 
         # Charge et affiche l'image
         myPixmap = PyQt4.QtGui.QPixmap(chemin)
