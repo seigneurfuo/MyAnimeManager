@@ -90,20 +90,14 @@ animeNotes TEXT)
     curseur.execute(
 """
 CREATE TABLE planning (
-planningDate TEXT PRIMARY KEY NOT NULL,
-planningAnime)
-""")
-
-
-# Code SQL pour créer la table informations
-    curseur.execute(
-"""
-CREATE TABLE informations (
 planningDate TEXT NOT NULL,
 planningIdentifiantJournalier TEXT,
 planningAnime TEXT,
 planningEpisode TEXT)
 """)
+
+
+# Code SQL pour créer la table informations
 
 
 # Classe de la fenetre principale
@@ -608,7 +602,9 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # Supression des fichiers individuels
         log.warning("Suppression des donnes utilisateur. Action irrecuperable!")
         log.info("Suppression du fichier: MyAnimeManagerGui.py.stats.txt")
-        os.remove("MyAnimeManagerGui.py.stats.txt")
+        
+        if os.path.exists("MyAnimeManagerGui.py.stats.txt"):
+			os.remove("MyAnimeManagerGui.py.stats.txt")
         
         # Fermeture de la bdd pour pourvoir la supprimer
         curseur.close()
