@@ -36,7 +36,7 @@ except:
 __titre__                = "MyAnimeManager"
 __version__              = "0.16.%s" % devtool.buildNumber
 __auteur__               = "seigneurfuo"
-__db_version__           = 3
+__db_version__           = 5
 __dateDeCreation__       = "12/06/2016"
 __derniereModification__ = "24/08/2016"
 
@@ -53,8 +53,7 @@ log.addHandler(console_handler)
 
 
 # Détails
-toDo = ["Utiliser le titre de l'animé plutot que son identifiant pour la complétion MAL",
-        "Continuer la fonction de MAJ de la base de donnée pour les prochaines versions",
+toDo = ["Continuer la fonction de MAJ de la base de donnée pour les prochaines versions",
         "Vider le champ de recherche et MAL lorsque a la fin de l'édition d'un animé",
         "Ajouter des préférences, afin de modifier: l'emplacement de la bdd, l'emplacement des fichiers images",
         "Coder la fenetre directement dans le code - sans utilisation de QtDesign",
@@ -81,7 +80,10 @@ animeFansub VARCHAR(30),
 animeEtatVisionnage INT,
 animeFavori TEXT,
 animeDateAjout TEXT,
-animeNbVisionnage INT)""")
+animeNbVisionnage INT
+animeNotes TEXT)
+""")
+
 
 
 # Code SQL pour créer la table planning
@@ -97,7 +99,10 @@ planningAnime)
     curseur.execute(
 """
 CREATE TABLE informations (
-    informationsVersion TEXT)
+planningDate TEXT NOT NULL,
+planningIdentifiantJournalier TEXT,
+planningAnime TEXT,
+planningEpisode TEXT)
 """)
 
 
@@ -407,18 +412,19 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # Sauvegarde du texte actuel
         ancienTexte = self.planningEntry.toPlainText()
         animeTitre = [str(x.text()) for x in self.listWidget_3.selectedItems()]
+        animeTitre = animeTitre[0]
         
         # Si le planning est vide
         if ancienTexte == "":
-            nouveauTexte = str(animeTitre[0] + "-Ep " + str(dernierEpisodeVu))
+            nouveauTexte = str(animeTitre + "-Ep ")
         
         # Sinon, on affiche en gardant l'ancien texte
         else:
-            nouveauTexte = ancienTexte + "\n" + str(animeTitre[0] + "-Ep " + str(dernierEpisodeVu))
+            nouveauTexte = ancienTexte + "\n" + str(animeTitre + "-Ep ")
 
         #Affichage du nouveau titre
         self.planningEntry.setText(nouveauTexte)
-        
+
 
     # Fonction qui affiche les animés vus en fonction de la date sélectionnée sur le calendrier
     def planning_afficher(self):
@@ -435,7 +441,6 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # La ligne du dessous n'est plus vrait avec les identifiants journaliers
         # Pour les résultats trouvés en SQL (1 max car on recherche l'anime en fonction de son titre)
         animes = ""
-        
         for ligne in curseur.fetchall():
             # Ajout les animés dans le label text
             animes = animes + ligne["animeTitre"] + "-Ep " + ligne["planningEpisode"] + "\n"
@@ -461,17 +466,34 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # Supprime les entrées du jour dans la base SQL
         curseur.execute("DELETE FROM planning WHERE planningDate = '%s'" %(planningDate))
 
-        # Sépare les animés (avec le signe \n)
-        animes = planningAnime.split("\n")
+        # Sépare les lignes (avec le signe \n)
+        lignes = planningAnime.split("\n")
         
+        # Identifiant de planning journalier, pour identifier chauque entrée dans une journée
         planningIdentifiantJournalier = 0
-        for anime in animes:
-            curseur.execute("INSERT OR REPLACE INTO planning (planningDate, planningIdentifiantJournalier, planningAnime) VALUES ('%s', '%s', '%s')" %(planningDate, planningIdentifiantJournalier, anime))
-            
+        
+        # Pour chaque ligne dans l'entrée texte
+        for ligne in lignes:
             # Si la ligne est vide, on ne fait rien
-            if anime != "":
+            if ligne != "":
                 # Incrémente le numéro de ligne
                 planningIdentifiantJournalier += 1
+                
+                # Coupe le nom de l'animé et l'épisode en cours
+                champs = ligne.split("-Ep ")
+                animeTitre = champs[0]
+                
+                # On récupère l'identifiant correppondant au titre
+                curseur.execute("SELECT * FROM anime WHERE animeTitre = '%s'" %(animeTitre))
+                for ligne in curseur.fetchall():
+                    animeId = ligne["animeId"]
+                    
+                
+                animeEpisode = champs[1]
+                
+                # Ajoute ou met a jour les entrées dans la table planning.
+                curseur.execute("INSERT OR REPLACE INTO planning (planningDate, planningIdentifiantJournalier, planningAnime, planningEpisode) VALUES ('%s', '%s', '%s', '%s')" %(planningDate, planningIdentifiantJournalier, animeId, animeEpisode))
+                
     
         # On indique a l'application que quelque chose a été modifié
         self.modifications = True
