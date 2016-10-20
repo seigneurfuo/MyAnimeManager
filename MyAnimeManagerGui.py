@@ -34,11 +34,11 @@ except:
 
 # Informations sur l'application
 __titre__                = "MyAnimeManager"
-__version__              = "0.16.%s" % devtool.buildNumber
+__version__              = "0.18.%s" % devtool.buildNumber
 __auteur__               = "seigneurfuo"
 __db_version__           = 5
 __dateDeCreation__       = "12/06/2016"
-__derniereModification__ = "24/08/2016"
+__derniereModification__ = "21/10/2016"
 
 
 # Création d'un formateur qui va ajouter le temps, le niveau de chaque message quand on écrira un message dans le log
@@ -80,7 +80,7 @@ animeFansub VARCHAR(30),
 animeEtatVisionnage INT,
 animeFavori TEXT,
 animeDateAjout TEXT,
-animeNbVisionnage INT
+animeNbVisionnage INT,
 animeNotes TEXT)
 """)
 
