@@ -19,7 +19,6 @@ from datetime import date, datetime, time, timedelta
 sys.path.append("./data/libs")
 # Librairies de tierces-parties
 import myanimelist
-import devtool; devtool.show_stats(sys.argv[0])
 
 
 # Importation de pyQt
@@ -34,11 +33,11 @@ except:
 
 # Informations sur l'application
 __titre__                = "MyAnimeManager"
-__version__              = "0.18.%s" % devtool.buildNumber
+__version__              = "0.18.422"
 __auteur__               = "seigneurfuo"
 __db_version__           = 5
 __dateDeCreation__       = "12/06/2016"
-__derniereModification__ = "21/10/2016"
+__derniereModification__ = "23s/10/2016"
 
 
 # Création d'un formateur qui va ajouter le temps, le niveau de chaque message quand on écrira un message dans le log
@@ -429,7 +428,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         
         # Recherche dans la base de donnée la liste des animés vu le jour de la date sélectionnée (le tri ce fait en fonction del'indentifiant journalier)
         # La table planningAnime ne contient que l'identifiant de l'animé. Le nom est récupéré grace a une jointure entre la table anime et planning
-        curseur.execute("SELECT * FROM planning, anime WHERE planningDate = \"%s\" AND planning.planningAnime = anime.AnimeId ORDER BY planningIdentifiantJournalier ASC" %date)
+        curseur.execute("SELECT * FROM planning, anime WHERE planningDate = \"%s\" AND planning.planningAnime = anime.AnimeId ORDER BY planning.planningIdentifiantJournalier ASC" %date)
 
         # La ligne du dessous n'est plus vrait avec les identifiants journaliers
         # Pour les résultats trouvés en SQL (1 max car on recherche l'anime en fonction de son titre)
