@@ -70,32 +70,31 @@ def creation_de_la_bdd():
 
 # Code SQL pour créer la table anime
     curseur.execute(
-"""CREATE TABLE anime(
-animeId TEXT PRIMARY KEY NOT NULL,
-animeAjout TEXT,
-animeTitre VARCHAR(100) NOT NULL,
-animeAnnee INT,
-animeStudio VARCHAR(30),
-animeFansub VARCHAR(30),
-animeEtatVisionnage INT,
-animeFavori TEXT,
-animeDateAjout TEXT,
-animeNbVisionnage INT,
-animeNotes TEXT)
-""")
+    """CREATE TABLE anime(
+     animeId TEXT PRIMARY KEY NOT NULL,
+     animeAjout TEXT,
+     animeTitre VARCHAR(100) NOT NULL,
+     animeAnnee INT,
+     animeStudio VARCHAR(30),
+     animeFansub VARCHAR(30),
+     animeEtatVisionnage INT,
+     animeFavori TEXT,
+     animeDateAjout TEXT,
+     animeNbVisionnage INT,
+     animeNotes TEXT)
+     """)
 
 
 
 # Code SQL pour créer la table planning
     curseur.execute(
-"""
-CREATE TABLE planning (
-planningDate TEXT NOT NULL,
-planningIdentifiantJournalier TEXT,
-planningAnime TEXT,
-planningEpisode TEXT)
-""")
-
+    """
+    CREATE TABLE planning (
+    planningDate TEXT NOT NULL,
+    planningIdentifiantJournalier TEXT,
+    planningAnime TEXT,
+    planningEpisode TEXT)
+    """)
 
 # Code SQL pour créer la table informations
 
