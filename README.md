@@ -1,7 +1,13 @@
+[French]
 # Synopsis
 Un petit projet Python et PyQt pour gérer sa collection d'animés.
+![alt tag](https://raw.githubusercontent.com/seigneurfuo/MyAnimeManager/master/data/docs/version2.png)
 
 # Fonctionnalitées
+- 2 modes de remplissage des informations: manuellement ou automatique grace au informations du site MyAnimeList.net
+- Prise de note pour chaque animé
+- Un planning intéractif pour organiser les épisodes a voir
+- Une liste de vos personnages préférés
 
 # Licenses
 Icones venant du projet: http://sourceforge.net/projects/openiconlibrary
@@ -25,5 +31,13 @@ Icones venant du projet: http://sourceforge.net/projects/openiconlibrary
 - sudo pip install beautifulsoup4
 - sudo pip install lassie
 
-# Screenshots
-![alt tag](https://raw.githubusercontent.com/seigneurfuo/MyAnimeManager/master/data/docs/version2.png)
+# A faire
+- Séparer les animés par saison
+- Ajouter un système de tags pour chaque anime
+- Continuer la fonction de MAJ de la base de donnée pour les prochaines versions",
+- Vider le champ de recherche et MAL lorsque a la fin de l'édition d'un animé",
+- Ajouter des préférences, afin de modifier: l'emplacement de la bdd, l'emplacement des fichiers images",
+- Coder la fenetre directement dans le code - sans utilisation de QtDesign ou alors enregistrer le contenu du fichier d'interface dans une docstring dans le code
+- Renommer les noms des élements génériques. Exemple: Bouton1, bouton2...
+- Empécher de remplir les informations d'un animé si il n'a pas d'indentifiant
+- Les animés avec \":\" dans l'url bloquent sur une erreur 404
