@@ -17,7 +17,9 @@ Icones venant du projet: http://sourceforge.net/projects/openiconlibrary
 ## Ubuntu / Debian / Linux Mint
 
 -sudo apt-get install pyqt4
+
 -sudo install python-pip
+
 -sudo pip install lassie
 
 # Screenshots
