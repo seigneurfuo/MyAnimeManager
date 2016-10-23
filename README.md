@@ -6,6 +6,14 @@ Un petit projet Python et PyQt pour gérer sa collection d'animés.
 
 Icones venant du projet: http://sourceforge.net/projects/openiconlibrary
 
+# Librairies utilisées
+
+-PyQt: Une librairie utilisée pour créer des interfaces graphiques
+
+-BeautifulSoup: Utilisé par le module myanimelist pour récupérer les informations sur le site web MyAnimeList.net
+
+-Lassie: Utilisé par le module myanimelist pour récupérer les images des différents animés (Sera remplacé par BeautifulSoup)
+
 # Installation
 
 ## Windows 32bits / 64bits
@@ -14,11 +22,17 @@ Icones venant du projet: http://sourceforge.net/projects/openiconlibrary
 
 -PyQt4 (http://sourceforge.net/projects/pyqt/files/PyQt4/PyQt-4.11.4/PyQt4-4.11.4-gpl-Py2.7-Qt4.8.7-x32.exe)
 
+-BeautifulSoup: 
+
+- Lassie
+
 ## Ubuntu / Debian / Linux Mint
 
 -sudo apt-get install pyqt4
 
 -sudo install python-pip
+
+-sudo pip install beautifulsoup
 
 -sudo pip install lassie
 
