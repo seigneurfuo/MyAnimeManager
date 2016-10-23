@@ -24,4 +24,4 @@ Icones venant du projet: http://sourceforge.net/projects/openiconlibrary
 
 # Screenshots
 
-![alt tag]https://raw.githubusercontent.com/seigneurfuo/MyAnimeManager/data/docs/version2.png
+![alt tag](https://raw.githubusercontent.com/seigneurfuo/MyAnimeManager/master/data/docs/version2.png)
