@@ -1,0 +1,12 @@
+data/icons/
+data/covers/
+data/MyAnimeManager.sqlite3-backup
+data/MyAnimeManager.sqlite3
+data/characters/
+dev/
+old/
+tests/
+tools/
+MyAnimeManagerGui.py.stats.txt
+project_info.txt
+*.pyc
