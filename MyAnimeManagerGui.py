@@ -12,7 +12,6 @@ import sys
 import os
 import re
 import sqlite3
-import pprint
 import urllib
 from datetime import date, datetime, time, timedelta
 
@@ -33,11 +32,11 @@ except:
 
 # Informations sur l'application
 __titre__                = "MyAnimeManager"
-__version__              = "0.18.422"
+__version__              = "0.19.134"
 __auteur__               = "seigneurfuo"
 __db_version__           = 5
 __dateDeCreation__       = "12/06/2016"
-__derniereModification__ = "23s/10/2016"
+__derniereModification__ = "26/10/2016"
 
 
 # Création d'un formateur qui va ajouter le temps, le niveau de chaque message quand on écrira un message dans le log
@@ -49,17 +48,6 @@ console_handler = logging.StreamHandler()
 console_handler.setLevel(logging.INFO)
 console_handler.setFormatter(formatter)
 log.addHandler(console_handler)
-
-
-# Détails
-toDo = ["Continuer la fonction de MAJ de la base de donnée pour les prochaines versions",
-        "Vider le champ de recherche et MAL lorsque a la fin de l'édition d'un animé",
-        "Ajouter des préférences, afin de modifier: l'emplacement de la bdd, l'emplacement des fichiers images",
-        "Coder la fenetre directement dans le code - sans utilisation de QtDesign",
-        "Ou alors enregistrer le contenu du fichier d'interface dans une docstring dans le code",
-        "Renommer les noms des élements génériques. Exemple: Bouton1, bouton2...", 
-		"Empécher de remplir les informations d'un animé si il n'a pas d'indentifiant",
-		"Les animés avec \":\" dans l'url bloquent sur une erreur 404"]
 
 
 # Fonctions générale a l'application
@@ -108,9 +96,8 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.modifications = False
         
         # Gestion des evenements (onglet liste)
-        #self.listWidget.selectionModel().selectionChanged.connect(self.liste_afficher)
-        #self.listWidget.selectionModel().currentRowChanged.connect(self.liste_afficher)
-        self.listWidget.itemClicked.connect(self.liste_afficher)
+        self.table.cellClicked.connect(self.liste_afficher)
+        self.table.currentCellChanged.connect(self.liste_afficher)
         self.boutonEnregistrer.clicked.connect(self.liste_enregistrer)
         self.boutonAnnuler.clicked.connect(self.liste_rafraichir)
         self.boutonCompleter.clicked.connect(self.liste_remplir_myanimelist)
@@ -159,7 +146,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.label_5.setPixmap(image)
 
         # On vide la liste et les entrées
-        self.listWidget.clear()
+        self.table.clear()
         self.idEntry.setText(str())
         self.ajoutEntry.setText(str())
         self.titreEntry.setText(str())
@@ -188,27 +175,44 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             log.info("Filtrage de la liste: Par correspondance")
             
             # On afiche la liste normale
-            curseur.execute("SELECT * FROM anime WHERE animeTitre LIKE('%s%s%s') ORDER BY animeTitre" %("%", titreRecherche, "%"))
+            curseur.execute("SELECT * FROM anime WHERE animeTitre LIKE('%s%s%s') ORDER BY LENGTH(animeId), animeId" %("%", titreRecherche, "%"))
                 
         else :
-            # Si on veut afficher la liste des favoris
+            # Affichage de la liste normale
             if favorisRecherche == False:
                 log.info("Affichage normal de la liste des animes")
-                curseur.execute("SELECT * FROM anime ORDER BY animeId")
+                curseur.execute("SELECT * FROM anime ORDER BY LENGTH(animeId), animeId") # Permet de trier les animés de manière croissante et de manière humaine (evite que des identifiants tel que 1000 s'intercalent entre les identfiant 100 / 101
             
-            # Si on veut afficher la liste normale
+            # Si on veut afficher la liste des favoris
             else:
                 log.info("Filtrage de la liste: Afficher les favoris")
-                curseur.execute("SELECT * FROM anime WHERE animeFavori = '1' ORDER BY animeId")
+                curseur.execute("SELECT * FROM anime WHERE animeFavori = '1' ORDER BY LENGTH(animeId), animeId")
         
             
         resultats = curseur.fetchall()
         log.info("Anime rechargés %s" %len(resultats))
         
         # Remplissage de la liste
-        for anime in resultats:
-            ligne = PyQt4.QtGui.QListWidgetItem(anime["animeTitre"])
-            self.listWidget.addItem(ligne)
+        #for anime in resultats:
+            #ligne = PyQt4.QtGui.QListWidgetItem(anime["animeTitre"])
+            #self.listWidget.addItem(ligne)
+          
+        # Définition de la taille du tableau
+        nombreLignes = len(resultats)
+        self.table.setRowCount(nombreLignes)
+        self.table.setColumnCount(2)
+        
+        # Définition du titre des colonnes
+        titreColonnes = ["Id", "Titre"]
+        self.table.setHorizontalHeaderLabels(titreColonnes)  
+        
+        # Ajout des éléments
+        for indice, anime in enumerate(resultats):
+            colonne1 = PyQt4.QtGui.QTableWidgetItem(anime["animeId"])
+            self.table.setItem(indice, 0, colonne1)
+            
+            colonne2 = PyQt4.QtGui.QTableWidgetItem(anime["animeTitre"])
+            self.table.setItem(indice, 1, colonne2)
 
 
     # Fonction qui permet de rechercher un animé dans la liste grace a son nom
@@ -232,50 +236,52 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
     # Fonction qui affiche les information pour l'animé sélectionné
     def liste_afficher(self):
-        animeTitre = [str(x.text()) for x in self.listWidget.selectedItems()]
-        
-        curseur.execute("SELECT * FROM anime WHERE animeTitre = '%s'" %animeTitre[0])
+        ligneActuelle = int(self.table.currentRow())
+        animeTitre = self.table.item(ligneActuelle, 1).text()
 
-        # Pour les résultats trouvés en SQL (1 max car on recherche l'anime en fonction de son titre)
-        for ligne in curseur.fetchall():
-            # Listes d'entrées 
-            self.idEntry.setText(str(ligne["animeId"]).replace("None", "")) # .replace("None", "")) Permet de ne pas afficher lorsq'une valeur est NULL
-            self.ajoutEntry.setText(str(ligne["animeDateAjout"]).replace("None", ""))
-            self.titreEntry.setText(str(ligne["animeTitre"]).replace("None", ""))
-            self.anneeEntry.setText(str(ligne["animeAnnee"]).replace("None", ""))
-            self.studioEntry.setText(str(ligne["animeStudio"]).replace("None", ""))
-            self.fansubEntry.setText(str(ligne["animeFansub"]).replace("None", ""))
-            self.notesEntry.setText(str(ligne["animeNotes"]).replace("None", ""))
+        curseur.execute("SELECT * FROM anime WHERE animeTitre = '%s'" %animeTitre)
 
-            # Spinbox
-            if ligne["animeNbVisionnage"] == None:
-                self.spinBox.setValue(0)
-            else:
-                self.spinBox.setValue(ligne["animeNbVisionnage"])
+        # Charge les informations récupérées dans la base sql
+        ligne = curseur.fetchone() # Permet dene choise que le premier résultat en sql (pour un seul identifiant, on ne peut avoir qu'un seul animé
 
-            # Boutons radios visionnage
-            # Animé Terminé
-            if ligne["animeEtatVisionnage"] == "0":
-                self.radiobutton0.setChecked(True)
+        # Listes d'entrées 
+        self.idEntry.setText(str(ligne["animeId"]).replace("None", "")) # .replace("None", "")) Permet de ne pas afficher lorsq'une valeur est NULL
+        self.ajoutEntry.setText(str(ligne["animeDateAjout"]).replace("None", ""))
+        self.titreEntry.setText(str(ligne["animeTitre"]).replace("None", ""))
+        self.anneeEntry.setText(str(ligne["animeAnnee"]).replace("None", ""))
+        self.studioEntry.setText(str(ligne["animeStudio"]).replace("None", ""))
+        self.fansubEntry.setText(str(ligne["animeFansub"]).replace("None", ""))
+        self.notesEntry.setText(str(ligne["animeNotes"]).replace("None", ""))
 
-            # Animé en cours
-            elif ligne["animeEtatVisionnage"] == "1":
-                self.radiobutton1.setChecked(True)
+        # Spinbox
+        if ligne["animeNbVisionnage"] == None:
+            self.spinBox.setValue(0)
+        else:
+            self.spinBox.setValue(ligne["animeNbVisionnage"])
 
-            # Animé a voir
-            elif ligne["animeEtatVisionnage"] == "2":
-                self.radiobutton2_2.setChecked(True)
+        # Boutons radios visionnage
+        # Animé Terminé
+        if ligne["animeEtatVisionnage"] == "0":
+            self.radiobutton0.setChecked(True)
 
-            # Animé indéfini
-            elif ligne["animeEtatVisionnage"] == "3" or ligne["animeEtatVisionnage"] == None:
-                self.radiobutton2.setChecked(True)
+        # Animé en cours
+        elif ligne["animeEtatVisionnage"] == "1":
+           self.radiobutton1.setChecked(True)
+
+        # Animé a voir
+        elif ligne["animeEtatVisionnage"] == "2":
+            self.radiobutton2_2.setChecked(True)
+
+        # Animé indéfini
+        elif ligne["animeEtatVisionnage"] == "3" or ligne["animeEtatVisionnage"] == None:
+            self.radiobutton2.setChecked(True)
                 
                 
-            # Boutons radios favori
-            if ligne["animeFavori"] == "1":
-                self.favorisOuiRadio.setChecked(True)
-            else:
-                self.favorisNonRadio.setChecked(True)
+        # Boutons radios favori
+        if ligne["animeFavori"] == "1":
+            self.favorisOuiRadio.setChecked(True)
+        else:
+            self.favorisNonRadio.setChecked(True)
                 
 
         # Charge et affiche l'image de l'anime
@@ -428,7 +434,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         
         # Recherche dans la base de donnée la liste des animés vu le jour de la date sélectionnée (le tri ce fait en fonction del'indentifiant journalier)
         # La table planningAnime ne contient que l'identifiant de l'animé. Le nom est récupéré grace a une jointure entre la table anime et planning
-        curseur.execute("SELECT * FROM planning, anime WHERE planningDate = \"%s\" AND planning.planningAnime = anime.AnimeId ORDER BY planning.planningIdentifiantJournalier ASC" %date)
+        curseur.execute("SELECT * FROM planning, anime WHERE planningDate = \"%s\" AND planning.planningAnime = anime.AnimeId ORDER BY LENGTH(planning.planningIdentifiantJournalier), planning.planningIdentifiantJournalier ASC" %date)
 
         # La ligne du dessous n'est plus vrait avec les identifiants journaliers
         # Pour les résultats trouvés en SQL (1 max car on recherche l'anime en fonction de son titre)

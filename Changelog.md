@@ -1,4 +1,12 @@
 # Changements
+
+27/10/2016 - version 0.19.134
+- Remplacement de la liste par un tableau pour affciher les identifiants et les titres d'animés
+- Possibilité de déplacement avec les flèches dans la liste des animés
+- Correction de bug: les animés sont désormais triées grâce aux identifants de manière "humaine"
+- Possibilité de déplacement avec la touche tab entre les différents éléments
+- Adapation du code: Supresion de librairies non-utilisées: pprint
+
 25/09/2016
 - Les images de cover sont maintenant lissées.
 
@@ -15,7 +23,7 @@
 - Mise en place d'un dépot git pour aider a gérer les versions multibranches (ex: tests de fonctionalités)
 
 25/07/2016
-- Modification du module MAL: Il télécgarge désomais les covers des animés automatiquement
+- Modification du module MAL: Il télécharge désormais les affiches des animés automatiquement
 
 24/07/2016
 - Lors du remplissage des informations par MyanimeList, la cover de l'animé est téléchargée

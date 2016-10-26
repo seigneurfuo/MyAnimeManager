@@ -32,11 +32,12 @@ Icones venant du projet: http://sourceforge.net/projects/openiconlibrary
 - sudo pip install lassie
 
 # A faire
-- Séparer les animés par saison
-- Ajouter un système de tags pour chaque anime
-- Continuer la fonction de MAJ de la base de donnée pour les prochaines versions",
-- Vider le champ de recherche et MAL lorsque a la fin de l'édition d'un animé",
-- Ajouter des préférences, afin de modifier: l'emplacement de la bdd, l'emplacement des fichiers images",
+- Ajouter la création des dossiers automatiquement lors du premier démarrage
+- Séparer les animés par saison (QTreeView)
+- Ajouter un système de tags
+- Continuer la fonction de MAJ de la base de donnée pour les prochaines versions
+- Vider le champ de recherche et MAL lorsque a la fin de l'édition d'un animé
+- Ajouter des préférences, afin de modifier: l'emplacement de la bdd, l'emplacement des fichiers images
 - Coder la fenetre directement dans le code - sans utilisation de QtDesign ou alors enregistrer le contenu du fichier d'interface dans une docstring dans le code
 - Renommer les noms des élements génériques. Exemple: Bouton1, bouton2...
 - Empécher de remplir les informations d'un animé si il n'a pas d'indentifiant
