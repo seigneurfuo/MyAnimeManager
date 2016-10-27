@@ -1,7 +1,8 @@
 # Changements
 
-27/10/2016
+27/10/2016 - version 0.19.136 / 0.19.137
 - Correction de bug: Ajout du code SQL pour la création de la table information
+- Correction de bug: Erreur lors du rechargement de la liste: essaye d'afficher des informations alors qu'aucune colonne n'est sélectionnée
 
 26/10/2016 - version 0.19.134
 - Remplacement de la liste par un tableau pour affciher les identifiants et les titres d'animés
