@@ -1,6 +1,14 @@
 #!/usr/bin/python2.7
 # -*- coding: utf8 -*- 
 
+# Informations sur l'application
+__titre__                = "MyAnimeManager"
+__version__              = "0.19.136"
+__auteur__               = "seigneurfuo"
+__db_version__           = 5
+__dateDeCreation__       = "12/06/2016"
+__derniereModification__ = "27/10/2016"
+
 # Logging
 import logging
 log = logging.getLogger()
@@ -28,15 +36,6 @@ try:
 except:
     log.error("L'application n'arrive pas a trouver pyQt !")
     log.error("Veuillez vous reporter aux notes d'insatallation.")
-
-
-# Informations sur l'application
-__titre__                = "MyAnimeManager"
-__version__              = "0.19.135"
-__auteur__               = "seigneurfuo"
-__db_version__           = 5
-__dateDeCreation__       = "12/06/2016"
-__derniereModification__ = "26/10/2016"
 
 
 # Création d'un formateur qui va ajouter le temps, le niveau de chaque message quand on écrira un message dans le log
@@ -84,6 +83,11 @@ def creation_de_la_bdd():
     """)
 
 # Code SQL pour créer la table informations
+    curseur.execute(
+    """
+    CREATE TABLE information (
+    informationVersion)
+    """)
 
 
 # Classe de la fenetre principale
