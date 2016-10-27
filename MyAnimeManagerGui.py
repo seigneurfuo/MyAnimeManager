@@ -32,7 +32,7 @@ except:
 
 # Informations sur l'application
 __titre__                = "MyAnimeManager"
-__version__              = "0.19.134"
+__version__              = "0.19.135"
 __auteur__               = "seigneurfuo"
 __db_version__           = 5
 __dateDeCreation__       = "12/06/2016"
