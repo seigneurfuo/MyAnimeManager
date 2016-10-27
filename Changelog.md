@@ -1,9 +1,12 @@
 # Changements
 
-27/10/2016 - version 0.19.134
+27/10/2016
+- Correction de bug: Ajout du code SQL pour la création de la table information
+
+26/10/2016 - version 0.19.134
 - Remplacement de la liste par un tableau pour affciher les identifiants et les titres d'animés
 - Possibilité de déplacement avec les flèches dans la liste des animés
-- Correction de bug: les animés sont désormais triées grâce aux identifants de manière "humaine"
+- Correction de bug: les animés sont désormais triés grâce aux identifants de manière "humaine"
 - Possibilité de déplacement avec la touche tab entre les différents éléments
 - Adapation du code: Supresion de librairies non-utilisées: pprint
 
