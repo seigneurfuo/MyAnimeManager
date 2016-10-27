@@ -3,7 +3,7 @@
 
 # Informations sur l'application
 __titre__                = "MyAnimeManager"
-__version__              = "0.19.137"
+__version__              = "0.20.5"
 __auteur__               = "seigneurfuo"
 __db_version__           = 5
 __dateDeCreation__       = "12/06/2016"
@@ -89,6 +89,25 @@ def creation_de_la_bdd():
     informationVersion)
     """)
 
+
+# Fonction qui va créer les dossiers utiles
+def verification_des_dossiers():
+	log.info("Verification de l'existance des dossiers ...")
+	
+	# Dossier ./data/characters
+	if os.path.exists("./data/characters"):
+		log.info("./data/characters - Ok")
+	else:
+		os.makedirs("./data/characters")
+		log.info("Creation de ./data/characters")
+	
+	# Dossier ./data/covers
+	if os.path.exists("./data/covers"):
+		log.info("./data/covers - Ok")
+	else:
+		os.makedirs("./data/covers")
+		log.info("Creation de ./data/covers")
+		
 
 # Classe de la fenetre principale
 class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): # Chargement des interfaces depuis les fichiers
@@ -194,7 +213,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         
             
         resultats = curseur.fetchall()
-        log.info("Anime rechargés %s" %len(resultats))
+        log.info("Animes: %s" %len(resultats))
         
         # Remplissage de la liste
         #for anime in resultats:
@@ -677,9 +696,12 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 # Fonction principale
 if __name__ == "__main__":
     log.info("Version: %s" %__version__)
+    
+    # Vérification des dossiers
+    verification_des_dossiers()
+    
     # Chemins
     dossier = "./data/covers"
-    #dossier = config["coverPath"]
 
     # Nom de la base de donnée
     nomBdd = "./data/MyAnimeManager.sqlite3"
