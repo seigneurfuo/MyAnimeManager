@@ -3,7 +3,7 @@
 
 # Informations sur l'application
 __titre__                = "MyAnimeManager"
-__version__              = "0.19.136"
+__version__              = "0.19.137"
 __auteur__               = "seigneurfuo"
 __db_version__           = 5
 __dateDeCreation__       = "12/06/2016"
@@ -240,66 +240,73 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
     # Fonction qui affiche les information pour l'animé sélectionné
     def liste_afficher(self):
+		# Récupère le numéro de ligne actuellement sélectionné dans la liste
         ligneActuelle = int(self.table.currentRow())
-        animeTitre = self.table.item(ligneActuelle, 1).text()
-
-        curseur.execute("SELECT * FROM anime WHERE animeTitre = '%s'" %animeTitre)
-
-        # Charge les informations récupérées dans la base sql
-        ligne = curseur.fetchone() # Permet dene choise que le premier résultat en sql (pour un seul identifiant, on ne peut avoir qu'un seul animé
-
-        # Listes d'entrées 
-        self.idEntry.setText(str(ligne["animeId"]).replace("None", "")) # .replace("None", "")) Permet de ne pas afficher lorsq'une valeur est NULL
-        self.ajoutEntry.setText(str(ligne["animeDateAjout"]).replace("None", ""))
-        self.titreEntry.setText(str(ligne["animeTitre"]).replace("None", ""))
-        self.anneeEntry.setText(str(ligne["animeAnnee"]).replace("None", ""))
-        self.studioEntry.setText(str(ligne["animeStudio"]).replace("None", ""))
-        self.fansubEntry.setText(str(ligne["animeFansub"]).replace("None", ""))
-        self.notesEntry.setText(str(ligne["animeNotes"]).replace("None", ""))
-
-        # Spinbox
-        if ligne["animeNbVisionnage"] == None:
-            self.spinBox.setValue(0)
-        else:
-            self.spinBox.setValue(ligne["animeNbVisionnage"])
-
-        # Boutons radios visionnage
-        # Animé Terminé
-        if ligne["animeEtatVisionnage"] == "0":
-            self.radiobutton0.setChecked(True)
-
-        # Animé en cours
-        elif ligne["animeEtatVisionnage"] == "1":
-           self.radiobutton1.setChecked(True)
-
-        # Animé a voir
-        elif ligne["animeEtatVisionnage"] == "2":
-            self.radiobutton2_2.setChecked(True)
-
-        # Animé indéfini
-        elif ligne["animeEtatVisionnage"] == "3" or ligne["animeEtatVisionnage"] == None:
-            self.radiobutton2.setChecked(True)
-                
-                
-        # Boutons radios favori
-        if ligne["animeFavori"] == "1":
-            self.favorisOuiRadio.setChecked(True)
-        else:
-            self.favorisNonRadio.setChecked(True)
-                
-
-        # Charge et affiche l'image de l'anime
-        image = str(ligne["animeId"])
-        chemin = os.path.join(dossier, image)
-        global listeAfficherImageChemin
-        listeAfficherImageChemin = chemin
         
-        log.info("Image de couverture: %s" %chemin)
+        # Si on a bien sélectionné un anime (empèche l'erreur quand la liste est rechargée et que rien n'est sélectionné)
+        if ligneActuelle != -1:
+			
+			# Le titre de l'animé est contenu dans le deuxième cellule de la colonne (les indices commencent à 0)
+			animeTitre = self.table.item(ligneActuelle, 1).text()
+			
+			# On cherche les informations dans la base SQL
+			curseur.execute("SELECT * FROM anime WHERE animeTitre = '%s'" %animeTitre)
 
-        # Charge et affiche l'image
-        myPixmap = PyQt4.QtGui.QPixmap(chemin)
-        image = myPixmap.scaled(self.label_5.size(), PyQt4.QtCore.Qt.IgnoreAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
-        self.label_5.setPixmap(image)
+			# Charge les informations récupérées dans la base sql
+			ligne = curseur.fetchone() # Permet dene choise que le premier résultat en sql (pour un seul identifiant, on ne peut avoir qu'un seul animé
+
+			# Listes d'entrées 
+			self.idEntry.setText(str(ligne["animeId"]).replace("None", "")) # .replace("None", "")) Permet de ne pas afficher lorsq'une valeur est NULL
+			self.ajoutEntry.setText(str(ligne["animeDateAjout"]).replace("None", ""))
+			self.titreEntry.setText(str(ligne["animeTitre"]).replace("None", ""))
+			self.anneeEntry.setText(str(ligne["animeAnnee"]).replace("None", ""))
+			self.studioEntry.setText(str(ligne["animeStudio"]).replace("None", ""))
+			self.fansubEntry.setText(str(ligne["animeFansub"]).replace("None", ""))
+			self.notesEntry.setText(str(ligne["animeNotes"]).replace("None", ""))
+
+			# Spinbox
+			if ligne["animeNbVisionnage"] == None:
+				self.spinBox.setValue(0)
+			else:
+				self.spinBox.setValue(ligne["animeNbVisionnage"])
+
+			# Boutons radios visionnage
+			# Animé Terminé
+			if ligne["animeEtatVisionnage"] == "0":
+				self.radiobutton0.setChecked(True)
+
+			# Animé en cours
+			elif ligne["animeEtatVisionnage"] == "1":
+			   self.radiobutton1.setChecked(True)
+
+			# Animé a voir
+			elif ligne["animeEtatVisionnage"] == "2":
+				self.radiobutton2_2.setChecked(True)
+
+			# Animé indéfini
+			elif ligne["animeEtatVisionnage"] == "3" or ligne["animeEtatVisionnage"] == None:
+				self.radiobutton2.setChecked(True)
+					
+					
+			# Boutons radios favori
+			if ligne["animeFavori"] == "1":
+				self.favorisOuiRadio.setChecked(True)
+			else:
+				self.favorisNonRadio.setChecked(True)
+					
+
+			# Charge et affiche l'image de l'anime
+			image = str(ligne["animeId"])
+			chemin = os.path.join(dossier, image)
+			global listeAfficherImageChemin
+			listeAfficherImageChemin = chemin
+			
+			log.info("Image de couverture: %s" %chemin)
+
+			# Charge et affiche l'image
+			myPixmap = PyQt4.QtGui.QPixmap(chemin)
+			image = myPixmap.scaled(self.label_5.size(), PyQt4.QtCore.Qt.IgnoreAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
+			self.label_5.setPixmap(image)
 
 
     # Fonction qui recherche un identifiant ou un titre d'animé sur MAL
