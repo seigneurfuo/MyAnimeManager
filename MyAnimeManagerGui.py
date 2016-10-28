@@ -3,11 +3,11 @@
 
 # Informations sur l'application
 __titre__                = "MyAnimeManager"
-__version__              = "0.20.5"
+__version__              = "0.20.15"
 __auteur__               = "seigneurfuo"
 __db_version__           = 5
 __dateDeCreation__       = "12/06/2016"
-__derniereModification__ = "27/10/2016"
+__derniereModification__ = "28/10/2016"
 
 # Logging
 import logging
@@ -49,43 +49,45 @@ console_handler.setFormatter(formatter)
 log.addHandler(console_handler)
 
 
-# Fonctions générale a l'application
 def creation_de_la_bdd():
+    """Fonctions générale a l'application"""
+	
     log.info("Création de la base de donnees")
 
 
 # Code SQL pour créer la table anime
     curseur.execute(
-    """CREATE TABLE anime(
-     animeId TEXT PRIMARY KEY NOT NULL,
-     animeAjout TEXT,
-     animeTitre VARCHAR(100) NOT NULL,
-     animeAnnee INT,
-     animeStudio VARCHAR(30),
-     animeFansub VARCHAR(30),
-     animeEtatVisionnage INT,
-     animeFavori TEXT,
-     animeDateAjout TEXT,
-     animeNbVisionnage INT,
-     animeNotes TEXT)
-     """)
-
+    """
+    CREATE TABLE anime(
+    animeId TEXT PRIMARY KEY NOT NULL,
+    animeAjout TEXT,
+    animeTitre VARCHAR(100) NOT NULL,
+    animeAnnee INT,
+    animeStudio VARCHAR(30),
+    animeFansub VARCHAR(30),
+    animeEtatVisionnage INT,
+    animeFavori TEXT,
+    animeDateAjout TEXT,
+    animeNbVisionnage INT,
+    animeNotes TEXT)
+    """)
 
 
 # Code SQL pour créer la table planning
     curseur.execute(
     """
-    CREATE TABLE planning (
+    CREATE TABLE planning(
     planningDate TEXT NOT NULL,
     planningIdentifiantJournalier TEXT,
     planningAnime TEXT,
     planningEpisode TEXT)
     """)
 
+
 # Code SQL pour créer la table informations
     curseur.execute(
     """
-    CREATE TABLE information (
+    CREATE TABLE information(
     informationVersion)
     """)
 
@@ -109,8 +111,9 @@ def verification_des_dossiers():
         log.info("Creation de ./data/covers")
 
 
-# Classe de la fenetre principale
 class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): # Chargement des interfaces depuis les fichiers
+    """Classe de la fenetre principale"""
+
     def __init__(self, parent=None):
         PyQt4.QtGui.QMainWindow.__init__(self, parent)
         self.setupUi(self)
@@ -154,15 +157,16 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
     # Evenement de fermeture de l'application
         self.closeEvent = self.fermer
 
-        # Fonction a lancer en premier
+        # Fonctions a lancer en premier
         self.liste_rafraichir()
         self.planning_afficher()
         self.animes_vus_afficher()
         self.outils_liste_personnages_favoris()
+        
 
-
-    # La fonction qui efface les entrés (les instructions auraient pus etres contenues dans liste_affiche mais je souhaitais séparer les deux blocs)
     def liste_rafraichir(self, titreRecherche=False, favorisRecherche=False):
+        """La fonction qui efface les entrés (les instructions auraient pus etres contenues dans liste_affiche mais je souhaitais séparer les deux blocs)"""
+        
         # Image de l'animé vide
         myPixmap = PyQt4.QtGui.QPixmap("./data/ekHFstR.png")
         image = myPixmap.scaled(self.label_5.size(), )
@@ -238,28 +242,32 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             self.table.setItem(indice, 1, colonne2)
 
 
-    # Fonction qui permet de rechercher un animé dans la liste grace a son nom
     def liste_recherche(self):
+        """Fonction qui permet de rechercher un animé dans la liste grace a son nom"""
+        
         recherche = self.rechercheEntry.text()
 
         # Si le recherche est vide on ne l'active pas
         self.liste_rafraichir(titreRecherche = recherche)
 
-
-    # Fonction qui permet de vider la liste de recherche
+ 
     def liste_recherche_vider(self):
+        """Fonction qui permet de vider la liste de recherche"""
+        
         self.rechercheEntry.setText(str())
         self.liste_rafraichir()
 
 
-    # Fonction qui affiche les animés favoris
     def liste_recherche_favoris(self):
+        """Fonction qui affiche les animés favoris"""
+        
         self.liste_rafraichir(favorisRecherche=True)
 
 
-    # Fonction qui affiche les information pour l'animé sélectionné
     def liste_afficher(self):
-                # Récupère le numéro de ligne actuellement sélectionné dans la liste
+        """Fonction qui affiche les information pour l'animé sélectionné"""
+        
+        # Récupère le numéro de ligne actuellement sélectionné dans la liste
         ligneActuelle = int(self.table.currentRow())
 
         # Si on a bien sélectionné un anime (empèche l'erreur quand la liste est rechargée et que rien n'est sélectionné)
@@ -328,8 +336,9 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             self.label_5.setPixmap(image)
 
 
-    # Fonction qui recherche un identifiant ou un titre d'animé sur MAL
     def liste_remplir_myanimelist(self):
+        """Fonction qui recherche un identifiant ou un titre d'animé sur MAL"""
+        
         # Récupère l'identifiant ou le titre entré dans l'entrée MAL
         texte = self.malEntry.text()
 
@@ -362,8 +371,9 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.label_5.setPixmap(image)
 
 
-    # Fonction qui enregistre les données des animés dans la bdd
     def liste_enregistrer(self):
+        """Fonction qui enregistre les données des animés dans la bdd"""
+        
         # Entrées (entry)
         animeId = self.idEntry.text()
 
@@ -402,9 +412,12 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # Si l'identifiant n'a pas été rempli
         else:
             # Remplacer la fenetre par une version 1 bouton.
-            avertissement = PyQt4.QtGui.QMessageBox.information(self, "Message", "Veuillez entrer un identifiant valide !", "Continuer")
+            information = PyQt4.QtGui.QMessageBox.information(self, "Identifiant invalide", "Veuillez entrer un identifiant composé uniquement de chiffres !", "Continuer")
+
 
     def liste_supprimer(self):
+        """Fonction qui supprime un anime dans la liste"""
+        
         animeTitre = [str(x.text()) for x in self.listWidget.selectedItems()]
 
         # Si un élémément a bien été séléctionné dans la liste
@@ -420,8 +433,9 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
 
 # Fonctions de l'onglet planning
-
     def animes_vus_afficher(self):
+        """Fonction qui ajoute les animés vus dans la liste des animés vus"""
+        
         # On vide la liste des animés
         self.listWidget_3.clear()
 
@@ -435,8 +449,9 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             self.listWidget_3.addItem(ligne)
 
 
-    # Fonction qui ajoute le titre d'un animé en cours de visionnage dans la boite d'entrée du journal
     def planning_animes_vus_inserer(self):
+        """Fonction qui ajoute le titre d'un animé en cours de visionnage dans la boite d'entrée du journal"""
+        
         # Sauvegarde du texte actuel
         ancienTexte = self.planningEntry.toPlainText()
         animeTitre = [str(x.text()) for x in self.listWidget_3.selectedItems()]
@@ -454,8 +469,9 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.planningEntry.setText(nouveauTexte)
 
 
-    # Fonction qui affiche les animés vus en fonction de la date sélectionnée sur le calendrier
     def planning_afficher(self):
+        """Fonction qui affiche les animés vus en fonction de la date sélectionnée sur le calendrier"""        
+
         # Vide la boite d'entrée
         self.planningEntry.setText(str())
 
@@ -477,8 +493,9 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.planningEntry.setText(str(animes))
 
 
-    # Fonction qui séléctionne la date actuelle sur le calendrier
     def planning_aujourdhui(self):
+        """Fonction qui séléctionne la date actuelle sur le calendrier"""
+        
         # Demande a Qt la date du jour
         aujourdhui = PyQt4.QtCore.QDate.currentDate ()
 
@@ -486,8 +503,9 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.planningCalendrier.setSelectedDate(aujourdhui)
 
 
-    # Fonction qui enregistre le planning dans la bdd
     def planning_enregistrer(self):
+        """Fonction qui enregistre le planning dans la bdd"""
+
         planningDate = str(self.planningCalendrier.selectedDate().toPyDate())
         planningAnime = str(self.planningEntry.toPlainText())
 
@@ -528,8 +546,9 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
 
 # Fonctions de l'onglet outils
-    # Fonction qui permet de calculer l'heure de fin d'un visionnage a partir du nombre d'épisodes a voir
     def outils_calcul_temps_calcul(self):
+        """Fonction qui permet de calculer l'heure de fin d'un visionnage a partir du nombre d'épisodes a voir"""
+
         # Effacement de la liste
         self.listWidget_2.clear()
 
@@ -547,16 +566,18 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             plageA = plageB # Décale la plage
 
 
-    # Fonction qui permet de télécharger des images et de changer le nom du fichier enregistré
     def telechargement_image(self, url, filename):
+        """Fonction qui permet de télécharger des images et de changer le nom du fichier enregistré"""
+        
         # Identifiant du numéro de page
         pageId = self.spinboxPageId.value()
         filename = "./data/characters/%s_%s" %(pageId, filename)
         urllib.urlretrieve(url, filename)
 
 
-    # Fonction qui affiche les personnages préférés
     def outils_liste_personnages_favoris(self):
+        """Fonction qui affiche les personnages préférés"""
+
         waifuEntry = {1:self.waifu001Entry,
                       2:self.waifu002Entry,
                       3:self.waifu003Entry,
@@ -626,53 +647,66 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.waifuWallpaper.setPixmap(image)
 
 
-    # Fonction qui permet de modifier le comportement de l'application en fonction de paramétrages
     def preferences(self):
+        """Fonction qui permet de modifier le comportement de l'application en fonction de paramétrages"""
+
         fname = PyQt4.QtGui.QFileDialog.getOpenFileName(self, 'Open file', 'C:\\')
 
 
-    # Fonction qui supprime toutes les données utilisateurs
     def reset(self):
+        """Fonction qui supprime toutes les données utilisateurs"""
+    
         # Supression des fichiers individuels
-        log.warning("Suppression des donnes utilisateur. Action irrecuperable!")
-        log.info("Suppression du fichier: MyAnimeManagerGui.py.stats.txt")
+        log.warning("Suppression des donnees utilisateur. Action definitive!")
+ 
+        # Avant la supression, une fenetre de confirmation apparait       
+        avertissement = PyQt4.QtGui.QMessageBox.question(self, "Suppression des donnees utilisateur", "Etes vous certain de vouloir supprimer vos donnees ?\nCette action est definitive !", "Oui, effacer mes donnees", "Non, ne pas effacer mes donnees")
 
-        if os.path.exists("MyAnimeManagerGui.py.stats.txt"):
-            os.remove("MyAnimeManagerGui.py.stats.txt")
+        # Si on clique sur Oui
+        if avertissement == 0:
+            log.info("Supression acceptée")
 
-        # Fermeture de la bdd pour pourvoir la supprimer
-        curseur.close()
-        bdd.close()
-        log.info("Fermeture de la base de donnees...")
+            # Fermeture de la bdd pour pourvoir la supprimer
+            log.info("Fermeture de la base de donnees...")
+            curseur.close()
+            bdd.close()
 
-        log.info("Suppression du fichier: ./data/MyAnimeManager.sqlite3")
-        os.remove("./data/MyAnimeManager.sqlite3")
+            log.info("Suppression du fichier: ./data/MyAnimeManager.sqlite3")
+            os.remove("./data/MyAnimeManager.sqlite3")
 
-        if os.path.exists("./data/MyAnimeManager.sqlite3-journal"):
-            log.info("Suppression du fichier: ./data/MyAnimeManager.sqlite3-journal")
-            os.remove("./data/MyAnimeManager.sqlite3-journal")
+            if os.path.exists("./data/MyAnimeManager.sqlite3-journal"):
+                log.info("Suppression du fichier: ./data/MyAnimeManager.sqlite3-journal")
+                os.remove("./data/MyAnimeManager.sqlite3-journal")
 
-        # Nettoyage des dossier Characters et Covers
-        filelist = [f for f in os.listdir("./data/characters")]
-        for f in filelist:
-            os.remove("./data/characters/%s" %f)
-        log.info("Nettoyage du dossier: ./data/characters \t %s elements" %len(filelist))
+            # Nettoyage des dossier Characters et Covers
+            filelist = [f for f in os.listdir("./data/characters")]
+            log.info("Nettoyage du dossier: ./data/characters \t %s elements" %len(filelist))
+            for f in filelist:
+                log.info("Supression de %s" %f)
+                os.remove("./data/characters/%s" %f)
 
-        filelist = [f for f in os.listdir("./data/covers")]
-        for f in filelist:
-            os.remove("./data/covers/%s" %f)
-        log.info("Nettoyage du dossier: ./data/covers - %s elements" %len(filelist))
-        log.info("Nettoyage termine !")
+            filelist = [f for f in os.listdir("./data/covers")]
+            log.info("Nettoyage du dossier: ./data/covers - %s elements" %len(filelist))
+            for f in filelist:
+                log.info("Supression de %s" %f)
+                os.remove("./data/covers/%s" %f)
+            
+            # Fin de la suppression des données
+            log.info("Nettoyage termine !")
+            
+            # Fenetre d'information qui demande a relancer l'application
+            information = PyQt4.QtGui.QMessageBox.information(self, "Relancer l'application", "L'application va se fermer pour prendre en compte les modifications.\n Vous pouvez la relancer juste apres.", "Fermer")
+            
 
-
-    # Ferme le programme et enregistre les modifications apportées à la base de données
     def fermer(self, event):
+        """Ferme le programme et enregistre les modifications apportées à la base de données"""
+
         # Si des modifications on été apportées, on affiche la fenetre d'enregistrement
         if self.modifications == True:
             # Affiche la fenetre de dialogue
             avertissement = PyQt4.QtGui.QMessageBox.question(self, "Fermeture de l'application", "Voulez-vous sauvegarder les modifications ?", "Oui", "Non")
 
-            if avertissement  == 0: # Si on clique sur Oui (Sauvegarder)
+            if avertissement == 0: # Si on clique sur Oui (Sauvegarder)
                 bdd.commit() # Enregistre les modifications dans la bdd (il est ansi possible de fermer le programme pour ne pas enregistrer les nouvelles données
                 log.info("Modifications sauvegardées")
 
