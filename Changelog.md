@@ -1,5 +1,10 @@
 # Changements
 
+28/10/2016 - version 0.20.15
+- Documentation des fonctions
+- Ajout d'une confirmation lors de la suppression des données
+- Ajout de plus de log pour la fonction reset
+
 27/10/2016 - version 0.20.5
 - Ajout d'un système de vérification des dossiers; Crée les dossiers ./data/covers et ./data/characters si il n'existent pas
 
