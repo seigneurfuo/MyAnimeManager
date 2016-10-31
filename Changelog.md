@@ -1,5 +1,9 @@
 # Changements
 
+31/10/2016 - version 0.20.25
+- Modification de la fonction qui supprime les animés de la base: Supprime désormais les images de images
+- Correction de bug: impossible de supprimer l'animé dans la liste
+
 28/10/2016 - version 0.20.15
 - Documentation des fonctions
 - Ajout d'une confirmation lors de la suppression des données
