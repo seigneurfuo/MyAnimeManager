@@ -3,11 +3,11 @@
 
 # Informations sur l'application
 __titre__                = "MyAnimeManager"
-__version__              = "0.20.15"
+__version__              = "0.20.25"
 __auteur__               = "seigneurfuo"
 __db_version__           = 5
 __dateDeCreation__       = "12/06/2016"
-__derniereModification__ = "28/10/2016"
+__derniereModification__ = "30/10/2016"
 
 # Logging
 import logging
@@ -145,7 +145,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.boutonPlanningSauvegarder.clicked.connect(self.planning_enregistrer)
 
         # Onglet outils
-        self.testButton.clicked.connect(self.outils_liste_personnages_favoris)
+        self.testButton.clicked.connect(self.personnages_favoris)
         self.pushButton.clicked.connect(self.outils_calcul_temps_calcul)
 
         # Onglet préférences
@@ -161,7 +161,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.liste_rafraichir()
         self.planning_afficher()
         self.animes_vus_afficher()
-        self.outils_liste_personnages_favoris()
+        self.personnages_favoris()
         
 
     def liste_rafraichir(self, titreRecherche=False, favorisRecherche=False):
@@ -418,11 +418,21 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
     def liste_supprimer(self):
         """Fonction qui supprime un anime dans la liste"""
         
-        animeTitre = [str(x.text()) for x in self.listWidget.selectedItems()]
+        # Récupère le numéro de ligne actuellement sélectionné dans la liste
+        ligneActuelle = int(self.table.currentRow())
 
-        # Si un élémément a bien été séléctionné dans la liste
-        if animeTitre:
-            curseur.execute("DELETE FROM anime WHERE animeTitre = '%s'" %animeTitre[0])
+        # Si on a bien sélectionné un anime (empèche l'erreur quand la liste est rechargée et que rien n'est sélectionné)
+        if ligneActuelle != -1:
+
+            # Le titre de l'animé est contenu dans le deuxième cellule de la colonne (les indices commencent à 0)
+            animeId= self.table.item(ligneActuelle, 0).text()  
+            animeTitre = self.table.item(ligneActuelle, 1).text()          
+
+            # Supression de l'image
+            os.remove("./data/covers/%s" %animeId)
+
+            # Supression du champ dans la base SQL
+            curseur.execute("DELETE FROM anime WHERE animeTitre = '%s'" %animeTitre)
 
             # On indique a l'application que quelque chose a été modifié
             self.modifications = True
@@ -556,6 +566,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         nombreEpisodes = self.spinBox_2.value()
         dureeEpisode = self.spinBox_3.value()
 
+        # Défini la première plage a partir de maintenant
         plageA = datetime.now()
 
         for x in range(0, nombreEpisodes):
@@ -575,7 +586,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         urllib.urlretrieve(url, filename)
 
 
-    def outils_liste_personnages_favoris(self):
+    def personnages_favoris(self):
         """Fonction qui affiche les personnages préférés"""
 
         waifuEntry = {1:self.waifu001Entry,
