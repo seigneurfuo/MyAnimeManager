@@ -7,7 +7,7 @@ __version__              = "0.20.43"
 __auteur__               = "seigneurfuo"
 __db_version__           = 5
 __dateDeCreation__       = "12/06/2016"
-__derniereModification__ = "30/10/2016"
+__derniereModification__ = "02/11/2016"
 
 # Logging
 import logging
