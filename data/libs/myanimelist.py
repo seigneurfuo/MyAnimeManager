@@ -9,7 +9,6 @@
 import urllib
 import urllib2
 import os
-import lassie
 import re
 from bs4 import BeautifulSoup
 
