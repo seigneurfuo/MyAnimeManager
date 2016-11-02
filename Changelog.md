@@ -1,5 +1,12 @@
 # Changements
 
+02/11/2016 - version 0.20.43
+- BUGFIX: Suppression des images des animés uniquement ci celle-ci existe
+- Portage du module myanimelist lassie vers Beautifulsoup
+- Renommage de la fonction "reset" en "suppression_du_profil"
+- Suppression des doubles saut de ligne automatique dans le planning des animés
+- La fonction de recherche d’animé par titre est en réécriture - elle est gelée pour le moment
+
 31/10/2016 - version 0.20.25
 - Modification de la fonction qui supprime les animés de la base: Supprime désormais les images de images
 - Correction de bug: impossible de supprimer l'animé dans la liste
@@ -19,11 +26,11 @@
 - Correction de bug: Ajout du code SQL pour la création de la table information
 
 26/10/2016 - version 0.19.134
-- Remplacement de la liste par un tableau pour affciher les identifiants et les titres d'animés
+- Remplacement de la liste par un tableau pour afficher les identifiants et les titres d'animés
 - Possibilité de déplacement avec les flèches dans la liste des animés
-- Correction de bug: les animés sont désormais triés grâce aux identifants de manière "humaine"
+- Correction de bug: les animés sont désormais triés grâce aux identifiants de manière "humaine"
 - Possibilité de déplacement avec la touche tab entre les différents éléments
-- Adapation du code: Supresion de librairies non-utilisées: pprint
+- Adapation du code: Suppression de librairies non-utilisées: pprint
 
 25/09/2016
 - Les images de cover sont maintenant lissées.
@@ -32,13 +39,13 @@
 - Ajout de 10 pages pour le WaifuBoard
 
 03/08/2016
-- Ajout de fonctionalités: Possibilité d'ajouter / supprimer des animés depuis la liste
+- Ajout de fonctionnalités: Possibilité d'ajouter / supprimer des animés depuis la liste
     
 02/08/2016
-- Ajout d'une fonction WaifuBoard. Permet d'afficher la liste des ces personages préférés -- Ne se syncronise pas encore avec la base de données
+- Ajout d'une fonction WaifuBoard. Permet d'afficher la liste des ses personnages préférés -- Ne se synchronise pas encore avec la base de données
     
 27/07/2016
-- Mise en place d'un dépot git pour aider a gérer les versions multibranches (ex: tests de fonctionalités)
+- Mise en place d'un dépot git pour aider a gérer les versions multi branches (ex: tests de fonctionnalités)
 
 25/07/2016
 - Modification du module MAL: Il télécharge désormais les affiches des animés automatiquement
@@ -56,8 +63,8 @@
 						   
 09/07/2016
 - Ajout d'une barre de recherche pour parcourir les animés
-- Il est maintenant possible de revenir sur le jour en cours sur le planning grace a un bouton
-- La barre de recherche peut etre vidée grace un bouton
+- Il est maintenant possible de revenir sur le jour en cours sur le planning grâce a un bouton
+- La barre de recherche peut être vidée grâce un bouton
 
 07/07/2016
 - Désormais l'application demandera à sauvegarder les données uniquement si quelque chose a été modifié depuis l'ouverture
@@ -65,11 +72,11 @@
 05/07/2016
 - Correction de bug: Les tranches d'heures sont numérotées a partir de 1 désormais,
 - Pour rajouter un animé dans l'onglet le journal, il suffit de double cliquer sur celui ci ou de cliquer sur insérer
-- Nouvelle fonction: Il est désormais possible de remplire les informations grace a MyAnimelist
+- Nouvelle fonction: Il est désormais possible de remplir les informations grâce a MyAnimelist
 				   
 04/07/2016
-- Depuis l'ongelt planning, il suffit de cliquer dans la liste des animés a voir pour l'ajouter dans le journal
-- Correction de bug: Si rien n'a été entré dans la journal, l'ajout d'un animé faisait apparaitre un saut de ligne en première position
+- Depuis l’onglet planning, il suffit de cliquer dans la liste des animés a voir pour l'ajouter dans le journal
+- Correction de bug: Si rien n'a été entré dans la journal, l'ajout d'un animé faisait apparaître un saut de ligne en première position
 - Il est maintenant impossible d'entrer du texte dans la champ ID
 				   
 03/07/2016
@@ -80,14 +87,14 @@
 - Ajout d'une fonction de calcul des animés
 				   
 26/06/2016
-- Correction du bug qui empéchait l'enregistrement final (commit de la bdd)
-- Ajout d'une fonction planning qui permet d'afficher et de rajouter des animés vus grace a un calendrier
-- Ajout d'une table dans la bdd pour la fonction précédente
+- Correction du bug qui empêchait l'enregistrement final (commit de la bdd)
+- Ajout d'une fonction planning qui permet d'afficher et de rajouter des animés vus grâce a un calendrier
+- Ajout d'une table dans la base de données pour la fonction précédente
 - Réorganisation légère de l'interface
-- Ajout d'informations chargées a partir du code dans l'ongelt \A propos\
+- Ajout d'informations chargées a partir du code dans l’onglet « A propos »
 				   
 19/06/2016
-- Changement de l'interface: Passage a une interface a onglet pour acceuillir les futures fonctions
+- Changement de l'interface: Passage a une interface a onglet pour accueillir les futures fonctions
 	 
 12/06/2016
 - Lancement du projet: Utilisation de PyQt car je ne voulais pas utiliser Tkinter
