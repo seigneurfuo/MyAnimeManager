@@ -3,7 +3,7 @@
 
 # Informations sur l'application
 __titre__                = "MyAnimeManager"
-__version__              = "0.20.25"
+__version__              = "0.20.43"
 __auteur__               = "seigneurfuo"
 __db_version__           = 5
 __dateDeCreation__       = "12/06/2016"
@@ -149,7 +149,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.pushButton.clicked.connect(self.outils_calcul_temps_calcul)
 
         # Onglet préférences
-        self.pushButton_3.clicked.connect(self.reset)
+        self.pushButton_3.clicked.connect(self.suppression_du_profil)
 
         # Remplace le numéro de version A propos
         self.label_7.setText("version " + str(__version__))
@@ -347,10 +347,10 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             idMyAnimeList = self.malEntry.text()
             myanimelist.anime(str(idMyAnimeList))
 
-        else:
+        #else:
             # Sinon, il s'agit d'un titre a rechercher
-            titreMyAnimeList = self.malEntry.text()
-            myanimelist.recherche_titre(str(titreMyAnimeList))
+            #titreMyAnimeList = self.malEntry.text()
+            #myanimelist.recherche_titre(str(titreMyAnimeList))
 
         # Remplissage des informations
         self.titreEntry.setText(myanimelist.titre())
@@ -429,7 +429,8 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             animeTitre = self.table.item(ligneActuelle, 1).text()          
 
             # Supression de l'image
-            os.remove("./data/covers/%s" %animeId)
+            if os.path.exists("./data/covers/%s" %animeId):
+                os.remove("./data/covers/%s" %animeId)
 
             # Supression du champ dans la base SQL
             curseur.execute("DELETE FROM anime WHERE animeTitre = '%s'" %animeTitre)
@@ -474,9 +475,11 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # Sinon, on affiche en gardant l'ancien texte
         else:
             nouveauTexte = ancienTexte + "\n" + str(animeTitre + "-Ep ")
+            
+        nouveauTexteNettoye = nouveauTexte.replace("/n/n", "/n")
 
         #Affichage du nouveau titre
-        self.planningEntry.setText(nouveauTexte)
+        self.planningEntry.setText(nouveauTexteNettoye)
 
 
     def planning_afficher(self):
@@ -664,7 +667,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         fname = PyQt4.QtGui.QFileDialog.getOpenFileName(self, 'Open file', 'C:\\')
 
 
-    def reset(self):
+    def suppression_du_profil(self):
         """Fonction qui supprime toutes les données utilisateurs"""
     
         # Supression des fichiers individuels
