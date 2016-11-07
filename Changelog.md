@@ -1,5 +1,9 @@
 # Changements
 
+07/11/2016 - version 0.20.55
+- BUGFIX: Il est désormais possible d'écrire des textes en UFT8 !
+- BUGFIX: La bdd ne parse plus NONE, quand la chaine ne contiends rien
+
 02/11/2016 - version 0.20.43
 - BUGFIX: Suppression des images des animés uniquement ci celle-ci existe
 - Portage du module myanimelist lassie vers Beautifulsoup

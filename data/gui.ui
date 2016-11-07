@@ -49,7 +49,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="planning">
      <attribute name="icon">
@@ -142,7 +142,7 @@
        <property name="geometry">
         <rect>
          <x>100</x>
-         <y>170</y>
+         <y>180</y>
          <width>71</width>
          <height>21</height>
         </rect>
@@ -197,7 +197,7 @@
        <property name="geometry">
         <rect>
          <x>130</x>
-         <y>170</y>
+         <y>180</y>
          <width>91</width>
          <height>21</height>
         </rect>
@@ -466,6 +466,9 @@
          <height>21</height>
         </rect>
        </property>
+       <property name="toolTip">
+        <string>Indiquer le nombre de fois que vous avez regardé cet animé</string>
+       </property>
       </widget>
       <widget class="QLabel" name="label_9">
        <property name="geometry">
@@ -489,6 +492,9 @@
         <width>121</width>
         <height>21</height>
        </rect>
+      </property>
+      <property name="toolTip">
+       <string>Taper un titre pour le rechercher dans votre collection</string>
       </property>
       <property name="inputMethodHints">
        <set>Qt::ImhDigitsOnly</set>
@@ -662,6 +668,9 @@
         <height>171</height>
        </rect>
       </property>
+      <property name="toolTip">
+       <string>Entrez ici vos impressions ou ce que vous voulez !</string>
+      </property>
      </widget>
      <widget class="QPushButton" name="boutonAjouterAnime">
       <property name="geometry">
@@ -671,6 +680,9 @@
         <width>81</width>
         <height>21</height>
        </rect>
+      </property>
+      <property name="toolTip">
+       <string>Permet d'ajouter un nouvel animé</string>
       </property>
       <property name="text">
        <string>Ajouter</string>
@@ -688,6 +700,9 @@
         <width>81</width>
         <height>21</height>
        </rect>
+      </property>
+      <property name="toolTip">
+       <string>Permet de suppimer un animé</string>
       </property>
       <property name="text">
        <string>Supprimer</string>

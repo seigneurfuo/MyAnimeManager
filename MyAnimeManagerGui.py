@@ -3,11 +3,11 @@
 
 # Informations sur l'application
 __titre__                = "MyAnimeManager"
-__version__              = "0.20.43"
+__version__              = "0.20.55"
 __auteur__               = "seigneurfuo"
 __db_version__           = 5
 __dateDeCreation__       = "12/06/2016"
-__derniereModification__ = "02/11/2016"
+__derniereModification__ = "07/11/2016"
 
 # Logging
 import logging
@@ -111,7 +111,7 @@ def verification_des_dossiers():
         log.info("Creation de ./data/covers")
 
 
-class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): # Chargement des interfaces depuis les fichiers
+class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): # Chargement des interfaces depuis les fichiers
     """Classe de la fenetre principale"""
 
     def __init__(self, parent=None):
@@ -283,13 +283,26 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             ligne = curseur.fetchone() # Permet dene choise que le premier résultat en sql (pour un seul identifiant, on ne peut avoir qu'un seul animé
 
             # Listes d'entrées
-            self.idEntry.setText(str(ligne["animeId"]).replace("None", "")) # .replace("None", "")) Permet de ne pas afficher lorsq'une valeur est NULL
-            self.ajoutEntry.setText(str(ligne["animeDateAjout"]).replace("None", ""))
-            self.titreEntry.setText(str(ligne["animeTitre"]).replace("None", ""))
-            self.anneeEntry.setText(str(ligne["animeAnnee"]).replace("None", ""))
-            self.studioEntry.setText(str(ligne["animeStudio"]).replace("None", ""))
-            self.fansubEntry.setText(str(ligne["animeFansub"]).replace("None", ""))
-            self.notesEntry.setText(str(ligne["animeNotes"]).replace("None", ""))
+            self.idEntry.setText(str(ligne["animeId"]))
+            
+            # Affiche le texte si la base ne retourne pas None: Permet d'autrepasser le bug d'encodage UFT8
+            if ligne["animeDateAjout"] != None:
+                self.ajoutEntry.setText(ligne["animeDateAjout"])
+            
+            if ligne["animeTitre"] != None:            
+                self.titreEntry.setText(ligne["animeTitre"])
+            
+            if ligne["animeAnnee"] != None: 
+                self.anneeEntry.setText(str(ligne["animeAnnee"]))
+            
+            if ligne["animeStudio"] != None: 
+                self.studioEntry.setText(ligne["animeStudio"])
+                
+            if ligne["animeFansub"] != None: 
+                self.fansubEntry.setText(ligne["animeFansub"])
+                
+            if ligne["animeNotes"] != None: 
+                self.notesEntry.setText(ligne["animeNotes"])
 
             # Spinbox
             if ligne["animeNbVisionnage"] == None:
@@ -385,7 +398,7 @@ class Menu(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             animeStudio = self.studioEntry.text()
             animeFansub = self.fansubEntry.text()
             animeNbVisionnage = self.spinBox.value()
-            animeNotes = str(self.notesEntry.toPlainText()).decode("utf-8")
+            animeNotes = self.notesEntry.toPlainText()
 
             # Etat du visionnage (boutons radio)
             if self.radiobutton0.isChecked(): animeVisionnage = "0"
@@ -766,16 +779,15 @@ if __name__ == "__main__":
 
     # Si la base de donnée est vierge, on utilise la fonction creation_de_la_bdd()
     if bddVierge == True:
-        #PyQt4.QtGui.QMessageBox.information(Menu, "Information", "L'application va créer une base de donnée pour la première utilisation")
+        PyQt4.QtGui.QMessageBox.information(Main, "Information", "L'application va créer une base de donnée pour la première utilisation")
         log.info("La bdd n'existe pas ! Creation d'un nouveau profil")
         creation_de_la_bdd()
-
 
 
     # Boucle principale (menu)
 
     # Titre de la fenetre
     app = PyQt4.QtGui.QApplication(sys.argv)
-    fenetreMenu = Menu(None)
-    fenetreMenu.show()
+    fenetrePrincipale = Main(None)
+    fenetrePrincipale.show()
     app.exec_()
