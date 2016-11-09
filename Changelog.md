@@ -1,8 +1,11 @@
 # Changements
 
+09/11/2016 - version 0.20.56
+- BUGFIX: Dans le planning, une insertion ne supprimais pas les sauts de lignes en trop.
+
 07/11/2016 - version 0.20.55
 - BUGFIX: Il est désormais possible d'écrire des textes en UFT8 !
-- BUGFIX: La bdd ne parse plus NONE, quand la chaine ne contiends rien
+- BUGFIX: La bdd ne parse plus NONE, quand la chaîne ne contiens rien
 
 02/11/2016 - version 0.20.43
 - BUGFIX: Suppression des images des animés uniquement ci celle-ci existe
@@ -60,11 +63,11 @@
 23/07/2016
 - Ajout d'icones sur les boutons et les onglets
 - Ajout d'un bouton qui permet d'afficher ses animés préférés d'un seul clic
-						   
+
 20/07/2016
 - Correction du bug de texte dans l'entrée MAL
 - Ajout d'une entrée Ajouté le dans les informations des animés
-						   
+
 09/07/2016
 - Ajout d'une barre de recherche pour parcourir les animés
 - Il est maintenant possible de revenir sur le jour en cours sur le planning grâce a un bouton
@@ -72,33 +75,33 @@
 
 07/07/2016
 - Désormais l'application demandera à sauvegarder les données uniquement si quelque chose a été modifié depuis l'ouverture
-	 
+ 
 05/07/2016
 - Correction de bug: Les tranches d'heures sont numérotées a partir de 1 désormais,
 - Pour rajouter un animé dans l'onglet le journal, il suffit de double cliquer sur celui ci ou de cliquer sur insérer
 - Nouvelle fonction: Il est désormais possible de remplir les informations grâce a MyAnimelist
-				   
+
 04/07/2016
 - Depuis l’onglet planning, il suffit de cliquer dans la liste des animés a voir pour l'ajouter dans le journal
 - Correction de bug: Si rien n'a été entré dans la journal, l'ajout d'un animé faisait apparaître un saut de ligne en première position
 - Il est maintenant impossible d'entrer du texte dans la champ ID
-				   
+
 03/07/2016
 - Dans l'onglet planning, il est désormais possible de voir les animés en cours. Pratique pour savoir ou l'on en est
 	 
 28/06/2016
 - Mise a jour de l'interface
 - Ajout d'une fonction de calcul des animés
-				   
+
 26/06/2016
 - Correction du bug qui empêchait l'enregistrement final (commit de la bdd)
 - Ajout d'une fonction planning qui permet d'afficher et de rajouter des animés vus grâce a un calendrier
 - Ajout d'une table dans la base de données pour la fonction précédente
 - Réorganisation légère de l'interface
 - Ajout d'informations chargées a partir du code dans l’onglet « A propos »
-				   
+ 
 19/06/2016
 - Changement de l'interface: Passage a une interface a onglet pour accueillir les futures fonctions
-	 
+
 12/06/2016
 - Lancement du projet: Utilisation de PyQt car je ne voulais pas utiliser Tkinter
