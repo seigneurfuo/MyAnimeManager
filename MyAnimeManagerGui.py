@@ -3,11 +3,11 @@
 
 # Informations sur l'application
 __titre__                = "MyAnimeManager"
-__version__              = "0.20.55"
+__version__              = "0.20.56"
 __auteur__               = "seigneurfuo"
 __db_version__           = 5
 __dateDeCreation__       = "12/06/2016"
-__derniereModification__ = "07/11/2016"
+__derniereModification__ = "09/11/2016"
 
 # Logging
 import logging
@@ -144,8 +144,10 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.boutonPlanningReset.clicked.connect(self.planning_aujourdhui)
         self.boutonPlanningSauvegarder.clicked.connect(self.planning_enregistrer)
 
-        # Onglet outils
+        # Onglet album
         self.testButton.clicked.connect(self.personnages_favoris)
+        
+        # Onglet outils
         self.pushButton.clicked.connect(self.outils_calcul_temps_calcul)
 
         # Onglet préférences
@@ -489,7 +491,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         else:
             nouveauTexte = ancienTexte + "\n" + str(animeTitre + "-Ep ")
             
-        nouveauTexteNettoye = nouveauTexte.replace("/n/n", "/n")
+        nouveauTexteNettoye = nouveauTexte.replace("\n\n", "\n")
 
         #Affichage du nouveau titre
         self.planningEntry.setText(nouveauTexteNettoye)
@@ -600,7 +602,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         pageId = self.spinboxPageId.value()
         filename = "./data/characters/%s_%s" %(pageId, filename)
         urllib.urlretrieve(url, filename)
-
+        
 
     def personnages_favoris(self):
         """Fonction qui affiche les personnages préférés"""
