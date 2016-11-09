@@ -3,7 +3,7 @@
 
 # Informations sur l'application
 __titre__                = "MyAnimeManager"
-__version__              = "0.20.56"
+__version__              = "0.20.62"
 __auteur__               = "seigneurfuo"
 __db_version__           = 5
 __dateDeCreation__       = "12/06/2016"
@@ -121,6 +121,8 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # Variables qui enregistre les modifications (Permet de ne pas afficher la fenetre d'enregistrement si rien n'a été modifié)
         self.modifications = False
 
+        self.tabWidget.currentChanged.connect(self.chargement_onglet)
+
         # Gestion des evenements (onglet liste)
         self.table.cellClicked.connect(self.liste_afficher)
         self.table.currentCellChanged.connect(self.liste_afficher)
@@ -160,11 +162,28 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.closeEvent = self.fermer
 
         # Fonctions a lancer en premier
-        self.liste_rafraichir()
-        self.planning_afficher()
-        self.animes_vus_afficher()
-        self.personnages_favoris()
         
+        # Charge uniquement les onglets nécésaires
+        self.chargement_onglet(self)
+        
+
+    def chargement_onglet(self, dump):
+        """Fonction déclanché a chaque fois qu'un onglet est chargé"""
+        
+        ongletId = self.tabWidget.currentIndex()
+        log.info("Id onglet actif: %s" %ongletId)
+        
+        # Onglet planning
+        if ongletId == 0:
+            self.planning_afficher()
+            self.animes_vus_afficher()
+        
+        # Onglet liste d'animé
+        elif ongletId == 1: self.liste_rafraichir()
+        
+        # Onglet album
+        elif ongletId == 2: self.personnages_favoris()
+
 
     def liste_rafraichir(self, titreRecherche=False, favorisRecherche=False):
         """La fonction qui efface les entrés (les instructions auraient pus etres contenues dans liste_affiche mais je souhaitais séparer les deux blocs)"""
