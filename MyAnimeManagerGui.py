@@ -3,7 +3,7 @@
 
 # Informations sur l'application
 __titre__                = "MyAnimeManager"
-__version__              = "0.20.62"
+__version__              = "0.20.65"
 __auteur__               = "seigneurfuo"
 __db_version__           = 5
 __dateDeCreation__       = "12/06/2016"
@@ -663,9 +663,12 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
                 pageId = self.spinboxPageId.value()
                 # Charge l'image téléchargée
                 pixmap = PyQt4.QtGui.QPixmap("./data/characters/%s_%s" %(pageId, imageId))
+                
+                log.info("Image chargee: ./data/characters/%s_%s" %(pageId, imageId))
 
                 # Si la case de déformation n'est pas cochée
                 if self.deformerCheckBox.isChecked() == False:
+                   
                    # Redimentionne l'image a la taille du rectangle - lissage des images et garde l'aspect ratio
                     image = pixmap.scaled(waifu[imageId].size(), PyQt4.QtCore.Qt.KeepAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
 
