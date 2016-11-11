@@ -1429,8 +1429,8 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>10</y>
-        <width>221</width>
+        <y>60</y>
+        <width>191</width>
         <height>21</height>
        </rect>
       </property>
@@ -1440,6 +1440,40 @@
       <property name="icon">
        <iconset>
         <normaloff>data/icons/edit-clear-2.ico</normaloff>data/icons/edit-clear-2.ico</iconset>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_4">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>191</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Importer les données utilisateur</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>data/icons/document-import-2.ico</normaloff>data/icons/document-import-2.ico</iconset>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_5">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>191</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exporter les données utilisateur</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>data/icons/document-export-4.ico</normaloff>data/icons/document-export-4.ico</iconset>
       </property>
      </widget>
     </widget>
