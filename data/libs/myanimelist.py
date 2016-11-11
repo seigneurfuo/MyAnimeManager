@@ -3,7 +3,7 @@
 # Auteur:                seigneurfuo
 # Version:               0.8.5-Beta
 # Date de création:      9 Juin 2016
-# Dernière modification: 02 Novembre 2016
+# Dernière modification: 10 Novembre 2016
 
 # Importation des librairies
 import urllib
@@ -67,11 +67,12 @@ def anime(animeMyAnimeListId):
 
         # Studio
         resultats = soup.select('div[class="js-scrollfix-bottom"] div a')
-        retStudio = resultats[18].get("title")
+        retStudio = resultats[17].get("title")
 
         # Image
         resultats = soup.select('div[class="js-scrollfix-bottom"] div a img')
         retImageUrl = resultats[0].get("src")
+        
 
         del resultats
     except Exception, e:
