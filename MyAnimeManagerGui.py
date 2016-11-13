@@ -327,26 +327,28 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
                 self.notesEntry.setText(ligne["animeNotes"])
 
             # Spinbox
+            
             if ligne["animeNbVisionnage"] == None:
                 self.spinBox.setValue(0)
             else:
                 self.spinBox.setValue(ligne["animeNbVisionnage"])
 
             # Boutons radios visionnage
+            print "331: Bug", ligne["animeEtatVisionnage"]
             # Animé Terminé
-            if ligne["animeEtatVisionnage"] == "0":
+            if ligne["animeEtatVisionnage"] == 0:
                 self.radiobutton0.setChecked(True)
 
             # Animé en cours
-            elif ligne["animeEtatVisionnage"] == "1":
+            elif ligne["animeEtatVisionnage"] == 1:
                 self.radiobutton1.setChecked(True)
 
             # Animé a voir
-            elif ligne["animeEtatVisionnage"] == "2":
+            elif ligne["animeEtatVisionnage"] == 2:
                 self.radiobutton2_2.setChecked(True)
 
             # Animé indéfini
-            elif ligne["animeEtatVisionnage"] == "3" or ligne["animeEtatVisionnage"] == None:
+            elif ligne["animeEtatVisionnage"] == 3 or ligne["animeEtatVisionnage"] == None:
                 self.radiobutton2.setChecked(True)
 
 
@@ -811,7 +813,6 @@ if __name__ == "__main__":
 
     # Si la base de donnée est vierge, on utilise la fonction creation_de_la_bdd()
     if bddVierge == True:
-        PyQt4.QtGui.QMessageBox.information(Main, "Information", "L'application va créer une base de donnée pour la première utilisation")
         log.info("La bdd n'existe pas ! Creation d'un nouveau profil")
         creation_de_la_bdd()
 
