@@ -153,6 +153,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.pushButton.clicked.connect(self.outils_calcul_temps_calcul)
 
         # Onglet préférences
+        self.pushButton_5.clicked.connect(self.exportation_du_profil)
         self.pushButton_3.clicked.connect(self.suppression_du_profil)
 
         # Remplace le numéro de version A propos
@@ -690,6 +691,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         url = str(self.waifuWallpaperEntry.text())
 
         if url != "": self.telechargement_image(url, "wallpaper")
+        
         # Charge l'image téléchargée
         pixmap = PyQt4.QtGui.QPixmap("./data/characters/wallpaper")
 
@@ -697,11 +699,17 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         image = pixmap.scaled(self.waifuWallpaper.size(), PyQt4.QtCore.Qt.IgnoreAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
         self.waifuWallpaper.setPixmap(image)
 
+    
+    def importation_du_profil(self):
+        """Fonction qui permet d'importer un profil"""
+        
+        pass
 
-    def preferences(self):
-        """Fonction qui permet de modifier le comportement de l'application en fonction de paramétrages"""
 
-        fname = PyQt4.QtGui.QFileDialog.getOpenFileName(self, 'Open file', 'C:\\')
+    def exportation_du_profil(self):
+        """Fonction qui permet d'exporter un profil"""
+
+        cheminDeSauvegarde = PyQt4.QtGui.QFileDialog(self)
 
 
     def suppression_du_profil(self):
