@@ -1,15 +1,16 @@
 # -*- coding: utf8-*-
-# Module qui permet de récupérer des infos sur MyAnimelist.net
+# Module qui permet de récupérer des infos sur MyAnimelist
 # Auteur:                seigneurfuo
-# Version:               0.8.5-Beta
+# Version:               Beta
 # Date de création:      9 Juin 2016
-# Dernière modification: 10 Novembre 2016
+# Dernière modification: 14 Juin 2016
 
-# Importation des librairies
 import urllib
 import urllib2
 import os
+import lassie
 import re
+import pprint
 from bs4 import BeautifulSoup
 
 retTitre = None
@@ -21,62 +22,82 @@ retImageUrl = None
 listeTitresAnimes = []
 listeAnimesId = []
 
-
-#def recherche_titre(animeTitre):
-    #global listeAnimesId, listeTitresAnimes
+# En cours
+def recherche_titre(animeTitre):
+    global listeAnimesId, listeTitresAnimes
     
-    #baseUrl = "http://myanimelist.net/anime.php?q="
-    #animeTitreEncode = animeTitre.replace("+"," ")
-    #url = baseUrl + animeTitreEncode
+    baseUrl = "http://myanimelist.net/anime.php?q="
+    animeTitreEncode = animeTitre.replace("+"," ")
+    url = baseUrl + animeTitreEncode
 
-    #html = urllib2.urlopen(url).read()
-    #soup = BeautifulSoup(html, "html5lib")
+    html = urllib2.urlopen(url).read()
+    soup = BeautifulSoup(html, "html5lib")
 
-    #for lien in soup.find_all('a[class="hoverinfo_trigger fw-b fl-l"]'):
-        
+    for lien in soup.find_all('a', class_="hoverinfo_trigger fw-b fl-l"):
+        lienA = str(lien)
+        lienB = lienA.split("href=\"")
+        lienC = lienB[1]
+        lienD = lienC.split("\"")
+        lienE = lienD[0]
+        animeUrl = lienE
+        animeNomA = animeUrl.split("/")
+        animeNom = animeNomA[5]
 
-        #listeAnimesId.append(animeMyAnimeListId)
-        #listeTitresAnimes.append(animeNom)
+        animeMyAnimeListIdA = animeUrl.split("/")
+        animeMyAnimeListId = animeMyAnimeListIdA[4]
 
-    #for _ in range(0, 10):
-        #print _, ":", listeTitresAnimes[_]
-    #print "--------------------"
+        listeAnimesId.append(animeMyAnimeListId)
+        listeTitresAnimes.append(animeNom)
 
-    #_ = int(raw_input("Animé a selectionner>"))
-    #animeMyAnimeListId = listeAnimesId[_]
-    #print animeMyAnimeListId
-    #anime(animeMyAnimeListId)
+    for _ in range(0, 10):
+        print _, ":", listeTitresAnimes[_]
+    print "--------------------"
 
+    _ = int(raw_input("Animé a selectionner>"))
+    animeMyAnimeListId = listeAnimesId[_]
+    print animeMyAnimeListId
+    anime(animeMyAnimeListId)
 
 def anime(animeMyAnimeListId):
     try:
         baseUrl = "http://myanimelist.net/anime/" 
         url = baseUrl + str(animeMyAnimeListId)
         html = urllib2.urlopen(url).read()
-        soup = BeautifulSoup(html, "html5lib")
-        
+
         global retTitre, retAnnee, retStudio, retSequelle, retImageUrl
 
-        # Titre
-        resultats = soup.select('h1 span[itemprop="name"]') #class="header-right"
-        retTitre = resultats[0].getText()
+        #Titre
+        htmlA = html.split("<span itemprop=\"name\">")
+        htmlB = htmlA[1]
+        htmlC = htmlB.split("</span>")
+        retTitre = htmlC[0]
 
         # Annee
-        resultats = soup.select('div[class="js-scrollfix-bottom"] div a') #class="header-right"
-        retAnnee = resultats[10].getText().split(" ")[1]
+        htmlA = html.split("Aired:</span>")
+        htmlB = htmlA[1]
+        htmlC = htmlB.split("</div>")
+        htmlD = htmlC[0]
+        htmlE = htmlD.split(", ")
+        htmlF = htmlE[1]
+        htmlG = htmlF.split(" to")
+        retAnnee = htmlG[0]
 
         # Studio
-        resultats = soup.select('div[class="js-scrollfix-bottom"] div a')
-        retStudio = resultats[17].get("title")
+        htmlA = html.split("Studios:</span>")
+        htmlB = htmlA[1]
+        htmlC = htmlB.split("</div>")
+        htmlD = htmlC[0]
+        htmlE = htmlD.split(">")
+        htmlF = htmlE[1]
+        htmlG = htmlF.split("<")
+        retStudio = htmlG[0]
 
         # Image
-        resultats = soup.select('div[class="js-scrollfix-bottom"] div a img')
-        retImageUrl = resultats[0].get("src")
-        
+        lassieFetch = lassie.fetch(url)
+        retImageUrl = str(lassieFetch["images"][0]["src"])
 
-        del resultats
-    except Exception, e:
-        print e
+        del html, htmlA, htmlB, htmlC, htmlD, htmlE, htmlF, htmlG
+    except: pass
 
 
 def titre():
