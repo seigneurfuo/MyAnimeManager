@@ -3,11 +3,11 @@
 
 # Informations sur l'application
 __titre__                = "MyAnimeManager"
-__version__              = "0.20.65"
+__version__              = "0.20.80"
 __auteur__               = "seigneurfuo"
 __db_version__           = 5
 __dateDeCreation__       = "12/06/2016"
-__derniereModification__ = "09/11/2016"
+__derniereModification__ = "13/11/2016"
 
 # Logging
 import logging
@@ -124,14 +124,15 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.tabWidget.currentChanged.connect(self.chargement_onglet)
 
         # Gestion des evenements (onglet liste)
-        self.table.cellClicked.connect(self.liste_afficher)
-        self.table.currentCellChanged.connect(self.liste_afficher)
+        self.table.cellClicked.connect(self.liste_afficher_infos_anime)
+        self.table.currentCellChanged.connect(self.liste_afficher_infos_anime)
         self.boutonEnregistrer.clicked.connect(self.liste_enregistrer)
         self.boutonAnnuler.clicked.connect(self.liste_rafraichir)
         self.boutonCompleter.clicked.connect(self.liste_remplir_myanimelist)
         self.rechercheEntry.textChanged.connect(self.liste_recherche)
         self.rechercheViderBoutton.clicked.connect(self.liste_recherche_vider)
         self.rechercheFavorisBoutton.clicked.connect(self.liste_recherche_favoris)
+        self.rechercheAnimesAVoirBoutton.clicked.connect(self.liste_recherche_animes_a_voir)
 
         self.boutonAjouterAnime.clicked.connect(self.liste_rafraichir)
         self.boutonSupprimerAnime.clicked.connect(self.liste_supprimer)
@@ -186,7 +187,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         elif ongletId == 2: self.personnages_favoris()
 
 
-    def liste_rafraichir(self, titreRecherche=False, favorisRecherche=False):
+    def liste_rafraichir(self, titreRecherche=False, favorisRecherche=False, AVoirRecherche=False):
         """La fonction qui efface les entrés (les instructions auraient pus etres contenues dans liste_affiche mais je souhaitais séparer les deux blocs)"""
         
         # Image de l'animé vide
@@ -226,16 +227,20 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             # On afiche la liste normale
             curseur.execute("SELECT * FROM anime WHERE animeTitre LIKE('%s%s%s') ORDER BY LENGTH(animeId), animeId" %("%", titreRecherche, "%"))
 
-        else :
-            # Affichage de la liste normale
-            if favorisRecherche == False:
-                log.info("Affichage normal de la liste des animes")
-                curseur.execute("SELECT * FROM anime ORDER BY LENGTH(animeId), animeId") # Permet de trier les animés de manière croissante et de manière humaine (evite que des identifiants tel que 1000 s'intercalent entre les identfiant 100 / 101
+        # Si on veut afficher la liste des animés à voir
+        elif AVoirRecherche == True:
+            log.info("Filtrage de la liste: Afficher les animes a voir")
+            curseur.execute("SELECT * FROM anime WHERE animeEtatVisionnage = '2' ORDER BY LENGTH(animeId), animeId")
 
-            # Si on veut afficher la liste des favoris
-            else:
-                log.info("Filtrage de la liste: Afficher les favoris")
-                curseur.execute("SELECT * FROM anime WHERE animeFavori = '1' ORDER BY LENGTH(animeId), animeId")
+        # Affichage de la liste normale
+        elif favorisRecherche == False:
+            log.info("Affichage normal de la liste des animes")
+            curseur.execute("SELECT * FROM anime ORDER BY LENGTH(animeId), animeId") # Permet de trier les animés de manière croissante et de manière humaine (evite que des identifiants tel que 1000 s'intercalent entre les identfiant 100 / 101
+
+        # Si on veut afficher la liste des favoris
+        else :
+            log.info("Filtrage de la liste: Afficher les favoris")
+            curseur.execute("SELECT * FROM anime WHERE animeFavori = '1' ORDER BY LENGTH(animeId), animeId")
 
 
         resultats = curseur.fetchall()
@@ -286,7 +291,13 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.liste_rafraichir(favorisRecherche=True)
 
 
-    def liste_afficher(self):
+    def liste_recherche_animes_a_voir(self):
+        """Fonction qui affcihe les animés en cours"""
+		
+        self.liste_rafraichir(AVoirRecherche=True)
+
+
+    def liste_afficher_infos_anime(self):
         """Fonction qui affiche les information pour l'animé sélectionné"""
         
         # Récupère le numéro de ligne actuellement sélectionné dans la liste
@@ -334,7 +345,6 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
                 self.spinBox.setValue(ligne["animeNbVisionnage"])
 
             # Boutons radios visionnage
-            print "331: Bug", ligne["animeEtatVisionnage"]
             # Animé Terminé
             if ligne["animeEtatVisionnage"] == 0:
                 self.radiobutton0.setChecked(True)
