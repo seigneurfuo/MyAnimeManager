@@ -1,5 +1,9 @@
 # Changements
 
+11/11/2016 - version 0.20.80
+- Renommage de la fonction liste_afficher en liste_afficher_infos_anim
+- FEATURE: Ajout d'une fonction pour afficher les animés a voir"
+
 09/11/2016 - version 0.20.65
 - BUGFIX: Dans le planning, une insertion ne supprimais pas les sauts de lignes en trop.
 - BUGFIX: Désormais, les onglets sont chargés uniquement lorsqu'ils sont visibles. Evite de charger / rafraichir tout les onglets à la fois
