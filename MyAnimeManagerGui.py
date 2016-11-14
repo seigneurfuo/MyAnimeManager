@@ -3,11 +3,11 @@
 
 # Informations sur l'application
 __titre__                = "MyAnimeManager"
-__version__              = "0.20.80"
+__version__              = "0.20.83"
 __auteur__               = "seigneurfuo"
 __db_version__           = 5
 __dateDeCreation__       = "12/06/2016"
-__derniereModification__ = "13/11/2016"
+__derniereModification__ = "14/11/2016"
 
 # Logging
 import logging
@@ -178,7 +178,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # Onglet planning
         if ongletId == 0:
             self.planning_afficher()
-            self.animes_vus_afficher()
+            self.planning_animes_vus_afficher()
         
         # Onglet liste d'animé
         elif ongletId == 1: self.liste_rafraichir()
@@ -245,6 +245,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
         resultats = curseur.fetchall()
         log.info("Animes: %s" %len(resultats))
+        self.barreDeStatus.setText("Animes: %s" %len(resultats))
 
         # Remplissage de la liste
         #for anime in resultats:
@@ -454,7 +455,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
             # Rafraichi après avoir enregistré
             self.liste_rafraichir()
-            self.animes_vus_afficher()
+            self.planning_animes_vus_afficher()
 
         # Si l'identifiant n'a pas été rempli
         else:
@@ -487,11 +488,11 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
             # Rafraichi après avoir supprimé
             self.liste_rafraichir()
-            self.animes_vus_afficher()
+            self.planning_animes_vus_afficher()
 
 
 # Fonctions de l'onglet planning
-    def animes_vus_afficher(self):
+    def planning_animes_vus_afficher(self):
         """Fonction qui ajoute les animés vus dans la liste des animés vus"""
         
         # On vide la liste des animés
@@ -527,6 +528,9 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
         #Affichage du nouveau titre
         self.planningEntry.setText(nouveauTexteNettoye)
+        
+        # Mise du focus sur la zone de texte
+        self.planningEntry.setFocus()
 
 
     def planning_afficher(self):
