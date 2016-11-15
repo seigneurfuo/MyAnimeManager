@@ -3,11 +3,11 @@
 
 # Informations sur l'application
 __titre__                = "MyAnimeManager"
-__version__              = "0.20.83"
+__version__              = "0.20.85"
 __auteur__               = "seigneurfuo"
 __db_version__           = 5
 __dateDeCreation__       = "12/06/2016"
-__derniereModification__ = "14/11/2016"
+__derniereModification__ = "15/11/2016"
 
 # Logging
 import logging
@@ -347,24 +347,26 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
             # Boutons radios visionnage
             # Animé Terminé
-            if ligne["animeEtatVisionnage"] == 0:
+            if ligne["animeEtatVisionnage"] == "0":
                 self.radiobutton0.setChecked(True)
 
             # Animé en cours
-            elif ligne["animeEtatVisionnage"] == 1:
+            elif ligne["animeEtatVisionnage"] == "1":
                 self.radiobutton1.setChecked(True)
 
             # Animé a voir
-            elif ligne["animeEtatVisionnage"] == 2:
+            elif ligne["animeEtatVisionnage"] == "2":
                 self.radiobutton2_2.setChecked(True)
 
             # Animé indéfini
-            elif ligne["animeEtatVisionnage"] == 3 or ligne["animeEtatVisionnage"] == None:
+            elif ligne["animeEtatVisionnage"] == "3" or ligne["animeEtatVisionnage"] == None:
                 self.radiobutton2.setChecked(True)
+                
+            else: print "rien"
 
 
             # Boutons radios favori
-            if ligne["animeFavori"] == "1":
+            if ligne["animeFavori"] == 1:
                 self.favorisOuiRadio.setChecked(True)
             else:
                 self.favorisNonRadio.setChecked(True)
