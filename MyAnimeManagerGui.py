@@ -2,11 +2,11 @@
 # -*- coding: utf8 -*-
 
 # Informations sur l'application
-__titre__                = "MyAnimeManager"
-__version__              = "0.20.85"
-__auteur__               = "seigneurfuo"
-__db_version__           = 5
-__dateDeCreation__       = "12/06/2016"
+__titre__ = "MyAnimeManager"
+__version__ = "0.20.85"
+__auteur__ = "seigneurfuo"
+__db_version__ = 5
+__dateDeCreation__ = "12/06/2016"
 __derniereModification__ = "15/11/2016"
 
 # Logging
@@ -773,11 +773,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             
             # Fenetre d'information qui demande a relancer l'application
             information = PyQt4.QtGui.QMessageBox.information(self, "Relancer l'application", "L'application va se fermer pour prendre en compte les modifications.\n Vous pouvez la relancer juste apres.", "Fermer")
-      
-      
-    def recherche_de_mises_a_jours(self):
-        """Fonction qui recherche les mises a jour au démarrage"""
-        pass
+            
 
     def fermer(self, event):
         """Ferme le programme et enregistre les modifications apportées à la base de données"""
