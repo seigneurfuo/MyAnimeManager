@@ -773,7 +773,11 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             
             # Fenetre d'information qui demande a relancer l'application
             information = PyQt4.QtGui.QMessageBox.information(self, "Relancer l'application", "L'application va se fermer pour prendre en compte les modifications.\n Vous pouvez la relancer juste apres.", "Fermer")
-            
+      
+      
+    def recherche_de_mises_a_jours(self):
+        """Fonction qui recherche les mises a jour au démarrage"""
+        pass
 
     def fermer(self, event):
         """Ferme le programme et enregistre les modifications apportées à la base de données"""
