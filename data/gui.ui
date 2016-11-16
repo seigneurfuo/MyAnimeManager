@@ -52,7 +52,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="planning">
      <attribute name="icon">
@@ -821,7 +821,7 @@
        </rect>
       </property>
       <property name="toolTip">
-       <string>Affiche la liste de vos animés préférés</string>
+       <string>Affiche les animés à voir</string>
       </property>
       <property name="statusTip">
        <string/>
@@ -1456,7 +1456,7 @@
        <rect>
         <x>10</x>
         <y>60</y>
-        <width>191</width>
+        <width>211</width>
         <height>21</height>
        </rect>
       </property>
@@ -1473,7 +1473,7 @@
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>191</width>
+        <width>211</width>
         <height>21</height>
        </rect>
       </property>
@@ -1490,7 +1490,7 @@
        <rect>
         <x>10</x>
         <y>30</y>
-        <width>191</width>
+        <width>211</width>
         <height>21</height>
        </rect>
       </property>
