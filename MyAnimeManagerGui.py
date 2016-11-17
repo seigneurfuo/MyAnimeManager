@@ -3,11 +3,11 @@
 
 # Informations sur l'application
 __titre__ = "MyAnimeManager"
-__version__ = "0.20.85"
+__version__ = "0.20.90"
 __auteur__ = "seigneurfuo"
 __db_version__ = 5
 __dateDeCreation__ = "12/06/2016"
-__derniereModification__ = "15/11/2016"
+__derniereModification__ = "17/11/2016"
 
 # Logging
 import logging
@@ -92,20 +92,36 @@ def creation_de_la_bdd():
     """)
 
 
+def mise_a_jour():
+    """Fontion de vérification de mise a jour"""  
+	
+	# Téléchargement du fichier contenant la dernière version disponible sur github
+    url = "https://raw.githubusercontent.com/seigneurfuo/MyAnimeManager/master/version.txt"
+    data = urllib.urlopen(url).read()
+    version = data.replace("\n", "")
+    
+    # Vérification de la version
+    if __version__ < version: 
+		log.info("Une nouvelle mise a jour est disponible")
+	
+    else:
+        log.info("L'application est a jour")		
+
+
 # Fonction qui va créer les dossiers utiles
 def verification_des_dossiers():
     log.info("Verification de l'existance des dossiers ...")
 
     # Dossier ./data/characters
     if os.path.exists("./data/characters"):
-        log.info("./data/characters - Ok")
+        log.info("./data/characters [Ok]")
     else:
         os.makedirs("./data/characters")
         log.info("Creation de ./data/characters")
 
     # Dossier ./data/covers
     if os.path.exists("./data/covers"):
-        log.info("./data/covers - Ok")
+        log.info("./data/covers [Ok]")
     else:
         os.makedirs("./data/covers")
         log.info("Creation de ./data/covers")
@@ -245,7 +261,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
         resultats = curseur.fetchall()
         log.info("Animes: %s" %len(resultats))
-        self.barreDeStatus.setText("Animes: %s" %len(resultats))
+        self.barreDeStatus.showMessage("Animes: %s" %len(resultats))
 
         # Remplissage de la liste
         #for anime in resultats:
@@ -807,6 +823,9 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 # Fonction principale
 if __name__ == "__main__":
     log.info("Version: %s" %__version__)
+    
+    # Verification de la version
+    mise_a_jour()
 
     # Vérification des dossiers
     verification_des_dossiers()

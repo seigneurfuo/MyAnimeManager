@@ -1,5 +1,9 @@
 # Changements
 
+17/11/2016 - version 0.20.85
+- Utilisation du widget statusbar à la place d'un label pour la barre de status
+- Création d'une fonction de recherche de mise a jour. Pour le moment, le message de MAJ est uniquement notifié dans les logs.
+
 14/11/2016
 - Renommage de la fonction animes_vus_afficher en planning_animes_vus_afficher
 - L'insertion des animés dans le planning passe le focus sur la zone de texte
