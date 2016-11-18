@@ -1,13 +1,13 @@
-#!/usr/bin/python2.7
+#! /usr/bin/env python
 # -*- coding: utf8 -*-
 
 # Informations sur l'application
 __titre__ = "MyAnimeManager"
-__version__ = "0.20.90"
+__version__ = "0.21.20"
 __auteur__ = "seigneurfuo"
 __db_version__ = 5
 __dateDeCreation__ = "12/06/2016"
-__derniereModification__ = "17/11/2016"
+__derniereModification__ = "18/11/2016"
 
 # Logging
 import logging
@@ -20,7 +20,8 @@ import sys
 import os
 import re
 import sqlite3
-import urllib
+import urllib2
+from distutils.version import LooseVersion
 from datetime import date, datetime, time, timedelta
 
 sys.path.append("./data/libs")
@@ -92,20 +93,32 @@ def creation_de_la_bdd():
     """)
 
 
-def mise_a_jour():
+def application_a_jour():
     """Fontion de vérification de mise a jour"""  
 	
 	# Téléchargement du fichier contenant la dernière version disponible sur github
     url = "https://raw.githubusercontent.com/seigneurfuo/MyAnimeManager/master/version.txt"
-    data = urllib.urlopen(url).read()
-    version = data.replace("\n", "")
     
-    # Vérification de la version
-    if __version__ < version: 
-		log.info("Une nouvelle mise a jour est disponible")
-	
-    else:
-        log.info("L'application est a jour")		
+    try:
+        request = urllib2.urlopen(url)
+        data = request.read()
+        version = data.replace("\n", "")
+        
+        # Supression des variables inutiles
+        del request, data
+    
+        # Vérification de la version
+        if LooseVersion(__version__) < LooseVersion(version):
+            log.info("Une nouvelle mise a jour est disponible")
+            return False
+        
+        else:
+            log.info("L'application est a jour")
+            return True
+    
+    except:
+        log.info("Impossible de contacter le serveur de mise a jour")
+        return None
 
 
 # Fonction qui va créer les dossiers utiles
@@ -655,7 +668,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # Identifiant du numéro de page
         pageId = self.spinboxPageId.value()
         filename = "./data/characters/%s_%s" %(pageId, filename)
-        urllib.urlretrieve(url, filename)
+        urllib2.urlretrieve(url, filename)
         
 
     def personnages_favoris(self):
@@ -820,12 +833,43 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         sys.exit()
 
 
+class ZoneDeNotification(PyQt4.QtGui.QSystemTrayIcon):
+    def __init__(self, parent=None):
+        PyQt4.QtGui.QSystemTrayIcon.__init__(self, parent)
+        
+        # Création de la fenetre principale
+        self.fenetrePrincipale = Main(None)
+        self.fenetrePrincipale.show()
+    
+        # Création d'un menu contextuel pour le 
+        self.menuContextuel = PyQt4.QtGui.QMenu()
+    
+        # Charge l'icone pour la fermeture
+        self.iconeQuitter = PyQt4.QtGui.QIcon("./data/icons/edit-delete-5.ico")
+            
+        # Créer l'action dans le menu
+        self.actionfermer = (PyQt4.QtGui.QAction(self.iconeQuitter, "Quitter", self))
+            
+        # Evenement de l'action
+        self.actionfermer.triggered.connect(self.fenetrePrincipale.fermer)
+        
+        # Ajout de l'action dans le menu
+        self.menuContextuel.addAction(self.actionfermer)
+        
+        # Ajout du menu contextuel
+        self.setContextMenu(self.menuContextuel)
+
+
 # Fonction principale
 if __name__ == "__main__":
     log.info("Version: %s" %__version__)
     
     # Verification de la version
-    mise_a_jour()
+    if len(sys.argv) == 1:
+        applicationAJour = application_a_jour()
+    
+    if len(sys.argv) == 2 and sys.argv[1] == "noupdate":
+        applicationAJour = True
 
     # Vérification des dossiers
     verification_des_dossiers()
@@ -852,10 +896,19 @@ if __name__ == "__main__":
         creation_de_la_bdd()
 
 
-    # Boucle principale (menu)
-
-    # Titre de la fenetre
     app = PyQt4.QtGui.QApplication(sys.argv)
-    fenetrePrincipale = Main(None)
-    fenetrePrincipale.show()
+    
+    # Icone en zone de notification
+    tray = ZoneDeNotification(None)#PyQt4.QtGui.QSystemTrayIcon(fenetrePrincipale)
+    tray.setIcon(PyQt4.QtGui.QIcon("./data/icons/icon.png"))
+    tray.show()
+    
+    # Si l'application n'est pas à jour, on affiche une notification
+    if applicationAJour == False: 
+        tray.showMessage(__titre__, "Une mise a jour est disponible", msecs = 10000)
+    
+    elif applicationAJour == None:
+         tray.showMessage(__titre__, "Impossible de vérifier la version en ligne", msecs = 10000)       
+    
+    # Lancement de la boucle de l'application pyQt
     app.exec_()

@@ -1,5 +1,14 @@
 # Changements
 
+18/11/2016 - version 0.21.20
+- Ajout de bulle de notification si une version plus récente est disponible ou en cas d'erreur de connection
+- BUGFIX: L'application propose des mises à jours alors que l'application l'est déja. Utilisation de la librairie distutils
+- BUGFIX: L'application se ferme si il n'arrive pas à contacter le serveur de mises a jour
+- Ajout d'une icon pour la zone de notification
+- Ajout d'un menu contextuel dans la zone de notification
+- Ajout d'une fonction pour quitter l'application (clic droit sur l'icone en zone de notification)
+- Possibilité de démarrer l'application sans activer la recherche de mise a jour (option noupdates)
+
 17/11/2016 - version 0.20.85
 - Utilisation du widget statusbar à la place d'un label pour la barre de status
 - Création d'une fonction de recherche de mise a jour. Pour le moment, le message de MAJ est uniquement notifié dans les logs.
