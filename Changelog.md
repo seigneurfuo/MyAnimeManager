@@ -1,5 +1,11 @@
 # Changements
 
+23/11/2016 - version 0.21.75
+- BUGFIX: Sélection simple dans la liste des animés
+- Amélioration de la fonction de parsage des arguments, utilisation de la librairie argparse
+- Modification de l'ordenancement des fonctions dans le code (nottement le system tray et la recherche de mise a jour qui sont maintenant des enfants de la fenetre principale
+- BUGFIX: L'icone reste dans le systray meme une fois l'application fermée. Utilisation de la fonction pour quitter l'application pyQt: PyQt4.QtCore.QCoreApplication.exit(0)
+
 18/11/2016 - version 0.21.20
 - Ajout de bulle de notification si une version plus récente est disponible ou en cas d'erreur de connection
 - BUGFIX: L'application propose des mises à jours alors que l'application l'est déja. Utilisation de la librairie distutils
@@ -7,7 +13,7 @@
 - Ajout d'une icon pour la zone de notification
 - Ajout d'un menu contextuel dans la zone de notification
 - Ajout d'une fonction pour quitter l'application (clic droit sur l'icone en zone de notification)
-- Possibilité de démarrer l'application sans activer la recherche de mise a jour (option noupdates)
+- Possibilité de démarrer l'application sans activer la recherche de mise a jour (option -noupdates)
 
 17/11/2016 - version 0.20.85
 - Utilisation du widget statusbar à la place d'un label pour la barre de status
