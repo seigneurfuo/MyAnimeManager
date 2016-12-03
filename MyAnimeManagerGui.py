@@ -3,46 +3,19 @@
 
 # Informations sur l'application
 __titre__ = "MyAnimeManager"
-__version__ = "0.21.75"
+__version__ = "0.22.24"
 __auteur__ = "seigneurfuo"
 __db_version__ = 5
 __dateDeCreation__ = "12/06/2016"
-__derniereModification__ = "18/11/2016"
+__derniereModification__ = "03/12/2016"
 
 # Logging
 import logging
-log = logging.getLogger()
+log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
-
-
-# Librairies standards
-import sys
-import os
-import re
-import sqlite3
-import urllib2
-import argparse
-from distutils.version import LooseVersion
-from datetime import date, datetime, time, timedelta
-
-sys.path.append("./data/libs")
-# Librairies de tierces-parties
-import myanimelist
-
-
-# Importation de pyQt
-try:
-    import PyQt4.QtGui
-    import PyQt4.QtCore
-    import PyQt4.uic.loadUiType
-except:
-    log.error("L'application n'arrive pas a trouver pyQt !")
-    log.error("Veuillez vous reporter aux notes d'insatallation.")
-
 
 # Création d'un formateur qui va ajouter le temps, le niveau de chaque message quand on écrira un message dans le log
 formatter = logging.Formatter('%(asctime)s : %(levelname)s : %(message)s')
-
 
 # Les lignes suivantes permettent de rediriger chaque écriture de log sur la console
 console_handler = logging.StreamHandler()
@@ -50,14 +23,38 @@ console_handler.setLevel(logging.INFO)
 console_handler.setFormatter(formatter)
 log.addHandler(console_handler)
 
+try:
+	# Librairies standards
+	import sys
+	import os
+	import re
+	import sqlite3
+	import urllib2
+	import argparse
+	from distutils.version import LooseVersion
+	from datetime import date, datetime, time, timedelta
+
+	# Librairies de tierces-parties
+	sys.path.append("./data/libs")
+	import myanimelist
+
+	# Importation de pyQt
+	import PyQt4.QtGui
+	import PyQt4.QtCore
+	import PyQt4.uic
+
+except Exception, erreur:
+    log.error("Librairies manquantes !")
+    log.error("  %s" %erreur)
+    sys.exit()
+
 
 def creation_de_la_bdd():
     """Fonctions générale a l'application"""
-	
+
     log.info("Création de la base de donnees")
 
-
-# Code SQL pour créer la table anime
+	# Code SQL pour créer la table anime
     curseur.execute(
     """
     CREATE TABLE anime(
@@ -86,30 +83,32 @@ def creation_de_la_bdd():
     """)
 
 
-# Code SQL pour créer la table informations
+	# Code SQL pour créer la table informations
     curseur.execute(
     """
     CREATE TABLE information(
     informationVersion)
     """)
 
-# Fonction qui va créer les dossiers utiles
+
 def verification_des_dossiers():
+    """Fonction qui va créer les dossiers utiles"""
+    
     log.info("Verification de l'existance des dossiers ...")
 
     # Dossier ./data/characters
     if os.path.exists("./data/characters"):
-        log.info("./data/characters [Ok]")
+        log.info("  ./data/characters [Ok]")
     else:
         os.makedirs("./data/characters")
-        log.info("Creation de ./data/characters")
+        log.info("  Creation de ./data/characters")
 
     # Dossier ./data/covers
     if os.path.exists("./data/covers"):
-        log.info("./data/covers [Ok]")
+        log.info("  ./data/covers [Ok]")
     else:
         os.makedirs("./data/covers")
-        log.info("Creation de ./data/covers")
+        log.info("  Creation de ./data/covers")
 
 
 class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): # Chargement des interfaces depuis les fichiers
@@ -137,8 +136,8 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.boutonCompleter.clicked.connect(self.liste_remplir_myanimelist)
         self.rechercheEntry.textChanged.connect(self.liste_recherche)
         self.rechercheViderBoutton.clicked.connect(self.liste_recherche_vider)
-        self.rechercheFavorisBoutton.clicked.connect(self.liste_recherche_favoris)
-        self.rechercheAnimesAVoirBoutton.clicked.connect(self.liste_recherche_animes_a_voir)
+        
+        self.rechercheLancer.clicked.connect(self.liste_recherche_filtre_liste)
 
         self.boutonAjouterAnime.clicked.connect(self.liste_rafraichir)
         self.boutonSupprimerAnime.clicked.connect(self.liste_supprimer)
@@ -193,17 +192,27 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         
         self.tray.show()
         
-        # Lance la recherche de MAJ
-        self.recherche_mise_a_jour()
-    
+        if args.noupdate == False:
+            # Lance la recherche de MAJ
+            self.recherche_mise_a_jour()
+            
+        # Définition du premier onglet affiché
+        self.tabWidget.setCurrentIndex(0)
+           
+        # Chargement des fonctions
+        self.chargement_onglet(self)
+
 
     def recherche_mise_a_jour(self):
-        """Fontion de vérification de mise a jour"""  
+        """Fontion de vérification de mise a jour""" 
         
+        log.info("Recherche de mises a jour...")
+         
         # Téléchargement du fichier contenant la dernière version disponible sur github
         url = "https://raw.githubusercontent.com/seigneurfuo/MyAnimeManager/master/version.txt"
         
         try:
+            log.info("  Connection au serveur de mise a jour")
             request = urllib2.urlopen(url)
             data = request.read()
             version = data.replace("\n", "")
@@ -213,15 +222,15 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         
             # Vérification de la version
             if LooseVersion(__version__) < LooseVersion(version):
-                log.info("Une nouvelle mise a jour est disponible")
+                log.info("  Une nouvelle mise a jour est disponible")
                 self.tray.showMessage(__titre__, "Une mise a jour est disponible", msecs = 10000)
             
             else:
-                log.info("L'application est a jour")
+                log.info("  L'application est a jour")
                 return True
         
         except:
-            log.info("Impossible de contacter le serveur de mise a jour")
+            log.info("  Impossible de contacter le serveur de mise a jour")
             tray.showMessage(__titre__, "Impossible de vérifier la version en ligne", msecs = 10000)
 
 
@@ -247,8 +256,8 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         """La fonction qui efface les entrés (les instructions auraient pus etres contenues dans liste_affiche mais je souhaitais séparer les deux blocs)"""
         
         # Image de l'animé vide
-        myPixmap = PyQt4.QtGui.QPixmap("./data/ekHFstR.png")
-        image = myPixmap.scaled(self.label_5.size(), )
+        myPixmap = PyQt4.QtGui.QPixmap("./data/icons/image-x-generic.png")
+        image = myPixmap.scaled(self.label_5.size(), PyQt4.QtCore.Qt.KeepAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
         self.label_5.setPixmap(image)
 
         # On vide la liste et les entrées
@@ -265,11 +274,8 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # Remise à zéro de la spinbox pour le nombre de visionnages
         self.spinBox.setValue(0)
 
-        # Remise par défault des boutons radio
-        self.radiobutton0.setChecked(False)
-        self.radiobutton1.setChecked(False)
-        self.radiobutton2_2.setChecked(False)
-        self.radiobutton2.setChecked(True)
+        # Remise par défault de la comboBoxEtatVisionnage (par défaut sur la position indéfinie)
+        self.comboBoxEtatVisionnage.setCurrentIndex(3)
 
         self.favorisNonRadio.setChecked(True)
 
@@ -342,16 +348,17 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.liste_rafraichir()
 
 
-    def liste_recherche_favoris(self):
-        """Fonction qui affiche les animés favoris"""
-        
-        self.liste_rafraichir(favorisRecherche=True)
+    def liste_recherche_filtre_liste(self):
+		"""Fonction, qui en fonction de la valeur du filtre, execute la fonction d'affichage de la liste"""
 
+		if self.comboBoxFiltreRecherche.currentIndex() == 0: 
+			self.liste_rafraichir()
 
-    def liste_recherche_animes_a_voir(self):
-        """Fonction qui affcihe les animés en cours"""
-		
-        self.liste_rafraichir(AVoirRecherche=True)
+		elif self.comboBoxFiltreRecherche.currentIndex() == 1:
+			self.liste_rafraichir(favorisRecherche=True)
+			
+		elif self.comboBoxFiltreRecherche.currentIndex() == 2:
+			self.liste_rafraichir(AVoirRecherche=True)
 
 
     def liste_afficher_infos_anime(self):
@@ -401,28 +408,16 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             else:
                 self.spinBox.setValue(ligne["animeNbVisionnage"])
 
-            # Boutons radios visionnage
-            # Animé Terminé
-            if ligne["animeEtatVisionnage"] == "0":
-                self.radiobutton0.setChecked(True)
-
-            # Animé en cours
-            elif ligne["animeEtatVisionnage"] == "1":
-                self.radiobutton1.setChecked(True)
-
-            # Animé a voir
-            elif ligne["animeEtatVisionnage"] == "2":
-                self.radiobutton2_2.setChecked(True)
-
-            # Animé indéfini
-            elif ligne["animeEtatVisionnage"] == "3" or ligne["animeEtatVisionnage"] == None:
-                self.radiobutton2.setChecked(True)
-                
-            else: print "rien"
-
+            # ComboBoxEtatAnimé
+            # Animé Terminé =  0
+            # Animé en cours = 1
+            # Animé a voir   = 2
+            # Animé indéfini = 3
+            etatVisionnage = int(ligne["animeEtatVisionnage"])
+            self.comboBoxEtatVisionnage.setCurrentIndex(etatVisionnage) 
 
             # Boutons radios favori
-            if ligne["animeFavori"] == 1:
+            if ligne["animeFavori"] == "1":
                 self.favorisOuiRadio.setChecked(True)
             else:
                 self.favorisNonRadio.setChecked(True)
@@ -493,11 +488,8 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             animeNbVisionnage = self.spinBox.value()
             animeNotes = self.notesEntry.toPlainText()
 
-            # Etat du visionnage (boutons radio)
-            if self.radiobutton0.isChecked(): animeVisionnage = "0"
-            elif self.radiobutton1.isChecked(): animeVisionnage = "1"
-            elif self.radiobutton2_2.isChecked(): animeVisionnage = "2"
-            elif self.radiobutton2.isChecked(): animeVisionnage = "3"
+            # Etat du visionnage (comboBoxEtatVisionnage)
+            animeVisionnage = str(self.comboBoxEtatVisionnage.currentIndex())
 
             # Animé favoris ?
             if self.favorisNonRadio.isChecked():
@@ -867,10 +859,10 @@ if __name__ == "__main__":
     log.info("Version: %s" %__version__)
     
     # Parsage des arguments
-    argParser = argparse.ArgumentParser(description='This is a PyMOTW sample program')
+    argParser = argparse.ArgumentParser()
     argParser.add_argument("-noupdate", action="store_true", default=False)
     args = argParser.parse_args()
-
+    
     # Vérification des dossiers
     verification_des_dossiers()
 
