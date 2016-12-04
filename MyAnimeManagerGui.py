@@ -3,11 +3,11 @@
 
 # Informations sur l'application
 __titre__ = "MyAnimeManager"
-__version__ = "0.22.24"
+__version__ = "0.22.25"
 __auteur__ = "seigneurfuo"
 __db_version__ = 5
 __dateDeCreation__ = "12/06/2016"
-__derniereModification__ = "03/12/2016"
+__derniereModification__ = "04/12/2016"
 
 # Logging
 import logging
@@ -30,6 +30,7 @@ try:
 	import re
 	import sqlite3
 	import urllib2
+        import urllib
 	import argparse
 	from distutils.version import LooseVersion
 	from datetime import date, datetime, time, timedelta
@@ -687,7 +688,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # Identifiant du numéro de page
         pageId = self.spinboxPageId.value()
         filename = "./data/characters/%s_%s" %(pageId, filename)
-        urllib2.urlretrieve(url, filename)
+        urllib.urlretrieve(url, filename)
         
 
     def personnages_favoris(self):

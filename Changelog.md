@@ -1,5 +1,18 @@
 # Changements
 
+04/128/2016
+- BUGFIX: Urllib.retrieve car urllib2.retrieve n'existe pas
+
+03/12/2016 - version 0.22.24
+- BUGFIX: Importation de PyQt4.uic.loadUiType au lieux de PyQt4.uic
+- Identation dans les logs pour certaines sous fonctions
+- Remplacement des boutons radios pour l'état du visionnage par une liste déroulante
+- Ajout d'une liste déroulante pour la liste des filtres
+- L'onglet par défaut est le premier, peut importe celui selectionné dans la fichier gui.ui
+- Affiche une cover par défault lorsque aucun animé n'est sélectionné
+- Affichage d'un log error et fermeture de l'application en cas de librairie manquantes
+- BUGFIX: Les boutons radio favoris ne s'activaient plus
+
 23/11/2016 - version 0.21.75
 - BUGFIX: Sélection simple dans la liste des animés
 - Amélioration de la fonction de parsage des arguments, utilisation de la librairie argparse
