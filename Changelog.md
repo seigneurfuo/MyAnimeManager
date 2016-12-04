@@ -1,7 +1,9 @@
 # Changements
 
-04/128/2016
+04/128/2016 - version 0.22.30
 - BUGFIX: Urllib.retrieve car urllib2.retrieve n'existe pas
+- Affichage de la version dans la barre de status dans l'onglet à propos
+- Ajout d'un visonneur web pour afficher le changelog
 
 03/12/2016 - version 0.22.24
 - BUGFIX: Importation de PyQt4.uic.loadUiType au lieux de PyQt4.uic

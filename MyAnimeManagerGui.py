@@ -3,7 +3,7 @@
 
 # Informations sur l'application
 __titre__ = "MyAnimeManager"
-__version__ = "0.22.25"
+__version__ = "0.22.30"
 __auteur__ = "seigneurfuo"
 __db_version__ = 5
 __dateDeCreation__ = "12/06/2016"
@@ -164,7 +164,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.pushButton_3.clicked.connect(self.suppression_du_profil)
 
         # Remplace le numéro de version A propos
-        self.label_7.setText("version " + str(__version__))
+        self.barreDeStatus.showMessage("Version %s" %__version__)
 
         # Evenement de fermeture de l'application
         self.closeEvent = self.fermer
