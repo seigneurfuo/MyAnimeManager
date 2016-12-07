@@ -3,7 +3,7 @@
 
 # Informations sur l'application
 __titre__ = "MyAnimeManager"
-__version__ = "0.22.33"
+__version__ = "0.22.45"
 __auteur__ = "seigneurfuo"
 __db_version__ = 5
 __dateDeCreation__ = "12/06/2016"
@@ -147,10 +147,11 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.planningCalendrier.selectionChanged.connect(self.planning_afficher)
 
         self.boutonPlanningInserer.clicked.connect(self.planning_animes_vus_inserer)
-        self.listWidget_3.itemDoubleClicked.connect(self.planning_animes_vus_inserer)
-
         self.boutonPlanningReset.clicked.connect(self.planning_aujourdhui)
         self.boutonPlanningSauvegarder.clicked.connect(self.planning_enregistrer)
+        
+        self.animeVuTable.cellDoubleClicked.connect(self.planning_animes_vus_inserer)
+
 
         # Onglet album
         self.testButton.clicked.connect(self.personnages_favoris)
@@ -311,11 +312,6 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         log.info("Animes: %s" %len(resultats))
         self.barreDeStatus.showMessage("Animes: %s" %len(resultats))
 
-        # Remplissage de la liste
-        #for anime in resultats:
-            #ligne = PyQt4.QtGui.QListWidgetItem(anime["animeTitre"])
-            #self.listWidget.addItem(ligne)
-
         # Définition de la taille du tableau
         nombreLignes = len(resultats)
         self.table.setRowCount(nombreLignes)
@@ -418,9 +414,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             etatVisionnage = int(ligne["animeEtatVisionnage"])
             self.comboBoxEtatVisionnage.setCurrentIndex(etatVisionnage) 
 
-            # Boutons radios favori
-            print "debug favoris", ligne["animeFavori"]
-            
+            # Checkbox favoris
             if ligne["animeFavori"] == "1":
                 self.checkBoxFavoris.setCheckState(True)
                 
@@ -430,7 +424,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
             # Charge et affiche l'image de l'anime
             image = str(ligne["animeId"])
-            chemin = os.path.join(dossier, image)
+            chemin = os.path.join("./data/covers", image)
             global listeAfficherImageChemin
             listeAfficherImageChemin = chemin
 
@@ -553,41 +547,68 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         """Fonction qui ajoute les animés vus dans la liste des animés vus"""
         
         # On vide la liste des animés
-        self.listWidget_3.clear()
+        self.animeVuTable.clear()
 
-        # On éxécute la commande sql qui retourne les animés en cours de visionnage
-        curseur.execute("SELECT * FROM anime WHERE animeEtatVisionnage = 1 ORDER BY animeId")
-        animes_vus = curseur.fetchall()
+        # On éxécute la commande sql qui retourne: les animés en cours de visionnage qui avec leur épisode vu le plus récent
+        curseur.execute("""
+                        SELECT anime.animeTitre, max(planning.planningEpisode) AS planningEpisode
+                        FROM anime, planning
+                        WHERE planning.planningAnime = anime.animeId
+                        AND anime.animeEtatVisionnage = 1
+                        GROUP BY anime.animeTitre
+                        ORDER BY anime.animeId ASC""")
+        animesVus = curseur.fetchall()
 
-        # Remplissage de la liste
-        for anime_vu in animes_vus:
-            ligne = PyQt4.QtGui.QListWidgetItem(anime_vu["animeTitre"])
-            self.listWidget_3.addItem(ligne)
+        # Définition de la taille du tableau
+        nombreLignes = len(animesVus)
+        self.animeVuTable.setRowCount(nombreLignes)
+        self.animeVuTable.setColumnCount(2)
 
+        # Définition du titre des colonnes
+        titreColonnes = ["Ep.", "Anime"]
+        self.animeVuTable.setHorizontalHeaderLabels(titreColonnes)
+
+        # Ajout des éléments
+        for indice, anime in enumerate(animesVus):
+            colonne1 = PyQt4.QtGui.QTableWidgetItem(anime["planningEpisode"])
+            self.animeVuTable.setItem(indice, 0, colonne1)
+
+            colonne2 = PyQt4.QtGui.QTableWidgetItem(anime["animeTitre"])
+            self.animeVuTable.setItem(indice, 1, colonne2)
+            
 
     def planning_animes_vus_inserer(self):
         """Fonction qui ajoute le titre d'un animé en cours de visionnage dans la boite d'entrée du journal"""
+
         
         # Sauvegarde du texte actuel
         ancienTexte = self.planningEntry.toPlainText()
-        animeTitre = [str(x.text()) for x in self.listWidget_3.selectedItems()]
-        animeTitre = animeTitre[0]
-
-        # Si le planning est vide
-        if ancienTexte == "":
-            nouveauTexte = str(animeTitre + "-Ep ")
-
-        # Sinon, on affiche en gardant l'ancien texte
-        else:
-            nouveauTexte = ancienTexte + "\n" + str(animeTitre + "-Ep ")
-            
-        nouveauTexteNettoye = nouveauTexte.replace("\n\n", "\n")
-
-        #Affichage du nouveau titre
-        self.planningEntry.setText(nouveauTexteNettoye)
         
-        # Mise du focus sur la zone de texte
-        self.planningEntry.setFocus()
+        # Récupère le numéro de ligne actuellement sélectionné dans la liste
+        ligneActuelle = int(self.animeVuTable.currentRow())
+
+        # Si on a bien sélectionné un anime (empèche l'erreur quand la liste est rechargée et que rien n'est sélectionné)
+        if ligneActuelle != -1:
+
+            # Le titre de l'animé est contenu dans le deuxième cellule de la colonne (les indices commencent à 0)
+            animeTitre = self.animeVuTable.item(ligneActuelle, 1).text()
+            planningEpisodeAVoirSuivant = int(self.animeVuTable.item(ligneActuelle, 0).text()) + 1
+
+            # Si le planning est vide
+            if ancienTexte == "":
+                nouveauTexte = str(animeTitre + "-Ep %s" %planningEpisodeAVoirSuivant)
+
+            # Sinon, on affiche en gardant l'ancien texte
+            else:
+                nouveauTexte = ancienTexte + "\n" + str(animeTitre + "-Ep %s" %planningEpisodeAVoirSuivant)
+                
+            nouveauTexteNettoye = nouveauTexte.replace("\n\n", "\n")
+
+            #Affichage du nouveau titre
+            self.planningEntry.setText(nouveauTexteNettoye)
+            
+            # Mise du focus sur la zone de texte
+            self.planningEntry.setFocus()
 
 
     def planning_afficher(self):
@@ -654,7 +675,6 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
                 curseur.execute("SELECT * FROM anime WHERE animeTitre = '%s'" %(animeTitre))
                 for ligne in curseur.fetchall():
                     animeId = ligne["animeId"]
-
 
                 animeEpisode = champs[1]
 
@@ -872,9 +892,6 @@ if __name__ == "__main__":
     
     # Vérification des dossiers
     verification_des_dossiers()
-
-    # Chemins
-    dossier = "./data/covers"
 
     # Nom de la base de donnée
     nomBdd = "./data/MyAnimeManager.sqlite3"

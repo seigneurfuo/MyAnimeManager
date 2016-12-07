@@ -131,16 +131,6 @@
       <property name="title">
        <string>Animés en cours</string>
       </property>
-      <widget class="QListWidget" name="listWidget_3">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>161</width>
-         <height>141</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QPushButton" name="boutonPlanningInserer">
        <property name="geometry">
         <rect>
@@ -157,6 +147,40 @@
         <iconset>
          <normaloff>data/icons/list-add-6.ico</normaloff>data/icons/list-add-6.ico</iconset>
        </property>
+      </widget>
+      <widget class="QTableWidget" name="animeVuTable">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>161</width>
+         <height>141</height>
+        </rect>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::SingleSelection</enum>
+       </property>
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectItems</enum>
+       </property>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>30</number>
+       </attribute>
+       <attribute name="horizontalHeaderStretchLastSection">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="verticalHeaderDefaultSectionSize">
+        <number>15</number>
+       </attribute>
+       <attribute name="verticalHeaderMinimumSectionSize">
+        <number>15</number>
+       </attribute>
       </widget>
      </widget>
      <widget class="QGroupBox" name="groupBox_6">
@@ -447,7 +471,7 @@
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>icons/appointment-new-2.ico</normaloff>icons/appointment-new-2.ico</iconset>
+          <normaloff>data/icons/appointment-new-2.ico</normaloff>data/icons/appointment-new-2.ico</iconset>
         </property>
        </item>
        <item>
@@ -456,7 +480,7 @@
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>icons/help-about.ico</normaloff>icons/help-about.ico</iconset>
+          <normaloff>data/icons/help-about.ico</normaloff>data/icons/help-about.ico</iconset>
         </property>
        </item>
       </widget>
@@ -1512,7 +1536,6 @@
  <tabstops>
   <tabstop>tabWidget</tabstop>
   <tabstop>planningCalendrier</tabstop>
-  <tabstop>listWidget_3</tabstop>
   <tabstop>planningEntry</tabstop>
   <tabstop>boutonPlanningReset</tabstop>
   <tabstop>boutonPlanningInserer</tabstop>

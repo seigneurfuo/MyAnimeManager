@@ -1,7 +1,9 @@
 # Changements
 
-07/12/2016 - version version version 0.22.33
+07/12/2016 - version version version 0.22.45
 - Remplacement des boutons radios favoris par une checkbox
+- Le path des covers est noté en clair et non plus dans une variable globale
+- FEATURE: Dans l'onglet planning, un tableau affiche le dernier episode vu avec le nom de l'animé
 
 06/12/2016 - version version 0.22.31
 - Suppression des entrées urllib2 dans le code
