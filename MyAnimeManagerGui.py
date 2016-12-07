@@ -3,11 +3,11 @@
 
 # Informations sur l'application
 __titre__ = "MyAnimeManager"
-__version__ = "0.22.30"
+__version__ = "0.22.33"
 __auteur__ = "seigneurfuo"
 __db_version__ = 5
 __dateDeCreation__ = "12/06/2016"
-__derniereModification__ = "04/12/2016"
+__derniereModification__ = "07/12/2016"
 
 # Logging
 import logging
@@ -29,8 +29,7 @@ try:
 	import os
 	import re
 	import sqlite3
-	import urllib2
-        import urllib
+	import urllib
 	import argparse
 	from distutils.version import LooseVersion
 	from datetime import date, datetime, time, timedelta
@@ -182,7 +181,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # Créer l'action dans le menu
         self.tray.actionfermer = (PyQt4.QtGui.QAction(self.tray.iconeQuitter, "Quitter", self))
             
-        # Evenement de l'action
+        # Evenement de l'action fermer
         self.tray.actionfermer.triggered.connect(self.fermer)
         
         # Ajout de l'action dans le menu
@@ -191,8 +190,10 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # Ajout du menu contextuel
         self.tray.setContextMenu(self.tray.menuContextuel)
         
+		# Affichage de l'icone dans la zone de notifications
         self.tray.show()
         
+        # Si l'argument noupdate est passé en parametres
         if args.noupdate == False:
             # Lance la recherche de MAJ
             self.recherche_mise_a_jour()
@@ -214,7 +215,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         
         try:
             log.info("  Connection au serveur de mise a jour")
-            request = urllib2.urlopen(url)
+            request = urllib.urlopen(url)
             data = request.read()
             version = data.replace("\n", "")
             
@@ -278,7 +279,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # Remise par défault de la comboBoxEtatVisionnage (par défaut sur la position indéfinie)
         self.comboBoxEtatVisionnage.setCurrentIndex(3)
 
-        self.favorisNonRadio.setChecked(True)
+        self.checkBoxFavoris.setCheckState(False)
 
         # Nettoyage du champ MAL
         self.malEntry.setText(str())
@@ -418,10 +419,13 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             self.comboBoxEtatVisionnage.setCurrentIndex(etatVisionnage) 
 
             # Boutons radios favori
+            print "debug favoris", ligne["animeFavori"]
+            
             if ligne["animeFavori"] == "1":
-                self.favorisOuiRadio.setChecked(True)
+                self.checkBoxFavoris.setCheckState(True)
+                
             else:
-                self.favorisNonRadio.setChecked(True)
+                self.checkBoxFavoris.setCheckState(False)               
 
 
             # Charge et affiche l'image de l'anime
@@ -493,9 +497,11 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             animeVisionnage = str(self.comboBoxEtatVisionnage.currentIndex())
 
             # Animé favoris ?
-            if self.favorisNonRadio.isChecked():
+            self.checkBoxFavoris.checkStateSet()
+            if self.checkBoxFavoris.isChecked() == False :
                 animeFavori = "0"
-            elif self.favorisOuiRadio.isChecked():
+
+            elif self.checkBoxFavoris.isChecked() == True:
                 animeFavori = "1"
 
             # Génération de la command SQL

@@ -52,7 +52,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>5</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="planning">
      <attribute name="icon">
@@ -387,8 +387,8 @@
      <widget class="QGroupBox" name="groupBox">
       <property name="geometry">
        <rect>
-        <x>300</x>
-        <y>180</y>
+        <x>290</x>
+        <y>190</y>
         <width>181</width>
         <height>71</height>
        </rect>
@@ -518,48 +518,6 @@
       <property name="text">
        <string/>
       </property>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_8">
-      <property name="geometry">
-       <rect>
-        <x>300</x>
-        <y>250</y>
-        <width>191</width>
-        <height>71</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Favori</string>
-      </property>
-      <widget class="QRadioButton" name="favorisOuiRadio">
-       <property name="geometry">
-        <rect>
-         <x>60</x>
-         <y>20</y>
-         <width>51</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Oui</string>
-       </property>
-      </widget>
-      <widget class="QRadioButton" name="favorisNonRadio">
-       <property name="geometry">
-        <rect>
-         <x>130</x>
-         <y>20</y>
-         <width>51</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Non</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
      </widget>
      <widget class="QLabel" name="label_23">
       <property name="geometry">
@@ -803,6 +761,32 @@
       </property>
       <property name="text">
        <string>Filtre:</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="checkBoxFavoris">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>270</y>
+        <width>16</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_7">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>270</y>
+        <width>46</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Favori:</string>
       </property>
      </widget>
     </widget>
@@ -1548,8 +1532,6 @@
   <tabstop>boutonSupprimerAnime</tabstop>
   <tabstop>rechercheEntry</tabstop>
   <tabstop>rechercheViderBoutton</tabstop>
-  <tabstop>favorisOuiRadio</tabstop>
-  <tabstop>favorisNonRadio</tabstop>
   <tabstop>boutonEnregistrer</tabstop>
   <tabstop>boutonAnnuler</tabstop>
   <tabstop>spinboxPageId</tabstop>

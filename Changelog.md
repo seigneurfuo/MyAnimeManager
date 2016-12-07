@@ -1,6 +1,13 @@
 # Changements
 
-04/128/2016 - version 0.22.30
+07/12/2016 - version version version 0.22.33
+- Remplacement des boutons radios favoris par une checkbox
+
+06/12/2016 - version version 0.22.31
+- Suppression des entrées urllib2 dans le code
+- BUGFIX: Utilisation de urllib, (urllib 2 était utilisé (future migration ?)
+
+04/12/2016 - version 0.22.30
 - BUGFIX: Urllib.retrieve car urllib2.retrieve n'existe pas
 - Affichage de la version dans la barre de status dans l'onglet à propos
 - Ajout d'un visonneur web pour afficher le changelog
