@@ -3,7 +3,7 @@
 
 # Informations sur l'application
 __titre__ = "MyAnimeManager"
-__version__ = "0.22.45"
+__version__ = "0.22.46"
 __auteur__ = "seigneurfuo"
 __db_version__ = 5
 __dateDeCreation__ = "12/06/2016"
@@ -234,7 +234,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         
         except:
             log.info("  Impossible de contacter le serveur de mise a jour")
-            tray.showMessage(__titre__, "Impossible de vérifier la version en ligne", msecs = 10000)
+            self.tray.showMessage(__titre__, "Impossible de vérifier la version en ligne", msecs = 10000)
 
 
     def chargement_onglet(self, dump):
