@@ -3,6 +3,9 @@
 Un petit projet Python et PyQt pour gérer sa collection d'animés.
 ![alt tag](https://raw.githubusercontent.com/seigneurfuo/MyAnimeManager/master/data/docs/2016-10-27_00-41-12.png)
 
+# Avancement du projet
+- A ce jour, une version supportant les saisons ainsi qu'un gestion des épisodes vus est actuellement en developpement.
+
 # Fonctionnalités
 - 2 modes de remplissage des informations: manuellement ou automatique grace au informations du site MyAnimeList.net
 - Prise de note pour chaque animé
