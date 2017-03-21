@@ -26,7 +26,7 @@ Icones venant du projet: http://sourceforge.net/projects/openiconlibrary
 - Lassie: (https://pypi.python.org/pypi/lassie)
 
 ## Ubuntu / Debian / Linux Mint
-- sudo apt-get install pyqt4
+- sudo apt-get python-qt4
 - sudo install python-pip
 - sudo pip install beautifulsoup4
 - sudo pip install lassie
