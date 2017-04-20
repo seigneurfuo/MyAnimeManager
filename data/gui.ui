@@ -52,7 +52,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="planning">
      <attribute name="icon">
@@ -557,6 +557,9 @@
       </property>
      </widget>
      <widget class="QPushButton" name="boutonCompleter">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>630</x>
@@ -577,6 +580,9 @@
       </property>
      </widget>
      <widget class="QLineEdit" name="malEntry">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>580</x>
@@ -792,7 +798,7 @@
        <rect>
         <x>350</x>
         <y>270</y>
-        <width>16</width>
+        <width>21</width>
         <height>17</height>
        </rect>
       </property>
@@ -1500,10 +1506,10 @@
        </rect>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Github:&lt;a href=&quot;https://github.com/seigneurfuo/MyAnimeManager&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt; https://github.com/seigneurfuo/MyAnimeManager&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Application: &lt;a href=&quot;https://github.com/seigneurfuo/MyAnimeManager&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;seigneurfuo&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
-     <widget class="QWebView" name="webView">
+     <widget class="QWebView" name="webView" native="true">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -1512,13 +1518,23 @@
         <height>281</height>
        </rect>
       </property>
-      <property name="url">
+      <property name="url" stdset="0">
        <url>
         <string>https://raw.githubusercontent.com/seigneurfuo/MyAnimeManager/master/Changelog.md</string>
        </url>
       </property>
-      <property name="renderHints">
-       <set>QPainter::SmoothPixmapTransform|QPainter::TextAntialiasing</set>
+     </widget>
+     <widget class="QLabel" name="label_16">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>0</y>
+        <width>131</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Logo: &lt;a href=&quot;https://www.facebook.com/lesCreationsdAlexandre/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Alexandre Vert&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
     </widget>

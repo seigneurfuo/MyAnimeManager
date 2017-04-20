@@ -3,11 +3,11 @@
 
 # Informations sur l'application
 __titre__ = "MyAnimeManager"
-__version__ = "0.22.46"
+__version__ = "0.22.47"
 __auteur__ = "seigneurfuo"
 __db_version__ = 5
 __dateDeCreation__ = "12/06/2016"
-__derniereModification__ = "07/12/2016"
+__derniereModification__ = "20/04/2017"
 
 # Logging
 import logging
@@ -36,7 +36,6 @@ try:
 
 	# Librairies de tierces-parties
 	sys.path.append("./data/libs")
-	import myanimelist
 
 	# Importation de pyQt
 	import PyQt4.QtGui
@@ -51,7 +50,7 @@ except Exception, erreur:
 
 def creation_de_la_bdd():
     """Fonctions générale a l'application"""
-
+    
     log.info("Création de la base de donnees")
 
 	# Code SQL pour créer la table anime
@@ -212,7 +211,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         log.info("Recherche de mises a jour...")
          
         # Téléchargement du fichier contenant la dernière version disponible sur github
-        url = "https://raw.githubusercontent.com/seigneurfuo/MyAnimeManager/master/version.txt"
+        url = "http://raw.githubusercontent.com/seigneurfuo/MyAnimeManager/master/version.txt"
         
         try:
             log.info("  Connection au serveur de mise a jour")
@@ -232,8 +231,9 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
                 log.info("  L'application est a jour")
                 return True
         
-        except:
+        except Exception, error:
             log.info("  Impossible de contacter le serveur de mise a jour")
+            log.info(error);
             self.tray.showMessage(__titre__, "Impossible de vérifier la version en ligne", msecs = 10000)
 
 
@@ -256,7 +256,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
 
     def liste_rafraichir(self, titreRecherche=False, favorisRecherche=False, AVoirRecherche=False):
-        """La fonction qui efface les entrés (les instructions auraient pus etres contenues dans liste_affiche mais je souhaitais séparer les deux blocs)"""
+        """La fonction qui efface les entrées (les instructions auraient pus etres contenues dans liste_affiche mais je souhaitais séparer les deux blocs)"""
         
         # Image de l'animé vide
         myPixmap = PyQt4.QtGui.QPixmap("./data/icons/image-x-generic.png")
@@ -280,6 +280,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # Remise par défault de la comboBoxEtatVisionnage (par défaut sur la position indéfinie)
         self.comboBoxEtatVisionnage.setCurrentIndex(3)
 
+        # Remise à zéro de la checkbox Favoris
         self.checkBoxFavoris.setCheckState(False)
 
         # Nettoyage du champ MAL
