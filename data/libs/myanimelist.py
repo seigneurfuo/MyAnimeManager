@@ -96,7 +96,7 @@ def anime(animeMyAnimeListId):
         lassieFetch = lassie.fetch(url)
         retImageUrl = str(lassieFetch["images"][0]["src"])
 
-        del html, htmlA, htmlB, htmlC, htmlD, htmlE, htmlF, htmlG
+        del html, htmlA, htmlB, htmlC, htmlD, htmlE, htmlF, htmlG, lassieFetch 
     except: pass
 
 

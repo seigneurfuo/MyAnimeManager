@@ -1,7 +1,11 @@
 # Changements
 
-02/02/2017 - réecriture de l'application
-
+24/03/2017 - réecriture de l'application
+- Interface modifiée
+- Gestion de plusieurs saisons pour une meme série
+- Lorsqu'un épisode est noté comme "vu", l'épisode suivant est automatiquement proposé
+- Possibilité de sauvegarder un profil (Informations des séries, images, personnages sauvegardés)
+- Possibilité de supprimer les saisons individuellement
 
 07/12/2016 - version 0.22.46
 - Remplacement des boutons radios favoris par une checkbox
@@ -41,6 +45,7 @@
 - Ajout d'un menu contextuel dans la zone de notification
 - Ajout d'une fonction pour quitter l'application (clic droit sur l'icone en zone de notification)
 - Possibilité de démarrer l'application sans activer la recherche de mise a jour (option -noupdates)
+- Possibilité de démarrer l'application sans activer la vérification des dossiers (option -nocheckdirectories)
 
 17/11/2016 - version 0.20.85
 - Utilisation du widget statusbar à la place d'un label pour la barre de status
@@ -145,7 +150,7 @@
 
 03/07/2016
 - Dans l'onglet planning, il est désormais possible de voir les animés en cours. Pratique pour savoir ou l'on en est
-	 
+
 28/06/2016
 - Mise a jour de l'interface
 - Ajout d'une fonction de calcul des animés
@@ -161,4 +166,4 @@
 - Changement de l'interface: Passage a une interface a onglet pour accueillir les futures fonctions
 
 12/06/2016
-- Lancement du projet: Utilisation de PyQt car je ne voulais pas utiliser Tkinter
+- Lancement du projet: Utilisation de Qt. J'aurais également utiliser GTK avec le wrapper "PyGtk" et "Glade" pour créer des interfaces

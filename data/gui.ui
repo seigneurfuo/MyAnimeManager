@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>657</width>
-    <height>343</height>
+    <width>706</width>
+    <height>366</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>data/icons/icon.png</normaloff>data/icons/icon.png</iconset>
+    <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/icon.png</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/icon.png</iconset>
   </property>
   <property name="statusTip">
    <string/>
@@ -41,8 +41,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>661</width>
-      <height>331</height>
+      <width>711</width>
+      <height>351</height>
      </rect>
     </property>
     <property name="tabPosition">
@@ -57,7 +57,7 @@
     <widget class="QWidget" name="planning">
      <attribute name="icon">
       <iconset>
-       <normaloff>data/icons/address-book-new-2.ico</normaloff>data/icons/address-book-new-2.ico</iconset>
+       <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/address-book-new-2.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/address-book-new-2.ico</iconset>
      </attribute>
      <attribute name="title">
       <string>Planning</string>
@@ -65,95 +65,21 @@
      <widget class="QGroupBox" name="groupBox_3">
       <property name="geometry">
        <rect>
-        <x>430</x>
+        <x>460</x>
         <y>0</y>
-        <width>221</width>
-        <height>201</height>
+        <width>241</width>
+        <height>211</height>
        </rect>
       </property>
       <property name="title">
        <string>Episodes vus pour cette date</string>
       </property>
-      <widget class="QTextEdit" name="planningEntry">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>201</width>
-         <height>141</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="boutonAnnuler_3">
-       <property name="geometry">
-        <rect>
-         <x>70</x>
-         <y>180</y>
-         <width>71</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Retour</string>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>data/icons/edit-delete-5.ico</normaloff>data/icons/edit-delete-5.ico</iconset>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="boutonPlanningSauvegarder">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>170</y>
-         <width>71</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Valider</string>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>data/icons/document-export.ico</normaloff>data/icons/document-export.ico</iconset>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_4">
-      <property name="geometry">
-       <rect>
-        <x>240</x>
-        <y>0</y>
-        <width>181</width>
-        <height>201</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Animés en cours</string>
-      </property>
-      <widget class="QPushButton" name="boutonPlanningInserer">
-       <property name="geometry">
-        <rect>
-         <x>100</x>
-         <y>180</y>
-         <width>71</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Insérer</string>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>data/icons/list-add-6.ico</normaloff>data/icons/list-add-6.ico</iconset>
-       </property>
-      </widget>
       <widget class="QTableWidget" name="animeVuTable">
        <property name="geometry">
         <rect>
          <x>10</x>
          <y>20</y>
-         <width>161</width>
+         <width>201</width>
          <height>141</height>
         </rect>
        </property>
@@ -164,7 +90,105 @@
         <enum>QAbstractItemView::SingleSelection</enum>
        </property>
        <property name="selectionBehavior">
-        <enum>QAbstractItemView::SelectItems</enum>
+        <enum>QAbstractItemView::SelectRows</enum>
+       </property>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>30</number>
+       </attribute>
+       <attribute name="horizontalHeaderStretchLastSection">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="verticalHeaderDefaultSectionSize">
+        <number>15</number>
+       </attribute>
+       <attribute name="verticalHeaderMinimumSectionSize">
+        <number>15</number>
+       </attribute>
+      </widget>
+      <widget class="QPushButton" name="supprimerElementPlanningBouton">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>180</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Supprimer</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/edit-delete-5.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/edit-delete-5.ico</iconset>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="boutonPlanningSauvegarder">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>180</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Enregistrer</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/document-export.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/document-export.ico</iconset>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>0</y>
+        <width>221</width>
+        <height>211</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Animés en cours</string>
+      </property>
+      <widget class="QPushButton" name="boutonPlanningInserer">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>180</y>
+         <width>71</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Insérer</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/list-add-6.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/list-add-6.ico</iconset>
+       </property>
+      </widget>
+      <widget class="QTableWidget" name="animeEnCoursTable">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>201</width>
+         <height>141</height>
+        </rect>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::SingleSelection</enum>
+       </property>
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectRows</enum>
        </property>
        <attribute name="horizontalHeaderDefaultSectionSize">
         <number>30</number>
@@ -189,7 +213,7 @@
         <x>0</x>
         <y>0</y>
         <width>231</width>
-        <height>201</height>
+        <height>211</height>
        </rect>
       </property>
       <property name="title">
@@ -234,7 +258,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>data/icons/today.ico</normaloff>data/icons/today.ico</iconset>
+         <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/today.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/today.ico</iconset>
        </property>
       </widget>
      </widget>
@@ -242,29 +266,16 @@
     <widget class="QWidget" name="liste">
      <attribute name="icon">
       <iconset>
-       <normaloff>data/icons/application-view-list.ico</normaloff>data/icons/application-view-list.ico</iconset>
+       <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/application-view-list.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/application-view-list.ico</iconset>
      </attribute>
      <attribute name="title">
       <string>Liste</string>
      </attribute>
-     <widget class="QLabel" name="label_2">
-      <property name="geometry">
-       <rect>
-        <x>300</x>
-        <y>40</y>
-        <width>41</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Titre:</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="boutonAnnuler">
       <property name="geometry">
        <rect>
-        <x>580</x>
-        <y>260</y>
+        <x>560</x>
+        <y>300</y>
         <width>71</width>
         <height>21</height>
        </rect>
@@ -277,96 +288,14 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>data/icons/edit-delete-5.ico</normaloff>data/icons/edit-delete-5.ico</iconset>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_3">
-      <property name="geometry">
-       <rect>
-        <x>300</x>
-        <y>70</y>
-        <width>41</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Année:</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_6">
-      <property name="geometry">
-       <rect>
-        <x>300</x>
-        <y>130</y>
-        <width>51</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Fansub:</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="fansubEntry">
-      <property name="geometry">
-       <rect>
-        <x>360</x>
-        <y>130</y>
-        <width>121</width>
-        <height>20</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="studioEntry">
-      <property name="geometry">
-       <rect>
-        <x>360</x>
-        <y>100</y>
-        <width>121</width>
-        <height>20</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="anneeEntry">
-      <property name="geometry">
-       <rect>
-        <x>360</x>
-        <y>70</y>
-        <width>121</width>
-        <height>20</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="titreEntry">
-      <property name="geometry">
-       <rect>
-        <x>360</x>
-        <y>40</y>
-        <width>121</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::RightToLeft</enum>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="idEntry">
-      <property name="geometry">
-       <rect>
-        <x>360</x>
-        <y>10</y>
-        <width>121</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="inputMethodHints">
-       <set>Qt::ImhDigitsOnly</set>
+        <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/edit-delete-5.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/edit-delete-5.ico</iconset>
       </property>
      </widget>
      <widget class="QPushButton" name="boutonEnregistrer">
       <property name="geometry">
        <rect>
-        <x>580</x>
-        <y>220</y>
+        <x>630</x>
+        <y>290</y>
         <width>71</width>
         <height>31</height>
        </rect>
@@ -379,81 +308,356 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>data/icons/document-export.ico</normaloff>data/icons/document-export.ico</iconset>
+        <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/document-export.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/document-export.ico</iconset>
       </property>
      </widget>
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="label_5">
       <property name="geometry">
        <rect>
-        <x>300</x>
-        <y>10</y>
-        <width>61</width>
+        <x>600</x>
+        <y>30</y>
+        <width>101</width>
+        <height>151</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="boutonCompleter">
+      <property name="geometry">
+       <rect>
+        <x>660</x>
+        <y>0</y>
+        <width>31</width>
         <height>21</height>
        </rect>
       </property>
+      <property name="toolTip">
+       <string>Compléter les différentes informations grâce a un service en ligne</string>
+      </property>
       <property name="text">
-       <string>Identifiant:</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/go-next-5.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/go-next-5.ico</iconset>
       </property>
      </widget>
-     <widget class="QLabel" name="label_4">
+     <widget class="QLineEdit" name="malEntry">
       <property name="geometry">
        <rect>
-        <x>300</x>
-        <y>100</y>
-        <width>41</width>
+        <x>590</x>
+        <y>0</y>
+        <width>71</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="inputMethodHints">
+       <set>Qt::ImhNone</set>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="placeholderText">
+       <string>Id MAL</string>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="saisonCommentairesEntry">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>190</y>
+        <width>101</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Entrez ici vos impressions ou ce que vous voulez !</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="boutonAjouterSerie">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>300</y>
+        <width>81</width>
         <height>21</height>
        </rect>
       </property>
-      <property name="text">
-       <string>Studio:</string>
+      <property name="toolTip">
+       <string>Permet d'ajouter un nouvel animé</string>
       </property>
+      <property name="text">
+       <string>Ajouter</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/list-add-6.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/list-add-6.ico</iconset>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="boutonSupprimerSerie">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>300</y>
+        <width>81</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Permet de suppimer un animé</string>
+      </property>
+      <property name="text">
+       <string>Supprimer</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/edit-delete-5.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/edit-delete-5.ico</iconset>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="seriesTable">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>171</width>
+        <height>291</height>
+       </rect>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectItems</enum>
+      </property>
+      <attribute name="horizontalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>30</number>
+      </attribute>
+      <attribute name="horizontalHeaderStretchLastSection">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderDefaultSectionSize">
+       <number>15</number>
+      </attribute>
+      <attribute name="verticalHeaderMinimumSectionSize">
+       <number>15</number>
+      </attribute>
      </widget>
      <widget class="QGroupBox" name="groupBox">
       <property name="geometry">
        <rect>
-        <x>290</x>
-        <y>190</y>
-        <width>181</width>
-        <height>71</height>
+        <x>390</x>
+        <y>0</y>
+        <width>201</width>
+        <height>291</height>
        </rect>
       </property>
       <property name="title">
-       <string>Visionnage</string>
+       <string>Saison</string>
       </property>
-      <widget class="QSpinBox" name="spinBox">
+      <widget class="QLabel" name="label_6">
        <property name="geometry">
         <rect>
-         <x>120</x>
-         <y>50</y>
-         <width>61</width>
+         <x>10</x>
+         <y>140</y>
+         <width>41</width>
          <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Fansub</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="saisonTitreLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>50</y>
+         <width>31</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Titre</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="saisonDateAjoutEntry">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>170</y>
+         <width>111</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="inputMethodHints">
+        <set>Qt::ImhDigitsOnly</set>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="saisonTitreEntry">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>50</y>
+         <width>111</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::RightToLeft</enum>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="saisonAnneeEntry">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>80</y>
+         <width>111</width>
+         <height>20</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="saisonStudioEntry">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>110</y>
+         <width>111</width>
+         <height>20</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="saisonFansubEntry">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>140</y>
+         <width>111</width>
+         <height>20</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="saisonEpisodesNombreSpinBox">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>200</y>
+         <width>111</width>
+         <height>20</height>
         </rect>
        </property>
        <property name="toolTip">
         <string>Indiquer le nombre de fois que vous avez regardé cet animé</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_9">
+      <widget class="QLabel" name="label_3">
        <property name="geometry">
         <rect>
-         <x>60</x>
-         <y>50</y>
-         <width>51</width>
+         <x>10</x>
+         <y>80</y>
+         <width>41</width>
          <height>21</height>
         </rect>
        </property>
        <property name="text">
-        <string>Nombre</string>
+        <string>Annee</string>
        </property>
       </widget>
-      <widget class="QComboBox" name="comboBoxEtatVisionnage">
+      <widget class="QLabel" name="label_15">
        <property name="geometry">
         <rect>
-         <x>60</x>
-         <y>20</y>
-         <width>121</width>
+         <x>10</x>
+         <y>200</y>
+         <width>71</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="text">
+        <string>Nb épisodes</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_12">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>170</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Date ajout</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_4">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>110</y>
+         <width>41</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Studio</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_16">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>230</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Etat visionnage:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_9">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>260</y>
+         <width>71</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Nombre visionnage</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="saisonVisionnageEtatComboBox">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>230</y>
+         <width>111</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="currentIndex">
+        <number>3</number>
        </property>
        <item>
         <property name="text">
@@ -471,7 +675,7 @@
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>data/icons/appointment-new-2.ico</normaloff>data/icons/appointment-new-2.ico</iconset>
+          <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/appointment-new-2.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/appointment-new-2.ico</iconset>
         </property>
        </item>
        <item>
@@ -480,139 +684,157 @@
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>data/icons/help-about.ico</normaloff>data/icons/help-about.ico</iconset>
+          <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/help-about.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/help-about.ico</iconset>
         </property>
        </item>
       </widget>
+      <widget class="QSpinBox" name="saisonVisionnageNombreSpinBox">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>260</y>
+         <width>111</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Indiquer le nombre de fois que vous avez regardé cet animé</string>
+       </property>
+      </widget>
      </widget>
-     <widget class="QLineEdit" name="rechercheEntry">
+     <widget class="QGroupBox" name="groupBox_5">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>270</y>
-        <width>131</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="toolTip">
-       <string>Taper un titre pour le rechercher dans votre collection</string>
-      </property>
-      <property name="inputMethodHints">
-       <set>Qt::ImhDigitsOnly</set>
-      </property>
-      <property name="frame">
-       <bool>true</bool>
-      </property>
-      <property name="placeholderText">
-       <string>Rechercher un animé</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="rechercheViderBoutton">
-      <property name="geometry">
-       <rect>
-        <x>140</x>
-        <y>270</y>
-        <width>21</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="toolTip">
-       <string>Reinitalise la liste et la zone de recherche</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>data/icons/edit-clear-2.ico</normaloff>data/icons/edit-clear-2.ico</iconset>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_5">
-      <property name="geometry">
-       <rect>
-        <x>170</x>
-        <y>10</y>
-        <width>121</width>
-        <height>181</height>
-       </rect>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_23">
-      <property name="geometry">
-       <rect>
-        <x>490</x>
+        <x>180</x>
         <y>0</y>
-        <width>41</width>
-        <height>16</height>
+        <width>191</width>
+        <height>101</height>
        </rect>
       </property>
-      <property name="text">
-       <string>Notes</string>
+      <property name="title">
+       <string>Série</string>
       </property>
+      <widget class="QLineEdit" name="serieTitreEntry">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>50</y>
+         <width>111</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="inputMethodHints">
+        <set>Qt::ImhDigitsOnly</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="serieTitreLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>50</y>
+         <width>51</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>titre:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_7">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>80</y>
+         <width>41</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>favori:</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="serieFavoriCheckBox">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>80</y>
+         <width>21</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
      </widget>
-     <widget class="QPushButton" name="boutonCompleter">
+     <widget class="QGroupBox" name="groupBox_7">
       <property name="geometry">
        <rect>
-        <x>630</x>
+        <x>180</x>
+        <y>110</y>
+        <width>191</width>
+        <height>201</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Saisons</string>
+      </property>
+      <widget class="QTableWidget" name="serieSaisonsTable">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>171</width>
+         <height>151</height>
+        </rect>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::SingleSelection</enum>
+       </property>
+       <property name="columnCount">
+        <number>0</number>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>30</number>
+       </attribute>
+       <attribute name="horizontalHeaderStretchLastSection">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="verticalHeaderDefaultSectionSize">
+        <number>15</number>
+       </attribute>
+       <attribute name="verticalHeaderMinimumSectionSize">
+        <number>15</number>
+       </attribute>
+      </widget>
+     </widget>
+     <widget class="Line" name="line_2">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
         <y>0</y>
-        <width>21</width>
-        <height>21</height>
+        <width>20</width>
+        <height>321</height>
        </rect>
       </property>
-      <property name="toolTip">
-       <string>Compléter les différentes informations grâce a un service en ligne</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>data/icons/go-next-5.ico</normaloff>data/icons/go-next-5.ico</iconset>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
       </property>
      </widget>
-     <widget class="QLineEdit" name="malEntry">
+     <widget class="QPushButton" name="boutonAjouterAnime_2">
       <property name="geometry">
        <rect>
-        <x>580</x>
-        <y>0</y>
-        <width>51</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="inputMethodHints">
-       <set>Qt::ImhNone</set>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="placeholderText">
-       <string>Id MAL</string>
-      </property>
-     </widget>
-     <widget class="QTextEdit" name="notesEntry">
-      <property name="geometry">
-       <rect>
-        <x>490</x>
-        <y>20</y>
-        <width>161</width>
-        <height>171</height>
-       </rect>
-      </property>
-      <property name="toolTip">
-       <string>Entrez ici vos impressions ou ce que vous voulez !</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="boutonAjouterAnime">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>210</y>
+        <x>190</x>
+        <y>290</y>
         <width>81</width>
         <height>21</height>
        </rect>
@@ -625,17 +847,17 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>data/icons/list-add-6.ico</normaloff>data/icons/list-add-6.ico</iconset>
+        <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/list-add-6.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/list-add-6.ico</iconset>
       </property>
       <property name="flat">
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="boutonSupprimerAnime">
+     <widget class="QPushButton" name="boutonSupprimerSaison">
       <property name="geometry">
        <rect>
-        <x>80</x>
-        <y>210</y>
+        <x>280</x>
+        <y>290</y>
         <width>81</width>
         <height>21</height>
        </rect>
@@ -648,176 +870,14 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>data/icons/edit-delete-5.ico</normaloff>data/icons/edit-delete-5.ico</iconset>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_12">
-      <property name="geometry">
-       <rect>
-        <x>300</x>
-        <y>160</y>
-        <width>71</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Ajouté le:</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="ajoutEntry">
-      <property name="geometry">
-       <rect>
-        <x>360</x>
-        <y>160</y>
-        <width>121</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="inputMethodHints">
-       <set>Qt::ImhDigitsOnly</set>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QTableWidget" name="table">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>161</width>
-        <height>211</height>
-       </rect>
-      </property>
-      <property name="editTriggers">
-       <set>QAbstractItemView::NoEditTriggers</set>
-      </property>
-      <property name="selectionMode">
-       <enum>QAbstractItemView::SingleSelection</enum>
-      </property>
-      <property name="selectionBehavior">
-       <enum>QAbstractItemView::SelectItems</enum>
-      </property>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>30</number>
-      </attribute>
-      <attribute name="horizontalHeaderStretchLastSection">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="verticalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="verticalHeaderDefaultSectionSize">
-       <number>15</number>
-      </attribute>
-      <attribute name="verticalHeaderMinimumSectionSize">
-       <number>15</number>
-      </attribute>
-     </widget>
-     <widget class="QPushButton" name="rechercheLancer">
-      <property name="geometry">
-       <rect>
-        <x>140</x>
-        <y>240</y>
-        <width>21</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="toolTip">
-       <string>Affiche les animés à voir</string>
-      </property>
-      <property name="statusTip">
-       <string/>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>data/icons/system-search-5.ico</normaloff>data/icons/system-search-5.ico</iconset>
-      </property>
-     </widget>
-     <widget class="QComboBox" name="comboBoxFiltreRecherche">
-      <property name="geometry">
-       <rect>
-        <x>40</x>
-        <y>240</y>
-        <width>91</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <item>
-       <property name="text">
-        <string>Tous</string>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>data/icons/dialog-information-2.ico</normaloff>data/icons/dialog-information-2.ico</iconset>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Favoris</string>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>data/icons/favorites.ico</normaloff>data/icons/favorites.ico</iconset>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>A voir</string>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>data/icons/appointment-new-2.ico</normaloff>data/icons/appointment-new-2.ico</iconset>
-       </property>
-      </item>
-     </widget>
-     <widget class="QLabel" name="label_15">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>240</y>
-        <width>41</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Filtre:</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="checkBoxFavoris">
-      <property name="geometry">
-       <rect>
-        <x>350</x>
-        <y>270</y>
-        <width>16</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_7">
-      <property name="geometry">
-       <rect>
-        <x>300</x>
-        <y>270</y>
-        <width>46</width>
-        <height>13</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Favori:</string>
+        <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/edit-delete-5.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/edit-delete-5.ico</iconset>
       </property>
      </widget>
     </widget>
     <widget class="QWidget" name="album">
      <attribute name="icon">
       <iconset>
-       <normaloff>data/icons/application-view-tile.ico</normaloff>data/icons/application-view-tile.ico</iconset>
+       <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/application-view-tile.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/application-view-tile.ico</iconset>
      </attribute>
      <attribute name="title">
       <string>Album</string>
@@ -825,10 +885,10 @@
      <widget class="QLabel" name="waifu008">
       <property name="geometry">
        <rect>
-        <x>220</x>
-        <y>140</y>
-        <width>111</width>
-        <height>111</height>
+        <x>240</x>
+        <y>150</y>
+        <width>121</width>
+        <height>121</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -841,10 +901,10 @@
      <widget class="QLabel" name="waifu003">
       <property name="geometry">
        <rect>
-        <x>220</x>
+        <x>240</x>
         <y>0</y>
-        <width>111</width>
-        <height>111</height>
+        <width>121</width>
+        <height>121</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -857,10 +917,10 @@
      <widget class="QLabel" name="waifu007">
       <property name="geometry">
        <rect>
-        <x>110</x>
-        <y>140</y>
-        <width>111</width>
-        <height>111</height>
+        <x>120</x>
+        <y>150</y>
+        <width>121</width>
+        <height>121</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -875,8 +935,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>111</width>
-        <height>111</height>
+        <width>121</width>
+        <height>121</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -889,8 +949,8 @@
      <widget class="QPushButton" name="testButton">
       <property name="geometry">
        <rect>
-        <x>590</x>
-        <y>90</y>
+        <x>640</x>
+        <y>80</y>
         <width>61</width>
         <height>21</height>
        </rect>
@@ -902,9 +962,9 @@
      <widget class="QLineEdit" name="waifu007Entry">
       <property name="geometry">
        <rect>
-        <x>110</x>
-        <y>250</y>
-        <width>51</width>
+        <x>130</x>
+        <y>270</y>
+        <width>101</width>
         <height>20</height>
        </rect>
       </property>
@@ -918,9 +978,9 @@
      <widget class="QLineEdit" name="waifu002Entry">
       <property name="geometry">
        <rect>
-        <x>110</x>
-        <y>110</y>
-        <width>51</width>
+        <x>130</x>
+        <y>120</y>
+        <width>101</width>
         <height>20</height>
        </rect>
       </property>
@@ -934,9 +994,9 @@
      <widget class="QLineEdit" name="waifu001Entry">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>110</y>
-        <width>51</width>
+        <x>10</x>
+        <y>120</y>
+        <width>101</width>
         <height>20</height>
        </rect>
       </property>
@@ -953,9 +1013,9 @@
      <widget class="QLineEdit" name="waifu008Entry">
       <property name="geometry">
        <rect>
-        <x>220</x>
-        <y>250</y>
-        <width>51</width>
+        <x>260</x>
+        <y>270</y>
+        <width>91</width>
         <height>20</height>
        </rect>
       </property>
@@ -969,9 +1029,9 @@
      <widget class="QLineEdit" name="waifu004Entry">
       <property name="geometry">
        <rect>
-        <x>330</x>
-        <y>110</y>
-        <width>51</width>
+        <x>370</x>
+        <y>120</y>
+        <width>101</width>
         <height>20</height>
        </rect>
       </property>
@@ -985,9 +1045,9 @@
      <widget class="QLineEdit" name="waifu003Entry">
       <property name="geometry">
        <rect>
-        <x>220</x>
-        <y>110</y>
-        <width>51</width>
+        <x>250</x>
+        <y>120</y>
+        <width>101</width>
         <height>20</height>
        </rect>
       </property>
@@ -1001,10 +1061,10 @@
      <widget class="QLabel" name="waifu004">
       <property name="geometry">
        <rect>
-        <x>330</x>
+        <x>360</x>
         <y>0</y>
-        <width>111</width>
-        <height>111</height>
+        <width>121</width>
+        <height>121</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -1017,10 +1077,10 @@
      <widget class="QLabel" name="waifu002">
       <property name="geometry">
        <rect>
-        <x>110</x>
+        <x>120</x>
         <y>0</y>
-        <width>111</width>
-        <height>111</height>
+        <width>121</width>
+        <height>121</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -1034,9 +1094,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>140</y>
-        <width>111</width>
-        <height>111</height>
+        <y>150</y>
+        <width>121</width>
+        <height>121</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -1049,9 +1109,9 @@
      <widget class="QLineEdit" name="waifu006Entry">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>250</y>
-        <width>51</width>
+        <x>10</x>
+        <y>270</y>
+        <width>101</width>
         <height>20</height>
        </rect>
       </property>
@@ -1065,9 +1125,9 @@
      <widget class="QLineEdit" name="waifu005Entry">
       <property name="geometry">
        <rect>
-        <x>440</x>
-        <y>110</y>
-        <width>51</width>
+        <x>490</x>
+        <y>120</y>
+        <width>101</width>
         <height>20</height>
        </rect>
       </property>
@@ -1081,10 +1141,10 @@
      <widget class="QLabel" name="waifu005">
       <property name="geometry">
        <rect>
-        <x>440</x>
+        <x>480</x>
         <y>0</y>
-        <width>111</width>
-        <height>111</height>
+        <width>121</width>
+        <height>121</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -1097,9 +1157,9 @@
      <widget class="QLineEdit" name="waifu010Entry">
       <property name="geometry">
        <rect>
-        <x>440</x>
-        <y>250</y>
-        <width>51</width>
+        <x>490</x>
+        <y>270</y>
+        <width>101</width>
         <height>20</height>
        </rect>
       </property>
@@ -1113,9 +1173,9 @@
      <widget class="QLineEdit" name="waifu009Entry">
       <property name="geometry">
        <rect>
-        <x>330</x>
-        <y>250</y>
-        <width>51</width>
+        <x>370</x>
+        <y>270</y>
+        <width>101</width>
         <height>20</height>
        </rect>
       </property>
@@ -1129,10 +1189,10 @@
      <widget class="QLabel" name="waifu010">
       <property name="geometry">
        <rect>
-        <x>440</x>
-        <y>140</y>
-        <width>111</width>
-        <height>111</height>
+        <x>480</x>
+        <y>150</y>
+        <width>121</width>
+        <height>121</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -1145,10 +1205,10 @@
      <widget class="QLabel" name="waifu009">
       <property name="geometry">
        <rect>
-        <x>330</x>
-        <y>140</y>
-        <width>111</width>
-        <height>111</height>
+        <x>360</x>
+        <y>150</y>
+        <width>121</width>
+        <height>121</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -1161,9 +1221,9 @@
      <widget class="QCheckBox" name="deformerCheckBox">
       <property name="geometry">
        <rect>
-        <x>590</x>
-        <y>30</y>
-        <width>91</width>
+        <x>640</x>
+        <y>20</y>
+        <width>61</width>
         <height>31</height>
        </rect>
       </property>
@@ -1190,8 +1250,8 @@
      <widget class="QLineEdit" name="waifuWallpaperEntry">
       <property name="geometry">
        <rect>
-        <x>600</x>
-        <y>60</y>
+        <x>650</x>
+        <y>50</y>
         <width>51</width>
         <height>20</height>
        </rect>
@@ -1206,7 +1266,7 @@
      <widget class="Line" name="line">
       <property name="geometry">
        <rect>
-        <x>550</x>
+        <x>600</x>
         <y>0</y>
         <width>20</width>
         <height>281</height>
@@ -1219,8 +1279,8 @@
      <widget class="QSpinBox" name="spinboxPageId">
       <property name="geometry">
        <rect>
-        <x>610</x>
-        <y>10</y>
+        <x>660</x>
+        <y>0</y>
         <width>41</width>
         <height>21</height>
        </rect>
@@ -1238,8 +1298,8 @@
      <widget class="QLabel" name="label_14">
       <property name="geometry">
        <rect>
-        <x>570</x>
-        <y>10</y>
+        <x>620</x>
+        <y>0</y>
         <width>51</width>
         <height>21</height>
        </rect>
@@ -1279,7 +1339,7 @@
     <widget class="QWidget" name="outils">
      <attribute name="icon">
       <iconset>
-       <normaloff>data/icons/tools-wizard-3.ico</normaloff>data/icons/tools-wizard-3.ico</iconset>
+       <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/tools-wizard-3.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/tools-wizard-3.ico</iconset>
      </attribute>
      <attribute name="title">
       <string>Outils</string>
@@ -1365,7 +1425,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>data/icons/go-next-5.ico</normaloff>data/icons/go-next-5.ico</iconset>
+         <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/go-next-5.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/go-next-5.ico</iconset>
        </property>
       </widget>
       <widget class="QPushButton" name="pushButton_2">
@@ -1425,7 +1485,7 @@
     <widget class="QWidget" name="tab_3">
      <attribute name="icon">
       <iconset>
-       <normaloff>data/icons/configure-2.ico</normaloff>data/icons/configure-2.ico</iconset>
+       <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/configure-2.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/configure-2.ico</iconset>
      </attribute>
      <attribute name="title">
       <string>Préférences</string>
@@ -1444,10 +1504,13 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>data/icons/edit-clear-2.ico</normaloff>data/icons/edit-clear-2.ico</iconset>
+        <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/edit-clear-2.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/edit-clear-2.ico</iconset>
       </property>
      </widget>
      <widget class="QPushButton" name="pushButton_4">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -1461,10 +1524,13 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>data/icons/document-import-2.ico</normaloff>data/icons/document-import-2.ico</iconset>
+        <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/document-import-2.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/document-import-2.ico</iconset>
       </property>
      </widget>
      <widget class="QPushButton" name="pushButton_5">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -1478,14 +1544,23 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>data/icons/document-export-4.ico</normaloff>data/icons/document-export-4.ico</iconset>
+        <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/document-export-4.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/document-export-4.ico</iconset>
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab">
+    <widget class="QWidget" name="Aide">
      <attribute name="icon">
       <iconset>
-       <normaloff>data/icons/help-about.ico</normaloff>data/icons/help-about.ico</iconset>
+       <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/dialog-information-2.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/dialog-information-2.ico</iconset>
+     </attribute>
+     <attribute name="title">
+      <string>Aide</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="Apropos">
+     <attribute name="icon">
+      <iconset>
+       <normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/help-about.ico</normaloff>../../../../../../../home/seigneurfuo/.designer/backup/data/icons/help-about.ico</iconset>
      </attribute>
      <attribute name="title">
       <string>A propos</string>
@@ -1503,22 +1578,48 @@
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Github:&lt;a href=&quot;https://github.com/seigneurfuo/MyAnimeManager&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt; https://github.com/seigneurfuo/MyAnimeManager&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
-     <widget class="QWebView" name="webView">
+     <widget class="QWebView" name="webView" native="true">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>20</y>
-        <width>651</width>
-        <height>281</height>
+        <width>701</width>
+        <height>301</height>
        </rect>
       </property>
-      <property name="url">
+      <property name="url" stdset="0">
        <url>
         <string>https://raw.githubusercontent.com/seigneurfuo/MyAnimeManager/master/Changelog.md</string>
        </url>
       </property>
-      <property name="renderHints">
-       <set>QPainter::SmoothPixmapTransform|QPainter::TextAntialiasing</set>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>0</y>
+        <width>151</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Programme: &lt;/span&gt;&lt;a href=&quot;http://github.com/seigneurfuo&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;seigneurfuo&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::LinksAccessibleByMouse</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>500</x>
+        <y>0</y>
+        <width>201</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Image application: &lt;/span&gt;&lt;a href=&quot;https://www.facebook.com/lesCreationsdAlexandre&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Alexendre Vert&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
     </widget>
@@ -1536,25 +1637,14 @@
  <tabstops>
   <tabstop>tabWidget</tabstop>
   <tabstop>planningCalendrier</tabstop>
-  <tabstop>planningEntry</tabstop>
   <tabstop>boutonPlanningReset</tabstop>
   <tabstop>boutonPlanningInserer</tabstop>
-  <tabstop>boutonAnnuler_3</tabstop>
-  <tabstop>boutonPlanningSauvegarder</tabstop>
-  <tabstop>table</tabstop>
-  <tabstop>idEntry</tabstop>
-  <tabstop>titreEntry</tabstop>
-  <tabstop>anneeEntry</tabstop>
-  <tabstop>studioEntry</tabstop>
-  <tabstop>fansubEntry</tabstop>
-  <tabstop>ajoutEntry</tabstop>
-  <tabstop>notesEntry</tabstop>
+  <tabstop>seriesTable</tabstop>
+  <tabstop>saisonCommentairesEntry</tabstop>
   <tabstop>malEntry</tabstop>
   <tabstop>boutonCompleter</tabstop>
-  <tabstop>boutonAjouterAnime</tabstop>
-  <tabstop>boutonSupprimerAnime</tabstop>
-  <tabstop>rechercheEntry</tabstop>
-  <tabstop>rechercheViderBoutton</tabstop>
+  <tabstop>boutonAjouterSerie</tabstop>
+  <tabstop>boutonSupprimerSerie</tabstop>
   <tabstop>boutonEnregistrer</tabstop>
   <tabstop>boutonAnnuler</tabstop>
   <tabstop>spinboxPageId</tabstop>

@@ -3,11 +3,11 @@
 
 # Informations sur l'application
 __titre__ = "MyAnimeManager"
-__version__ = "0.22.46"
 __auteur__ = "seigneurfuo"
-__db_version__ = 5
 __dateDeCreation__ = "12/06/2016"
-__derniereModification__ = "07/12/2016"
+__db_version__ = 6
+__version__ = "0.27.89"
+__derniereModification__ = "10/04/2017"
 
 # Logging
 import logging
@@ -15,7 +15,7 @@ log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 
 # Création d'un formateur qui va ajouter le temps, le niveau de chaque message quand on écrira un message dans le log
-formatter = logging.Formatter('%(asctime)s : %(levelname)s : %(message)s')
+formatter = logging.Formatter('%(asctime)s : %(lineno)s : %(levelname)s : %(message)s')
 
 # Les lignes suivantes permettent de rediriger chaque écriture de log sur la console
 console_handler = logging.StreamHandler()
@@ -23,25 +23,28 @@ console_handler.setLevel(logging.INFO)
 console_handler.setFormatter(formatter)
 log.addHandler(console_handler)
 
+# Importation des librairies
 try:
-	# Librairies standards
-	import sys
-	import os
-	import re
-	import sqlite3
-	import urllib
-	import argparse
-	from distutils.version import LooseVersion
-	from datetime import date, datetime, time, timedelta
+  # Librairies standards
+  import sys
+  import os
+  import re
+  import sqlite3
+  import urllib
+  import argparse
+  from distutils.version import LooseVersion
+  from datetime import date, datetime, time, timedelta
 
-	# Librairies de tierces-parties
-	sys.path.append("./data/libs")
-	import myanimelist
+  # Librairies de tierces-parties
+  path = os.path.dirname(os.path.abspath(__file__))
+  libsPath = os.path.join(path, "./data/libs")
+  sys.path.append(libsPath)
 
-	# Importation de pyQt
-	import PyQt4.QtGui
-	import PyQt4.QtCore
-	import PyQt4.uic
+  # Importation de pyQt
+  import PyQt4.QtGui
+  import PyQt4.QtCore
+  import PyQt4.uic
+
 
 except Exception, erreur:
     log.error("Librairies manquantes !")
@@ -54,41 +57,8 @@ def creation_de_la_bdd():
 
     log.info("Création de la base de donnees")
 
-	# Code SQL pour créer la table anime
-    curseur.execute(
-    """
-    CREATE TABLE anime(
-    animeId TEXT PRIMARY KEY NOT NULL,
-    animeAjout TEXT,
-    animeTitre VARCHAR(100) NOT NULL,
-    animeAnnee INT,
-    animeStudio VARCHAR(30),
-    animeFansub VARCHAR(30),
-    animeEtatVisionnage INT,
-    animeFavori TEXT,
-    animeDateAjout TEXT,
-    animeNbVisionnage INT,
-    animeNotes TEXT)
-    """)
-
-
-# Code SQL pour créer la table planning
-    curseur.execute(
-    """
-    CREATE TABLE planning(
-    planningDate TEXT NOT NULL,
-    planningIdentifiantJournalier TEXT,
-    planningAnime TEXT,
-    planningEpisode TEXT)
-    """)
-
-
-	# Code SQL pour créer la table informations
-    curseur.execute(
-    """
-    CREATE TABLE information(
-    informationVersion)
-    """)
+  # Code SQL pour créer la table anime
+    curseur.execute()
 
 
 def verification_des_dossiers():
@@ -126,48 +96,87 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         # Variables qui enregistre les modifications (Permet de ne pas afficher la fenetre d'enregistrement si rien n'a été modifié)
         self.modifications = False
 
+        # Initialisation des evenements
+        self.__init__evenements()
+        
+        # Chargement du systray
+        self.__init__systray()
+        
+        # Si l'argument noupdate est passé en parametres, on ne met pas a jour
+        if args.noupdate == False:
+            # Lance la recherche de MAJ
+            self.recherche_mise_a_jour()
+            
+        # Définition du premier onglet affiché
+        self.tabWidget.setCurrentIndex(0)
+           
+        # Chargement des fonctions
+        self.chargement_onglet(self) # Inutile car il est appelé lorsque l'onglet actif est changé.
+
+
+    def __init__evenements(self):
+        """Fonction qui contiends toutes les evenements liées aux boutons / widgets"""
+        
+        # Au changement d'onglet
         self.tabWidget.currentChanged.connect(self.chargement_onglet)
-
-        # Gestion des evenements (onglet liste)
-        self.table.cellClicked.connect(self.liste_afficher_infos_anime)
-        self.table.currentCellChanged.connect(self.liste_afficher_infos_anime)
-        self.boutonEnregistrer.clicked.connect(self.liste_enregistrer)
-        self.boutonAnnuler.clicked.connect(self.liste_rafraichir)
-        self.boutonCompleter.clicked.connect(self.liste_remplir_myanimelist)
-        self.rechercheEntry.textChanged.connect(self.liste_recherche)
-        self.rechercheViderBoutton.clicked.connect(self.liste_recherche_vider)
         
-        self.rechercheLancer.clicked.connect(self.liste_recherche_filtre_liste)
-
-        self.boutonAjouterAnime.clicked.connect(self.liste_rafraichir)
-        self.boutonSupprimerAnime.clicked.connect(self.liste_supprimer)
-
-        # Onglet planning
-        self.planningCalendrier.clicked.connect(self.planning_afficher)
-        self.planningCalendrier.selectionChanged.connect(self.planning_afficher)
-
-        self.boutonPlanningInserer.clicked.connect(self.planning_animes_vus_inserer)
-        self.boutonPlanningReset.clicked.connect(self.planning_aujourdhui)
-        self.boutonPlanningSauvegarder.clicked.connect(self.planning_enregistrer)
+        # ----- Onglet liste -----
         
-        self.animeVuTable.cellDoubleClicked.connect(self.planning_animes_vus_inserer)
+        # Evenements du tableau seriesTable
 
+        self.seriesTable.cellClicked.connect(self.onglet_liste__liste_serie__changement_selection)
+        self.seriesTable.currentCellChanged.connect(self.onglet_liste__liste_serie__changement_selection)
 
-        # Onglet album
+        # Evenements du tableau serieSaisonsTable      
+        self.serieSaisonsTable.cellClicked.connect(self.onglet_liste__liste_saison__changement_selection)
+        self.serieSaisonsTable.currentCellChanged.connect(self.onglet_liste__liste_saison__changement_selection)
+
+        # Bouton de nouvelle série
+        self.boutonAjouterSerie.clicked.connect(self.onglet_liste__rafraichir)
+
+		# Bouton de sauvegarde de la série éditée
+        self.boutonEnregistrer.clicked.connect(self.onglet_liste__enregistrer)
+        
+        # Bouton de supression de série
+        self.boutonSupprimerSerie.clicked.connect(self.onglet_liste__supprimer_serie)
+        
+
+        # ----- Onglet planning -----
+        self.planningCalendrier.clicked.connect(self.onglet_planning__planning__changement_selection)
+        self.planningCalendrier.selectionChanged.connect(self.onglet_planning__planning__changement_selection)
+
+        self.boutonPlanningInserer.clicked.connect(self.onglet_planning__liste_animes_vus__ligne__inserer)
+        self.animeEnCoursTable.cellDoubleClicked.connect(self.onglet_planning__liste_animes_vus__ligne__inserer)
+        
+        self.boutonPlanningReset.clicked.connect(self.onglet_planning__calendrier__aujourdhui)
+
+        self.supprimerElementPlanningBouton.clicked.connect(self.onglet_planning__liste_animes_vus__ligne__supprimer)
+        
+        self.boutonPlanningSauvegarder.clicked.connect(self.onglet_planning__enregistrer)
+        
+
+        # ----- Onglet album -----
         self.testButton.clicked.connect(self.personnages_favoris)
         
-        # Onglet outils
+        
+        # ----- Onglet outils -----
         self.pushButton.clicked.connect(self.outils_calcul_temps_calcul)
 
-        # Onglet préférences
+
+        # ----- Onglet préférences -----
         self.pushButton_5.clicked.connect(self.exportation_du_profil)
         self.pushButton_3.clicked.connect(self.suppression_du_profil)
 
-        # Remplace le numéro de version A propos
+
+        # Remplace le numéro de version
         self.barreDeStatus.showMessage("Version %s" %__version__)
 
         # Evenement de fermeture de l'application
         self.closeEvent = self.fermer
+        
+        
+    def __init__systray(self):
+        """Fonction qui contiends le code du systray"""
         
         # Icone en zone de notification
         self.tray = PyQt4.QtGui.QSystemTrayIcon(self)
@@ -178,32 +187,51 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
     
         # Charge l'icone pour la fermeture
         self.tray.iconeQuitter = PyQt4.QtGui.QIcon("./data/icons/edit-delete-5.ico")
-            
+
         # Créer l'action dans le menu
         self.tray.actionfermer = (PyQt4.QtGui.QAction(self.tray.iconeQuitter, "Quitter", self))
-            
+     
         # Evenement de l'action fermer
         self.tray.actionfermer.triggered.connect(self.fermer)
         
         # Ajout de l'action dans le menu
         self.tray.menuContextuel.addAction(self.tray.actionfermer)
         
-        # Ajout du menu contextuel
+        # Ajout du menu contextuel en clic droit
         self.tray.setContextMenu(self.tray.menuContextuel)
         
-		# Affichage de l'icone dans la zone de notifications
+    # Affichage de l'icone dans la zone de notifications
         self.tray.show()
+
+
+    def _init__variables(self):
+        """Initialisation des variables qui serons utilisées par plusieurs fonctions"""
+        ongletListeSerieInfo = ""
+        ongletListeSaisonInfo = ""
+
+
+    def util__serie_id(self, serieTitre):
+        """Renvoi le titre de la série associée à l'indentifiant donné"""
+
+        curseur.execute("""
+                        SELECT serieId
+                        FROM serie
+                        WHERE serieTitre = \"%s\"
+                        """ %serieTitre)
+                       
+        return curseur.fetchone()[0]
         
-        # Si l'argument noupdate est passé en parametres
-        if args.noupdate == False:
-            # Lance la recherche de MAJ
-            self.recherche_mise_a_jour()
-            
-        # Définition du premier onglet affiché
-        self.tabWidget.setCurrentIndex(0)
-           
-        # Chargement des fonctions
-        self.chargement_onglet(self)
+        
+    def util__serie_existe(self, serieId):
+        """Renvoi le titre de la série associée à l'indentifiant donné"""
+
+        curseur.execute("""
+                        SELECT serieId
+                        FROM serie
+                        WHERE serieId = \"%s\"
+                        """ %serieId)
+                       
+        return curseur.fetchone()[0]
 
 
     def recherche_mise_a_jour(self):
@@ -218,13 +246,13 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             log.info("  Connection au serveur de mise a jour")
             request = urllib.urlopen(url)
             data = request.read()
-            version = data.replace("\n", "")
+            versionRecente = data.replace("\n", "")
             
             # Supression des variables inutiles
             del request, data
         
             # Vérification de la version
-            if LooseVersion(__version__) < LooseVersion(version):
+            if LooseVersion(__version__) < LooseVersion(versionRecente):
                 log.info("  Une nouvelle mise a jour est disponible")
                 self.tray.showMessage(__titre__, "Une mise a jour est disponible", msecs = 10000)
             
@@ -234,7 +262,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         
         except:
             log.info("  Impossible de contacter le serveur de mise a jour")
-            self.tray.showMessage(__titre__, "Impossible de vérifier la version en ligne", msecs = 10000)
+            self.tray.showMessage(__titre__, "Impossible de verifier la version en ligne", msecs = 10000)
 
 
     def chargement_onglet(self, dump):
@@ -245,188 +273,189 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         
         # Onglet planning
         if ongletId == 0:
-            self.planning_afficher()
-            self.planning_animes_vus_afficher()
+            self.onglet_planning__liste_animes_en_cours__remplir()
+            self.onglet_planning__liste_animes_vus__remplir()
         
         # Onglet liste d'animé
-        elif ongletId == 1: self.liste_rafraichir()
+        elif ongletId == 1: self.onglet_liste__liste_serie__remplir()
         
         # Onglet album
         elif ongletId == 2: self.personnages_favoris()
 
 
-    def liste_rafraichir(self, titreRecherche=False, favorisRecherche=False, AVoirRecherche=False):
-        """La fonction qui efface les entrés (les instructions auraient pus etres contenues dans liste_affiche mais je souhaitais séparer les deux blocs)"""
+    def onglet_liste__liste_serie__remplir(self):
+        """Génére la liste qui contiends touts les séries disponibles"""
         
-        # Image de l'animé vide
-        myPixmap = PyQt4.QtGui.QPixmap("./data/icons/image-x-generic.png")
-        image = myPixmap.scaled(self.label_5.size(), PyQt4.QtCore.Qt.KeepAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
-        self.label_5.setPixmap(image)
-
-        # On vide la liste et les entrées
-        self.table.clear()
-        self.idEntry.setText(str())
-        self.ajoutEntry.setText(str())
-        self.titreEntry.setText(str())
-        self.anneeEntry.setText(str())
-        self.studioEntry.setText(str())
-        self.fansubEntry.setText(str())
-        self.malEntry.setText(str())
-        self.notesEntry.setText(str())
-
-        # Remise à zéro de la spinbox pour le nombre de visionnages
-        self.spinBox.setValue(0)
-
-        # Remise par défault de la comboBoxEtatVisionnage (par défaut sur la position indéfinie)
-        self.comboBoxEtatVisionnage.setCurrentIndex(3)
-
-        self.checkBoxFavoris.setCheckState(False)
-
-        # Nettoyage du champ MAL
-        self.malEntry.setText(str())
-
-        # Si rien n'est rentré dans la barre de recherche:
-        if titreRecherche != False and titreRecherche !="" :
-            log.info("Filtrage de la liste: Par correspondance")
-
-            # On afiche la liste normale
-            curseur.execute("SELECT * FROM anime WHERE animeTitre LIKE('%s%s%s') ORDER BY LENGTH(animeId), animeId" %("%", titreRecherche, "%"))
-
-        # Si on veut afficher la liste des animés à voir
-        elif AVoirRecherche == True:
-            log.info("Filtrage de la liste: Afficher les animes a voir")
-            curseur.execute("SELECT * FROM anime WHERE animeEtatVisionnage = '2' ORDER BY LENGTH(animeId), animeId")
-
-        # Affichage de la liste normale
-        elif favorisRecherche == False:
-            log.info("Affichage normal de la liste des animes")
-            curseur.execute("SELECT * FROM anime ORDER BY LENGTH(animeId), animeId") # Permet de trier les animés de manière croissante et de manière humaine (evite que des identifiants tel que 1000 s'intercalent entre les identfiant 100 / 101
-
-        # Si on veut afficher la liste des favoris
-        else :
-            log.info("Filtrage de la liste: Afficher les favoris")
-            curseur.execute("SELECT * FROM anime WHERE animeFavori = '1' ORDER BY LENGTH(animeId), animeId")
-
-
-        resultats = curseur.fetchall()
-        log.info("Animes: %s" %len(resultats))
-        self.barreDeStatus.showMessage("Animes: %s" %len(resultats))
-
-        # Définition de la taille du tableau
-        nombreLignes = len(resultats)
-        self.table.setRowCount(nombreLignes)
-        self.table.setColumnCount(2)
-
+        curseur.execute("SELECT * FROM serie ORDER BY LENGTH(serieId) ASC") # Permet de trier les animés de manière croissante et de manière humaine (evite que des identifiants tel que 1000 s'intercalent entre les identfiant 100 / 101
+        listeDesSeries = curseur.fetchall()
+        
         # Définition du titre des colonnes
-        titreColonnes = ["Id", "Titre"]
-        self.table.setHorizontalHeaderLabels(titreColonnes)
+        colonnes = ["Id", "Episode"]
+        
+        # Définition de la taille du tableau
+        nombreColonnes = len(colonnes)
+        nombreLignes = len(listeDesSeries)
+
+        self.seriesTable.setHorizontalHeaderLabels(colonnes)
+        self.seriesTable.setColumnCount(nombreColonnes)
+        self.seriesTable.setRowCount(nombreLignes)
 
         # Ajout des éléments
-        for indice, anime in enumerate(resultats):
-            colonne1 = PyQt4.QtGui.QTableWidgetItem(anime["animeId"])
-            self.table.setItem(indice, 0, colonne1)
+        for indice, serie in enumerate(listeDesSeries):
+            planningIdentifiantSaison = str(serie["serieId"])
+            colonne1 = PyQt4.QtGui.QTableWidgetItem(planningIdentifiantSaison)
+            self.seriesTable.setItem(indice, 0, colonne1)
+            
+            planningEpisodeId = str(serie["serieTitre"])
+            colonne2 = PyQt4.QtGui.QTableWidgetItem(planningEpisodeId)
+            self.seriesTable.setItem(indice, 1, colonne2)
 
-            colonne2 = PyQt4.QtGui.QTableWidgetItem(anime["animeTitre"])
-            self.table.setItem(indice, 1, colonne2)
 
+    def onglet_liste__infos_serie__effacer(self):
+        """La fonction qui efface les entrés (les instructions auraient pus etres contenues dans liste_affiche mais je souhaitais séparer les deux blocs)"""
 
-    def liste_recherche(self):
-        """Fonction qui permet de rechercher un animé dans la liste grace a son nom"""
+        # On vide la liste les entrées
+        self.serieIdEntry.setText(str())
+        self.serieTitreEntry.setText(str())
+
+  
+    def onglet_liste__infos_serie__remplir(self):
+        """Cette fonction permet de remplir l'identifiant et le titre de l'animé lorsque celui-ci est sélectionné et qu'aucunne saison ne l'est"""
         
-        recherche = self.rechercheEntry.text()
-
-        # Si le recherche est vide on ne l'active pas
-        self.liste_rafraichir(titreRecherche = recherche)
-
- 
-    def liste_recherche_vider(self):
-        """Fonction qui permet de vider la liste de recherche"""
+        listeSerieLigneActuelle = int(self.seriesTable.currentRow())
         
-        self.rechercheEntry.setText(str())
-        self.liste_rafraichir()
+        # Si on a bien sélectionné un anime (empèche l'erreur quand la liste est rechargée et que rien n'est sélectionné)
+        if listeSerieLigneActuelle != -1:
+            serieId = self.seriesTable.item(listeSerieLigneActuelle, 0).text()
+            serieTitre = self.seriesTable.item(listeSerieLigneActuelle, 1).text()
+            
+            # Remplissage des informations
+            self.serieIdEntry.setText(serieId)
+            self.serieTitreEntry.setText(serieTitre)
+            
+            curseur.execute("SELECT serieFavori FROM serie WHERE serieId='%s'" %serieId)
+            favoris = curseur.fetchall()
+            for ligne in favoris:
+				if ligne["serieFavori"] == 1 :
+					self.serieFavoriCheckBox.setChecked(True)
+
+            
+    def onglet_liste__liste_saison__remplir(self):
+        """Genere la liste qui contiendra les saisons pour l'anime selectionné"""
+        
+        listeSerieLigneActuelle = int(self.seriesTable.currentRow())
+
+        # Si on a bien sélectionné un anime (empèche l'erreur quand la liste est rechargée et que rien n'est sélectionné)
+        if listeSerieLigneActuelle != -1:
+            serieId = self.seriesTable.item(listeSerieLigneActuelle, 0).text()
+            serieTitre = self.seriesTable.item(listeSerieLigneActuelle, 1).text()
+            
+            curseur.execute("SELECT * FROM saison, serie WHERE saisonSerieId = serieId AND saisonSerieId = %s ORDER BY saisonId ASC" %serieId) # Permet de trier les animés de manière croissante et de manière humaine (evite que des identifiants tel que 1000 s'intercalent entre les identfiant 100 / 101
+            listeDesSaisons = curseur.fetchall()
+            
+            # Définition de la taille du tableau
+            nombreColonnes = 2
+            nombreLignes = len(listeDesSaisons)
+
+            self.serieSaisonsTable.setColumnCount(nombreColonnes)
+            self.serieSaisonsTable.setRowCount(nombreLignes)
+
+            # Ajout des éléments
+            for indice, serie in enumerate(listeDesSaisons):
+                saisonId = str(serie["saisonId"])
+                colonne1 = PyQt4.QtGui.QTableWidgetItem(saisonId)
+                self.serieSaisonsTable.setItem(indice, 0, colonne1)
+                
+                saisonTitre = str(serie["saisonTitre"])
+                
+                # Si le titre n'est pas défini, on utilise celui de la série
+                if saisonTitre == "" or saisonTitre == "None": saisonTitre = serieTitre
+
+                colonne2 = PyQt4.QtGui.QTableWidgetItem(saisonTitre)
+                self.serieSaisonsTable.setItem(indice, 1, colonne2)  
 
 
-    def liste_recherche_filtre_liste(self):
-		"""Fonction, qui en fonction de la valeur du filtre, execute la fonction d'affichage de la liste"""
-
-		if self.comboBoxFiltreRecherche.currentIndex() == 0: 
-			self.liste_rafraichir()
-
-		elif self.comboBoxFiltreRecherche.currentIndex() == 1:
-			self.liste_rafraichir(favorisRecherche=True)
-			
-		elif self.comboBoxFiltreRecherche.currentIndex() == 2:
-			self.liste_rafraichir(AVoirRecherche=True)
-
-
-    def liste_afficher_infos_anime(self):
+    def onglet_liste__infos_saison__remplir(self):
         """Fonction qui affiche les information pour l'animé sélectionné"""
         
         # Récupère le numéro de ligne actuellement sélectionné dans la liste
-        ligneActuelle = int(self.table.currentRow())
+        listeSerieLigneActuelle = int(self.seriesTable.currentRow())
+        listeSaisonsLigneActuelle = int(self.serieSaisonsTable.currentRow())
 
         # Si on a bien sélectionné un anime (empèche l'erreur quand la liste est rechargée et que rien n'est sélectionné)
-        if ligneActuelle != -1:
-
-            # Le titre de l'animé est contenu dans le deuxième cellule de la colonne (les indices commencent à 0)
-            animeTitre = self.table.item(ligneActuelle, 1).text()
+        if listeSaisonsLigneActuelle != -1:
+            # Le titre de l'animé est contenu dans la premiere cellule de la colonne (les indices commencent à 0)
+            serieId = self.seriesTable.item(listeSerieLigneActuelle, 0).text()
+            serieTitre = self.seriesTable.item(listeSerieLigneActuelle, 1).text()
+            saisonId = self.serieSaisonsTable.item(listeSaisonsLigneActuelle, 0).text()
+            saisonTitre = self.serieSaisonsTable.item(listeSaisonsLigneActuelle, 1).text()
 
             # On cherche les informations dans la base SQL
-            curseur.execute("SELECT * FROM anime WHERE animeTitre = '%s'" %animeTitre)
+            curseur.execute("""SELECT * FROM serie, saison
+                               WHERE saisonSerieId = serieId 
+                               AND saisonId = '%s' 
+                               AND serieId = '%s'""" 
+                               %(saisonId, serieId)
+                           )
 
             # Charge les informations récupérées dans la base sql
-            ligne = curseur.fetchone() # Permet dene choise que le premier résultat en sql (pour un seul identifiant, on ne peut avoir qu'un seul animé
+            resultats = curseur.fetchone() # Permet de ne choisir que le premier résultat en sql (pour un seul identifiant, on ne peut avoir qu'un seul animé
 
-            # Listes d'entrées
-            self.idEntry.setText(str(ligne["animeId"]))
+            saisonAnnee = str(resultats["saisonAnnee"])
+            saisonStudio = resultats["saisonStudio"]
+            saisonFansub = resultats["saisonFansub"]
+            saisonDateAjout = str(resultats["saisonDateAjout"])
+            saisonEpisodesNombre = str(resultats["saisonEpisodesNombre"])
+            saisonVisionnageEtat = str(resultats["saisonVisionnageEtat"])
+            saisonVisionnageNombre = str(resultats["saisonVisionnageNombre"])
+            saisonCommentaires = resultats["saisonCommentaires"]
             
+            # Application des valeurs
+            self.saisonIdEntry.setText(saisonId)
+            self.saisonTitreEntry.setText(saisonTitre)
+
             # Affiche le texte si la base ne retourne pas None: Permet d'autrepasser le bug d'encodage UFT8
-            if ligne["animeDateAjout"] != None:
-                self.ajoutEntry.setText(ligne["animeDateAjout"])
             
-            if ligne["animeTitre"] != None:            
-                self.titreEntry.setText(ligne["animeTitre"])
-            
-            if ligne["animeAnnee"] != None: 
-                self.anneeEntry.setText(str(ligne["animeAnnee"]))
-            
-            if ligne["animeStudio"] != None: 
-                self.studioEntry.setText(ligne["animeStudio"])
-                
-            if ligne["animeFansub"] != None: 
-                self.fansubEntry.setText(ligne["animeFansub"])
-                
-            if ligne["animeNotes"] != None: 
-                self.notesEntry.setText(ligne["animeNotes"])
+            # Entrée saisonAnnee
+            if saisonAnnee != "None": 
+                self.saisonAnneeEntry.setText(str(saisonAnnee))
 
-            # Spinbox
+            # Entrée saisonStudio
+            if saisonStudio != None: 
+                self.saisonStudioEntry.setText(saisonStudio)
+                     
+            # Entrée saisonFansub
+            if saisonFansub != None: 
+                self.saisonFansubEntry.setText(saisonFansub)
             
-            if ligne["animeNbVisionnage"] == None:
-                self.spinBox.setValue(0)
-            else:
-                self.spinBox.setValue(ligne["animeNbVisionnage"])
+            # Entrée saisonDateAjout
+            if saisonDateAjout != "None":
+                self.saisonDateAjoutEntry.setText(saisonDateAjout)
 
-            # ComboBoxEtatAnimé
-            # Animé Terminé =  0
-            # Animé en cours = 1
-            # Animé a voir   = 2
-            # Animé indéfini = 3
-            etatVisionnage = int(ligne["animeEtatVisionnage"])
-            self.comboBoxEtatVisionnage.setCurrentIndex(etatVisionnage) 
+            # Entrée saisonEpisodesNombre
+            if saisonEpisodesNombre != "None":
+                self.saisonEpisodesNombreSpinBox.setValue(int(saisonEpisodesNombre))
+             
+            # Entrée saisonVisionnageEtat
+            if saisonVisionnageEtat != "None": 
+                # Animé Terminé =  0
+                # Animé en cours = 1
+                # Animé a voir   = 2
+                # Animé indéfini = 3
+                self.saisonVisionnageEtatComboBox.setCurrentIndex(int(saisonVisionnageEtat))
 
-            # Checkbox favoris
-            if ligne["animeFavori"] == "1":
-                self.checkBoxFavoris.setCheckState(True)
-                
-            else:
-                self.checkBoxFavoris.setCheckState(False)               
+            # Entrée saisonVisionnageNombre
+            if saisonVisionnageNombre != "None":
+                self.saisonVisionnageNombreSpinBox.setValue(int(saisonVisionnageNombre))
+            
+
+            #if ligne["animeNotes"] != None: 
+                #self.notesEntry.setText(ligne["animeNotes"])
 
 
             # Charge et affiche l'image de l'anime
-            image = str(ligne["animeId"])
+            image = str(serieId)
             chemin = os.path.join("./data/covers", image)
-            global listeAfficherImageChemin
-            listeAfficherImageChemin = chemin
 
             log.info("Image de couverture: %s" %chemin)
 
@@ -434,6 +463,74 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             myPixmap = PyQt4.QtGui.QPixmap(chemin)
             image = myPixmap.scaled(self.label_5.size(), PyQt4.QtCore.Qt.IgnoreAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
             self.label_5.setPixmap(image)
+            
+        
+    def onglet_liste__infos_saison__effacer(self):
+        """Fonction qui supprime les informations pour une saison"""
+        
+        # Vide les valeurs pour les champs
+        self.saisonIdEntry.setText(str())
+        self.saisonTitreEntry.setText(str())
+        self.saisonAnneeEntry.setText(str())
+        self.saisonStudioEntry.setText(str())
+        self.saisonDateAjoutEntry.setText(str())
+        self.saisonEpisodesNombreSpinBox.setValue(0)
+        self.saisonVisionnageNombreSpinBox.setValue(0)
+        
+        # Image de l'animé vide
+        myPixmap = PyQt4.QtGui.QPixmap("./data/icons/image-x-generic.png")
+        image = myPixmap.scaled(self.label_5.size(), PyQt4.QtCore.Qt.KeepAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
+        self.label_5.setPixmap(image)
+    
+    
+    def onglet_liste__liste_serie__changement_selection(self):
+		"""Fonctions qui serons appelées lors du changement de sélection dans la liste série"""
+        
+		self.onglet_liste__infos_saison__effacer()
+		self.onglet_liste__liste_saison__effacer()
+		self.onglet_liste__infos_serie__effacer()
+        
+		self.onglet_liste__infos_serie__remplir()
+		self.onglet_liste__liste_saison__remplir()
+
+    
+    def onglet_liste__liste_saison__changement_selection(self):
+        """Fonction appellée lors du changement de selection dans un élement de la liste saison"""
+        
+        self.onglet_liste__infos_saison__effacer() # Efface les informations sur la série
+        self.onglet_liste__infos_saison__remplir() # Remplissage des informations
+
+
+    def onglet_liste__liste_serie__effacer(self):
+        """Fonction qui vide les entrées de la liste des séries"""
+        
+        self.seriesTable.clear()
+        
+
+    def onglet_liste__liste_saison__effacer(self):
+        """Fonction qui vide les entrées de la liste des saisons"""
+        
+        self.serieSaisonsTable.clear()
+
+
+    def onglet_liste__rafraichir(self):
+        """Fonction qui nettoie et affiche remplir la liste des animes avec les nouvelles valeurs"""
+        
+        # Efface
+        self.onglet_liste__infos_serie__effacer()
+        self.onglet_liste__liste_saison__effacer()
+        self.onglet_liste__liste_serie__effacer()
+        
+        # Recharge
+        self.onglet_liste__liste_serie__remplir()
+        
+        
+    def onglet_liste__annuler(self):
+        """Efface uniquement les information sur la série et la saison sélectionnée, evite de recharger toute la liste des animés puisque rien n'a été enregistré"""
+        
+        # Efface uniquement les élement a ne plus afficher
+        self.onglet_liste__infos_serie__effacer()
+        self.onglet_liste__liste_saison__effacer()
 
 
     def liste_remplir_myanimelist(self):
@@ -471,219 +568,293 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.label_5.setPixmap(image)
 
 
-    def liste_enregistrer(self):
+    def onglet_liste__enregistrer(self):
         """Fonction qui enregistre les données des animés dans la bdd"""
+		# ----- Série ------
+
+        # Si un identifiant valide a été rentré
+        #if serieId != "" or re.findall("^-?[0-9]+$", serieId):
+        listeSaisonLigneActuelle = int(self.serieSaisonsTable.currentRow())
+
+        serieTitre = self.serieTitreEntry.text()
+
+        # Animé favoris ?
+        boolToDec = {True:"1", False:"0"}
+        serieFavoriCheckboxState = self.serieFavoriCheckBox.isChecked()
+        serieFavori = boolToDec[serieFavoriCheckboxState]
+
+        # Génération de la commande SQL pour modifier les informations de la série
+        log.info("Enregistrement des infos de la série")
         
-        # Entrées (entry)
-        animeId = self.idEntry.text()
+        print util__serie_existe()
+        
+        if 
+        curseur.execute("INSERT INTO serie (serieId, serieTitre, serieFavori) VALUES ('%s', '%s', '%s') WHERE serieId" %(serieId, serieTitre, serieFavori))
 
-        # Si un identifiant a été rentré
-        if animeId != "" or re.findall("^-?[0-9]+$", animeId):
-            animeTitre = self.titreEntry.text()
-            animeDateAjout = self.ajoutEntry.text()
-            animeAnnee = self.anneeEntry.text()
-            animeStudio = self.studioEntry.text()
-            animeFansub = self.fansubEntry.text()
-            animeNbVisionnage = self.spinBox.value()
-            animeNotes = self.notesEntry.toPlainText()
-
-            # Etat du visionnage (comboBoxEtatVisionnage)
-            animeVisionnage = str(self.comboBoxEtatVisionnage.currentIndex())
-
-            # Animé favoris ?
-            self.checkBoxFavoris.checkStateSet()
-            if self.checkBoxFavoris.isChecked() == False :
-                animeFavori = "0"
-
-            elif self.checkBoxFavoris.isChecked() == True:
-                animeFavori = "1"
-
-            # Génération de la command SQL
-            curseur.execute("INSERT OR REPLACE INTO anime (animeId, animeDateAjout, animeTitre, animeAnnee, animeStudio, animeFansub, animeEtatVisionnage, animeFavori, animeNbVisionnage, animeNotes) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" %(animeId, animeDateAjout, animeTitre, animeAnnee, animeStudio, animeFansub, animeVisionnage, animeFavori, animeNbVisionnage, animeNotes))
-
-            # On indique a l'application que quelque chose a été modifié
-            self.modifications = True
-
-            # Rafraichi après avoir enregistré
-            self.liste_rafraichir()
-            self.planning_animes_vus_afficher()
-
-        # Si l'identifiant n'a pas été rempli
+        
         else:
-            # Remplacer la fenetre par une version 1 bouton.
-            information = PyQt4.QtGui.QMessageBox.information(self, "Identifiant invalide", "Veuillez entrer un identifiant composé uniquement de chiffres !", "Continuer")
-
-
-    def liste_supprimer(self):
-        """Fonction qui supprime un anime dans la liste"""
         
-        # Récupère le numéro de ligne actuellement sélectionné dans la liste
-        ligneActuelle = int(self.table.currentRow())
 
-        # Si on a bien sélectionné un anime (empèche l'erreur quand la liste est rechargée et que rien n'est sélectionné)
-        if ligneActuelle != -1:
+        # ----- Saison ------
+        saisonId = self.saisonIdEntry.text()
+        saisonTitre = self.saisonTitreEntry.text()
+        saisonAnnee = self.saisonAnneeEntry.text()
+        saisonStudio = self.saisonStudioEntry.text()
+        saisonFansub = self.saisonFansubEntry.text()
+        saisonDateAjout = self.saisonDateAjoutEntry.text()
+        saisonEpisodesNombre = str(self.saisonEpisodesNombreSpinBox.value())
+        saisonVisionnageEtat = str(self.saisonVisionnageEtatComboBox.currentIndex())
+        saisonVisionnageNombre = str(self.saisonVisionnageNombreSpinBox.value())	
 
-            # Le titre de l'animé est contenu dans le deuxième cellule de la colonne (les indices commencent à 0)
-            animeId= self.table.item(ligneActuelle, 0).text()  
-            animeTitre = self.table.item(ligneActuelle, 1).text()          
+        # Génération de la commande SQL pour modifier les informations de la saison
+        log.info("Enregistrement des infos de la saison")
+        curseur.execute("INSERT OR REPLACE INTO saison (saisonId, saisonSerieId, saisonTitre, saisonAnnee, saisonStudio, saisonFansub, saisonEpisodesNombre, saisonVisionnageEtat, saisonVisionnageNombre, saisonDateAjout) VALUES ('%s, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" %(saisonId, serieId, saisonTitre, saisonAnnee, saisonStudio, saisonFansub, saisonEpisodesNombre, saisonVisionnageEtat, saisonVisionnageNombre, saisonDateAjout))
 
-            # Supression de l'image
-            if os.path.exists("./data/covers/%s" %animeId):
-                os.remove("./data/covers/%s" %animeId)
+        # On indique a l'application que quelque chose a été modifié
+        self.modifications = True
 
-            # Supression du champ dans la base SQL
-            curseur.execute("DELETE FROM anime WHERE animeTitre = '%s'" %animeTitre)
+        # Rafraichi après avoir enregistré
+        self.onglet_liste__rafraichir()
 
-            # On indique a l'application que quelque chose a été modifié
-            self.modifications = True
-
-            # Rafraichi après avoir supprimé
-            self.liste_rafraichir()
-            self.planning_animes_vus_afficher()
+    # Si l'identifiant n'a pas été rempli
+        #else:
+            # Remplacer la fenetre par une version 1 bouton.
+            information = PyQt4.QtGui.QMessageBox.information(self, "Identifiant invalide", "Veuillez entrer un identifiant comportant uniquement de chiffres !", "Continuer")
 
 
 # Fonctions de l'onglet planning
-    def planning_animes_vus_afficher(self):
-        """Fonction qui ajoute les animés vus dans la liste des animés vus"""
+    def onglet_planning__liste_animes_en_cours__remplir(self):
+        """Fonction qui ajoute les animés en cours dans la liste des animes en cours"""
         
         # On vide la liste des animés
-        self.animeVuTable.clear()
+        self.animeEnCoursTable.clear()
 
         # On éxécute la commande sql qui retourne: les animés en cours de visionnage qui avec leur épisode vu le plus récent
         curseur.execute("""
-                        SELECT anime.animeTitre, max(planning.planningEpisode) AS planningEpisode
-                        FROM anime, planning
-                        WHERE planning.planningAnime = anime.animeId
-                        AND anime.animeEtatVisionnage = 1
-                        GROUP BY anime.animeTitre
-                        ORDER BY anime.animeId ASC""")
+                        SELECT *
+                        FROM serie, saison
+                        WHERE saisonSerieId = serieId
+                        AND saisonVisionnageEtat = 1
+                        AND saisonEpisodesNombreVus < saisonEpisodesNombre
+                        """)
+
+        animesEnCours = curseur.fetchall()
+
+        # Définition de la taille du tableau
+        nombreLignes = len(animesEnCours)
+        self.animeEnCoursTable.setRowCount(nombreLignes)
+        self.animeEnCoursTable.setColumnCount(3)
+
+        # Définition du titre des colonnes
+        titreColonnes = ["Titre", "Saison", "Episode"]
+        self.animeEnCoursTable.setHorizontalHeaderLabels(titreColonnes)
+
+        # Ajout des éléments
+        for indice, serie in enumerate(animesEnCours):
+            
+            colonne1 = PyQt4.QtGui.QTableWidgetItem(str(serie["serieTitre"]))
+            self.animeEnCoursTable.setItem(indice, 0, colonne1)
+            
+            colonne2 = PyQt4.QtGui.QTableWidgetItem(str(serie["saisonId"]))
+            self.animeEnCoursTable.setItem(indice, 1, colonne2)
+            
+            episodeAVoirId = int(serie["saisonEpisodesNombreVus"]) +1
+            
+            # On rajoute +1 au nombre d'épisodes vus pour proposer le suivant qui lui, n'a pas été vu
+            colonne3 = PyQt4.QtGui.QTableWidgetItem(str(episodeAVoirId))
+            self.animeEnCoursTable.setItem(indice, 2, colonne3)
+            
+
+
+
+    def onglet_liste__supprimer_serie(self):
+        """Fonction qui permet de supprimer une série de la base de données"""
+        
+        log.info("Supression d'un série !")
+        
+        # Récupèration du numéro de ligne actuellement sélectionné dans la liste
+        listeSerieLigneActuelle = int(self.seriesTable.currentRow())
+
+        log.info(listeSerieLigneActuelle)
+
+        # Si on a bien sélectionné une série (empèche l'erreur quand la liste est rechargée et que rien n'est sélectionné)
+        if listeSerieLigneActuelle != -1:
+            # Le titre de l'animé est contenu dans la premiere cellule de la colonne (les indices commencent à 0)
+            serieId = self.seriesTable.item(listeSerieLigneActuelle, 0).text()
+
+            log.info("Supression de la serie ayant pour id: %s" %serieId)
+
+            # Suppression des saisons associées
+            curseur.execute("DELETE FROM Saison WHERE saisonSerieId = %s" %serieId)
+
+            # Supression de la série
+            curseur.execute("DELETE FROM serie WHERE serieId = %s" %serieId)
+            
+            # On informe le programme que des chose ont été modifiés
+            self.modifications = True
+            
+            # Rafraichissement de l'onglet liste
+            self.onglet_liste__rafraichir()
+        
+
+    def onglet_planning__planning__changement_selection(self):
+        """Fonction appelée lors du changement de la date"""
+        
+        # On vide la liste des animés vus
+        self.animeVuTable.clear()
+        self.onglet_planning__liste_animes_vus__remplir()
+
+
+    def onglet_planning__liste_animes_vus__ligne__inserer(self):
+        """Action qui insere un anime dans la liste des animes vus"""
+        
+        ligneSelectionnee = self.animeEnCoursTable.currentRow()
+        
+        # Si la ligne n'est pas vide
+        if ligneSelectionnee != -1:
+   
+            # Récupère le nombre de lignes dans animeVuTable pour insérer de nouveaux épisodes à la suite
+            nombreLignesAnimeEnCoursTable = int(self.animeVuTable.rowCount())
+            
+            self.animeVuTable.insertRow(nombreLignesAnimeEnCoursTable)
+            
+            # Récupération des variables
+            serieTitre = str(self.animeEnCoursTable.item(ligneSelectionnee, 0).text())
+            planningSaisonId = self.animeEnCoursTable.item(ligneSelectionnee, 1).text()
+            planningEpisodeId = self.animeEnCoursTable.item(ligneSelectionnee, 2).text()
+            
+            # Remplissage des colonnes SerieId
+            colonne1 = PyQt4.QtGui.QTableWidgetItem(str(serieTitre))
+            self.animeVuTable.setItem(nombreLignesAnimeEnCoursTable, 0, colonne1)
+            
+            # Remplissage des colonnes SaisonId
+            colonne2 = PyQt4.QtGui.QTableWidgetItem(planningSaisonId)
+            self.animeVuTable.setItem(nombreLignesAnimeEnCoursTable, 1, colonne2)
+
+            # Remplissage des colonnes EpisodeId
+            colonne3 = PyQt4.QtGui.QTableWidgetItem(str(planningEpisodeId))
+            self.animeVuTable.setItem(nombreLignesAnimeEnCoursTable, 2, colonne3)
+            
+
+    def onglet_planning__liste_animes_vus__ligne__supprimer(self):
+        ligneSelectionnee = self.animeVuTable.currentRow()
+        
+        # Si la ligne n'est pas vide
+        if ligneSelectionnee != -1:
+        
+            # Suppression dans la base de données
+            dateSelectionnee = self.planningCalendrier.selectedDate().toPyDate()
+            
+            serieTitre = self.animeVuTable.item(ligneSelectionnee, 0).text()
+            saisonId = self.animeVuTable.item(ligneSelectionnee, 1).text()
+            planningEpisodeId = self.animeVuTable.item(ligneSelectionnee, 2).text()
+            
+            serieId = self.util__serie_id(serieTitre)
+            
+            commandeSQL = """
+                      DELETE FROM planning
+                      WHERE planningSerieId = %s
+                      AND planningSaisonId = %s
+                      AND planningEpisodeId = %s
+                      AND planningDate = '%s'
+                     """ %(serieId, saisonId, planningEpisodeId, dateSelectionnee)
+            
+            
+            log.info(commandeSQL)
+            curseur.execute(commandeSQL)
+            
+            # Supprime la ligne actuelle dans la table
+            self.animeVuTable.removeRow(ligneSelectionnee)
+            
+            # Décrémentation du nombre d'épisodes vus 
+            curseur.execute("UPDATE saison SET saisonEpisodesNombreVus = saisonEpisodesNombreVus-1 WHERE saisonId=%s" %saisonId)
+
+            self.modifications = True
+
+        
+    def onglet_planning__enregistrer(self):
+        """Fonction qui enregistre le planning pour la date donnée"""    
+        
+        log.info("Enregistrement du planning")
+        
+        # Récupère le nombre de lignes du tableau AnimeVus
+        nombreLignes = self.animeVuTable.rowCount()
+        
+        # Pour chaque élément, on va créer son entrée dans la table
+        for idLigne in range(0, nombreLignes):
+
+            # Récuparation des variables depuis le texte de la liste
+            serieTitre = self.animeVuTable.item(idLigne, 0).text()
+            saisonId = self.animeVuTable.item(idLigne, 1).text()
+            episodeId = self.animeVuTable.item(idLigne, 2).text()
+
+            # On recupère l'identifiant correspondant au titre de l'anime
+            serieId = self.util__serie_id(serieTitre)
+
+            # Récupération de la date depuis le calendrier
+            planningDate = str(self.planningCalendrier.selectedDate().toPyDate())
+            
+            # Suppression de tout les épisodes (permet de'outrepasser le bug des "épisodes en double
+            curseur.execute("DELETE FROM planning WHERE planningDate = '%s' AND planningSerieId = %s AND planningSaisonId = '%s' AND planningEpisodeId = '%s'" %(planningDate, serieId, saisonId, episodeId))
+            
+            # Enregistrement de l'episode vu dans la table planning
+            curseur.execute("INSERT INTO planning (planningDate, planningSerieId, planningSaisonId, planningEpisodeId) VALUES ('%s', %s, %s, %s)" %(planningDate, serieId, saisonId, episodeId))
+            
+            # Incrementation du nombre d'épisodes vus 
+            curseur.execute("UPDATE saison SET saisonEpisodesNombreVus = saisonEpisodesNombreVus+1 WHERE saisonId=%s" %saisonId)
+            
+            self.modifications = True
+
+
+    def onglet_planning__liste_animes_vus__remplir(self):
+        """Rempli la liste des animés vus en fonction de la date séléctionnée dans le calendrier"""
+        
+        dateSelectionnee = self.planningCalendrier.selectedDate().toPyDate()
+        
+        # On éxécute la commande sql qui retourne: les animés en cours de visionnage qui avec leur épisode vu le plus récent
+        curseur.execute("""
+                        SELECT *
+                        FROM serie, saison, planning
+                        WHERE saisonSerieId = serieId
+                        AND planningSerieId = serieId
+                        AND planningSerieId = saisonSerieId
+                        AND planningSaisonId = saisonId
+                        AND planningDate = '%s'
+                        """
+                        %dateSelectionnee)
+
         animesVus = curseur.fetchall()
 
         # Définition de la taille du tableau
         nombreLignes = len(animesVus)
         self.animeVuTable.setRowCount(nombreLignes)
-        self.animeVuTable.setColumnCount(2)
+        self.animeVuTable.setColumnCount(3)
 
         # Définition du titre des colonnes
-        titreColonnes = ["Ep.", "Anime"]
+        titreColonnes = ["Titre", "Saison", "Episode"]
         self.animeVuTable.setHorizontalHeaderLabels(titreColonnes)
 
         # Ajout des éléments
-        for indice, anime in enumerate(animesVus):
-            colonne1 = PyQt4.QtGui.QTableWidgetItem(anime["planningEpisode"])
+        for indice, serie in enumerate(animesVus):
+            
+            colonne1 = PyQt4.QtGui.QTableWidgetItem(str(serie["serieTitre"]))
             self.animeVuTable.setItem(indice, 0, colonne1)
-
-            colonne2 = PyQt4.QtGui.QTableWidgetItem(anime["animeTitre"])
+            
+            colonne2 = PyQt4.QtGui.QTableWidgetItem(str(serie["saisonId"]))
             self.animeVuTable.setItem(indice, 1, colonne2)
             
-
-    def planning_animes_vus_inserer(self):
-        """Fonction qui ajoute le titre d'un animé en cours de visionnage dans la boite d'entrée du journal"""
-
-        
-        # Sauvegarde du texte actuel
-        ancienTexte = self.planningEntry.toPlainText()
-        
-        # Récupère le numéro de ligne actuellement sélectionné dans la liste
-        ligneActuelle = int(self.animeVuTable.currentRow())
-
-        # Si on a bien sélectionné un anime (empèche l'erreur quand la liste est rechargée et que rien n'est sélectionné)
-        if ligneActuelle != -1:
-
-            # Le titre de l'animé est contenu dans le deuxième cellule de la colonne (les indices commencent à 0)
-            animeTitre = self.animeVuTable.item(ligneActuelle, 1).text()
-            planningEpisodeAVoirSuivant = int(self.animeVuTable.item(ligneActuelle, 0).text()) + 1
-
-            # Si le planning est vide
-            if ancienTexte == "":
-                nouveauTexte = str(animeTitre + "-Ep %s" %planningEpisodeAVoirSuivant)
-
-            # Sinon, on affiche en gardant l'ancien texte
-            else:
-                nouveauTexte = ancienTexte + "\n" + str(animeTitre + "-Ep %s" %planningEpisodeAVoirSuivant)
-                
-            nouveauTexteNettoye = nouveauTexte.replace("\n\n", "\n")
-
-            #Affichage du nouveau titre
-            self.planningEntry.setText(nouveauTexteNettoye)
-            
-            # Mise du focus sur la zone de texte
-            self.planningEntry.setFocus()
+            colonne3 = PyQt4.QtGui.QTableWidgetItem(str(serie["planningEpisodeId"]))
+            self.animeVuTable.setItem(indice, 2, colonne3)
 
 
-    def planning_afficher(self):
-        """Fonction qui affiche les animés vus en fonction de la date sélectionnée sur le calendrier"""        
-
-        # Vide la boite d'entrée
-        self.planningEntry.setText(str())
-
-        # Date correspond a la date sur le jour selectionné sur le calendrier
-        date = self.planningCalendrier.selectedDate().toPyDate()
-
-        # Recherche dans la base de donnée la liste des animés vu le jour de la date sélectionnée (le tri ce fait en fonction del'indentifiant journalier)
-        # La table planningAnime ne contient que l'identifiant de l'animé. Le nom est récupéré grace a une jointure entre la table anime et planning
-        curseur.execute("SELECT * FROM planning, anime WHERE planningDate = \"%s\" AND planning.planningAnime = anime.AnimeId ORDER BY LENGTH(planning.planningIdentifiantJournalier), planning.planningIdentifiantJournalier ASC" %date)
-
-        # La ligne du dessous n'est plus vrait avec les identifiants journaliers
-        # Pour les résultats trouvés en SQL (1 max car on recherche l'anime en fonction de son titre)
-        animes = ""
-        for ligne in curseur.fetchall():
-            # Ajout les animés dans le label text
-            animes = animes + ligne["animeTitre"] + "-Ep " + ligne["planningEpisode"] + "\n"
-
-        # Colle la liste des animés
-        self.planningEntry.setText(str(animes))
-
-
-    def planning_aujourdhui(self):
+    def onglet_planning__calendrier__aujourdhui(self):
         """Fonction qui séléctionne la date actuelle sur le calendrier"""
         
-        # Demande a Qt la date du jour
+        # Demande à Qt la date du jour
         aujourdhui = PyQt4.QtCore.QDate.currentDate ()
 
         # Affiche le caldendrier à la date du jour
         self.planningCalendrier.setSelectedDate(aujourdhui)
-
-
-    def planning_enregistrer(self):
-        """Fonction qui enregistre le planning dans la bdd"""
-
-        planningDate = str(self.planningCalendrier.selectedDate().toPyDate())
-        planningAnime = str(self.planningEntry.toPlainText())
-
-        # Supprime les entrées du jour dans la base SQL
-        curseur.execute("DELETE FROM planning WHERE planningDate = '%s'" %(planningDate))
-
-        # Sépare les lignes (avec le signe \n)
-        lignes = planningAnime.split("\n")
-
-        # Identifiant de planning journalier, pour identifier chauque entrée dans une journée
-        planningIdentifiantJournalier = 0
-
-        # Pour chaque ligne dans l'entrée texte
-        for ligne in lignes:
-            # Si la ligne est vide, on ne fait rien
-            if ligne != "":
-                # Incrémente le numéro de ligne
-                planningIdentifiantJournalier += 1
-
-                # Coupe le nom de l'animé et l'épisode en cours
-                champs = ligne.split("-Ep ")
-                animeTitre = champs[0]
-
-                # On récupère l'identifiant correppondant au titre
-                curseur.execute("SELECT * FROM anime WHERE animeTitre = '%s'" %(animeTitre))
-                for ligne in curseur.fetchall():
-                    animeId = ligne["animeId"]
-
-                animeEpisode = champs[1]
-
-                # Ajoute ou met a jour les entrées dans la table planning.
-                curseur.execute("INSERT OR REPLACE INTO planning (planningDate, planningIdentifiantJournalier, planningAnime, planningEpisode) VALUES ('%s', '%s', '%s', '%s')" %(planningDate, planningIdentifiantJournalier, animeId, animeEpisode))
-
-
-        # On indique a l'application que quelque chose a été modifié
-        self.modifications = True
 
 
 # Fonctions de l'onglet outils
@@ -796,7 +967,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
     def importation_du_profil(self):
         """Fonction qui permet d'importer un profil"""
         
-        pass
+        cheminDeSauvegarde = PyQt4.QtGui.QFileDialog(self)
 
 
     def exportation_du_profil(self):
@@ -888,10 +1059,12 @@ if __name__ == "__main__":
     # Parsage des arguments
     argParser = argparse.ArgumentParser()
     argParser.add_argument("-noupdate", action="store_true", default=False)
+    argParser.add_argument("-nocheckdirectories", action="store_true", default=False)
     args = argParser.parse_args()
     
-    # Vérification des dossiers
-    verification_des_dossiers()
+    if args.nocheckdirectories == False:
+        # Vérification des dossiers
+        verification_des_dossiers()
 
     # Nom de la base de donnée
     nomBdd = "./data/MyAnimeManager.sqlite3"
