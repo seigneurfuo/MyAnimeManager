@@ -1,6 +1,9 @@
 # Changements
 
-07/12/2016 - version 0.22.47
+21/04/2016 - version 0.22.48
+- Ouverture de la page de téléchargement lors de la détection d'une nouvelle version
+
+20/04/2016 - version 0.22.47
 - Correction de documentation
 - Changement de l'icone de l'application (Merci a Alexandre Vert pour le logo !)
 

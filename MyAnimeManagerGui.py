@@ -3,11 +3,11 @@
 
 # Informations sur l'application
 __titre__ = "MyAnimeManager"
-__version__ = "0.22.47"
+__version__ = "0.22.48"
 __auteur__ = "seigneurfuo"
 __db_version__ = 5
 __dateDeCreation__ = "12/06/2016"
-__derniereModification__ = "20/04/2017"
+__derniereModification__ = "21/04/2017"
 
 # Logging
 import logging
@@ -31,6 +31,7 @@ try:
 	import sqlite3
 	import urllib
 	import argparse
+	import webbrowser
 	from distutils.version import LooseVersion
 	from datetime import date, datetime, time, timedelta
 
@@ -226,6 +227,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             if LooseVersion(__version__) < LooseVersion(version):
                 log.info("  Une nouvelle mise a jour est disponible")
                 self.tray.showMessage(__titre__, "Une mise a jour est disponible", msecs = 10000)
+                webbrowser.open_new_tab("https://github.com/seigneurfuo/MyAnimeManager/archive/master.zip")
             
             else:
                 log.info("  L'application est a jour")
