@@ -1,6 +1,10 @@
 # Changements
 
-21/04/2016 - version 0.22.48
+26/04/2017 - version 0.22.50
+- Déplacement des instuctions de log dans un module externe data/libs/log.py
+- Modifications mineurs de la documentation
+
+21/04/2017 - version 0.22.48
 - Ouverture de la page de téléchargement lors de la détection d'une nouvelle version
 
 20/04/2016 - version 0.22.47

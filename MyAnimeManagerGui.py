@@ -3,29 +3,22 @@
 
 # Informations sur l'application
 __titre__ = "MyAnimeManager"
-__version__ = "0.22.48"
+__version__ = "0.22.50"
 __auteur__ = "seigneurfuo"
 __db_version__ = 5
 __dateDeCreation__ = "12/06/2016"
-__derniereModification__ = "21/04/2017"
-
-# Logging
-import logging
-log = logging.getLogger(__name__)
-log.setLevel(logging.DEBUG)
-
-# Création d'un formateur qui va ajouter le temps, le niveau de chaque message quand on écrira un message dans le log
-formatter = logging.Formatter('%(asctime)s : %(levelname)s : %(message)s')
-
-# Les lignes suivantes permettent de rediriger chaque écriture de log sur la console
-console_handler = logging.StreamHandler()
-console_handler.setLevel(logging.INFO)
-console_handler.setFormatter(formatter)
-log.addHandler(console_handler)
+__derniereModification__ = "26/04/2017"
 
 try:
 	# Librairies standards
 	import sys
+    
+    # Librairies de tierces-parties
+	sys.path.append("./data/libs")
+    
+    # Logging
+	from log import *
+    
 	import os
 	import re
 	import sqlite3
@@ -34,9 +27,6 @@ try:
 	import webbrowser
 	from distutils.version import LooseVersion
 	from datetime import date, datetime, time, timedelta
-
-	# Librairies de tierces-parties
-	sys.path.append("./data/libs")
 
 	# Importation de pyQt
 	import PyQt4.QtGui
@@ -72,7 +62,7 @@ def creation_de_la_bdd():
     """)
 
 
-# Code SQL pour créer la table planning
+    # Code SQL pour créer la table planning
     curseur.execute(
     """
     CREATE TABLE planning(
@@ -143,21 +133,21 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.boutonSupprimerAnime.clicked.connect(self.liste_supprimer)
 
         # Onglet planning
-        self.planningCalendrier.clicked.connect(self.planning_afficher)
-        self.planningCalendrier.selectionChanged.connect(self.planning_afficher)
+        self.planningCalendrier.clicked.connect(self.planning__afficher)
+        self.planningCalendrier.selectionChanged.connect(self.planning__afficher)
 
-        self.boutonPlanningInserer.clicked.connect(self.planning_animes_vus_inserer)
-        self.boutonPlanningReset.clicked.connect(self.planning_aujourdhui)
-        self.boutonPlanningSauvegarder.clicked.connect(self.planning_enregistrer)
+        self.boutonPlanningInserer.clicked.connect(self.planning__animes_vus__inserer)
+        self.boutonPlanningReset.clicked.connect(self.planning__aujourdhui)
+        self.boutonPlanningSauvegarder.clicked.connect(self.planning__enregistrer)
         
-        self.animeVuTable.cellDoubleClicked.connect(self.planning_animes_vus_inserer)
+        self.animeVuTable.cellDoubleClicked.connect(self.planning__animes_vus__inserer)
 
 
         # Onglet album
         self.testButton.clicked.connect(self.personnages_favoris)
         
         # Onglet outils
-        self.pushButton.clicked.connect(self.outils_calcul_temps_calcul)
+        self.pushButton.clicked.connect(self.outils__calcul_temps__calcul)
 
         # Onglet préférences
         self.pushButton_5.clicked.connect(self.exportation_du_profil)
@@ -247,8 +237,8 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         
         # Onglet planning
         if ongletId == 0:
-            self.planning_afficher()
-            self.planning_animes_vus_afficher()
+            self.planning__afficher()
+            self.planning__animes_vus__afficher()
         
         # Onglet liste d'animé
         elif ongletId == 1: self.liste_rafraichir()
@@ -509,7 +499,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
             # Rafraichi après avoir enregistré
             self.liste_rafraichir()
-            self.planning_animes_vus_afficher()
+            self.planning__animes_vus__afficher()
 
         # Si l'identifiant n'a pas été rempli
         else:
@@ -542,11 +532,11 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
             # Rafraichi après avoir supprimé
             self.liste_rafraichir()
-            self.planning_animes_vus_afficher()
+            self.planning__animes_vus__afficher()
 
 
 # Fonctions de l'onglet planning
-    def planning_animes_vus_afficher(self):
+    def planning__animes_vus__afficher(self):
         """Fonction qui ajoute les animés vus dans la liste des animés vus"""
         
         # On vide la liste des animés
@@ -580,7 +570,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             self.animeVuTable.setItem(indice, 1, colonne2)
             
 
-    def planning_animes_vus_inserer(self):
+    def planning__animes_vus__inserer(self):
         """Fonction qui ajoute le titre d'un animé en cours de visionnage dans la boite d'entrée du journal"""
 
         
@@ -614,7 +604,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             self.planningEntry.setFocus()
 
 
-    def planning_afficher(self):
+    def planning__afficher(self):
         """Fonction qui affiche les animés vus en fonction de la date sélectionnée sur le calendrier"""        
 
         # Vide la boite d'entrée
@@ -638,7 +628,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.planningEntry.setText(str(animes))
 
 
-    def planning_aujourdhui(self):
+    def planning__aujourdhui(self):
         """Fonction qui séléctionne la date actuelle sur le calendrier"""
         
         # Demande a Qt la date du jour
@@ -648,7 +638,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.planningCalendrier.setSelectedDate(aujourdhui)
 
 
-    def planning_enregistrer(self):
+    def planning__enregistrer(self):
         """Fonction qui enregistre le planning dans la bdd"""
 
         planningDate = str(self.planningCalendrier.selectedDate().toPyDate())
@@ -690,7 +680,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
 
 # Fonctions de l'onglet outils
-    def outils_calcul_temps_calcul(self):
+    def outils__calcul_temps__calcul(self):
         """Fonction qui permet de calculer l'heure de fin d'un visionnage a partir du nombre d'épisodes a voir"""
 
         # Effacement de la liste
