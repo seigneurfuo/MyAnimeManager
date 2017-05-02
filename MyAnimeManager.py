@@ -3,7 +3,7 @@
 
 # Informations sur l'application
 __titre__ = "MyAnimeManager"
-__version__ = "0.23.09"
+__version__ = "0.23.10"
 __auteur__ = "seigneurfuo"
 __db_version__ = 6
 __dateDeCreation__ = "12/06/2016"
