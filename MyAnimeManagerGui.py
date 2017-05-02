@@ -3,105 +3,63 @@
 
 # Informations sur l'application
 __titre__ = "MyAnimeManager"
-__version__ = "0.22.50"
+__version__ = "0.23.09"
 __auteur__ = "seigneurfuo"
-__db_version__ = 5
+__db_version__ = 6
 __dateDeCreation__ = "12/06/2016"
-__derniereModification__ = "26/04/2017"
+__derniereModification__ = "02/05/2017"
 
 try:
-	# Librairies standards
-	import sys
+    # Librairies standards
+    import sys
     
-    # Librairies de tierces-parties
-	sys.path.append("./data/libs")
+    # Importation des autres parties du programme
+    sys.path.append("./ressources/core")
+    import database 
+    import utils
+
     
     # Logging
-	from log import *
+    from log import *
     
-	import os
-	import re
-	import sqlite3
-	import urllib
-	import argparse
-	import webbrowser
-	from distutils.version import LooseVersion
-	from datetime import date, datetime, time, timedelta
+    import os
+    import re
+    import sqlite3
+    import urllib
+    import argparse
+    import webbrowser
+    from distutils.version import LooseVersion
+    from datetime import date, datetime, timedelta
 
 	# Importation de pyQt
-	import PyQt4.QtGui
-	import PyQt4.QtCore
-	import PyQt4.uic
+    import PyQt4.QtGui
+    import PyQt4.QtCore
+    import PyQt4.uic
 
 except Exception, erreur:
-    log.error("Librairies manquantes !")
-    log.error("  %s" %erreur)
+    print("Librairies manquantes !")
+    print("  %s" %erreur)
     sys.exit()
 
 
 def creation_de_la_bdd():
-    """Fonctions générale a l'application"""
+    """Fonction de création de tables de la base de données"""
     
     log.info("Création de la base de donnees")
 
 	# Code SQL pour créer la table anime
-    curseur.execute(
-    """
-    CREATE TABLE anime(
-    animeId TEXT PRIMARY KEY NOT NULL,
-    animeAjout TEXT,
-    animeTitre VARCHAR(100) NOT NULL,
-    animeAnnee INT,
-    animeStudio VARCHAR(30),
-    animeFansub VARCHAR(30),
-    animeEtatVisionnage INT,
-    animeFavori TEXT,
-    animeDateAjout TEXT,
-    animeNbVisionnage INT,
-    animeNotes TEXT)
-    """)
-
+    curseur.execute(database.CREATE_TABLE_ANIME)
 
     # Code SQL pour créer la table planning
-    curseur.execute(
-    """
-    CREATE TABLE planning(
-    planningDate TEXT NOT NULL,
-    planningIdentifiantJournalier TEXT,
-    planningAnime TEXT,
-    planningEpisode TEXT)
-    """)
-
-
-	# Code SQL pour créer la table informations
-    curseur.execute(
-    """
-    CREATE TABLE information(
-    informationVersion)
-    """)
-
-
-def verification_des_dossiers():
-    """Fonction qui va créer les dossiers utiles"""
+    curseur.execute(database.CREATE_TABLE_PLANNING)
     
-    log.info("Verification de l'existance des dossiers ...")
+    # Code SQL pour créer la table information
+    curseur.execute(database.CREATE_TABLE_INFORMATION)
+    curseur.execute("INSERT INTO information VALUES (%s)" %__db_version__)
+    bdd.commit()
+    
 
-    # Dossier ./data/characters
-    if os.path.exists("./data/characters"):
-        log.info("  ./data/characters [Ok]")
-    else:
-        os.makedirs("./data/characters")
-        log.info("  Creation de ./data/characters")
-
-    # Dossier ./data/covers
-    if os.path.exists("./data/covers"):
-        log.info("  ./data/covers [Ok]")
-    else:
-        os.makedirs("./data/covers")
-        log.info("  Creation de ./data/covers")
-
-
-class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): # Chargement des interfaces depuis les fichiers
+class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[0]): # Chargement des interfaces depuis les fichiers
     """Classe de la fenetre principale"""
 
     def __init__(self, parent=None):
@@ -150,8 +108,8 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         self.pushButton.clicked.connect(self.outils__calcul_temps__calcul)
 
         # Onglet préférences
-        self.pushButton_5.clicked.connect(self.exportation_du_profil)
-        self.pushButton_3.clicked.connect(self.suppression_du_profil)
+        self.pushButton_5.clicked.connect(self.exportation_du_profile)
+        self.pushButton_3.clicked.connect(self.suppression_du_profile)
 
         # Remplace le numéro de version A propos
         self.barreDeStatus.showMessage("Version %s" %__version__)
@@ -161,13 +119,13 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         
         # Icone en zone de notification
         self.tray = PyQt4.QtGui.QSystemTrayIcon(self)
-        self.tray.setIcon(PyQt4.QtGui.QIcon("./data/icons/icon.png"))
+        self.tray.setIcon(PyQt4.QtGui.QIcon("./ressources/icons/icon.png"))
         
         # Création d'un menu contextuel pour le 
         self.tray.menuContextuel = PyQt4.QtGui.QMenu()
     
         # Charge l'icone pour la fermeture
-        self.tray.iconeQuitter = PyQt4.QtGui.QIcon("./data/icons/edit-delete-5.ico")
+        self.tray.iconeQuitter = PyQt4.QtGui.QIcon("./re/icons/edit-delete-5.ico")
             
         # Créer l'action dans le menu
         self.tray.actionfermer = (PyQt4.QtGui.QAction(self.tray.iconeQuitter, "Quitter", self))
@@ -191,9 +149,6 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             
         # Définition du premier onglet affiché
         self.tabWidget.setCurrentIndex(0)
-           
-        # Chargement des fonctions
-        self.chargement_onglet(self)
 
 
     def recherche_mise_a_jour(self):
@@ -251,7 +206,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         """La fonction qui efface les entrées (les instructions auraient pus etres contenues dans liste_affiche mais je souhaitais séparer les deux blocs)"""
         
         # Image de l'animé vide
-        myPixmap = PyQt4.QtGui.QPixmap("./data/icons/image-x-generic.png")
+        myPixmap = PyQt4.QtGui.QPixmap("./ressources/icons/image-x-generic.png")
         image = myPixmap.scaled(self.label_5.size(), PyQt4.QtCore.Qt.KeepAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
         self.label_5.setPixmap(image)
 
@@ -417,7 +372,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
             # Charge et affiche l'image de l'anime
             image = str(ligne["animeId"])
-            chemin = os.path.join("./data/covers", image)
+            chemin = os.path.join("./profile/covers", image)
             global listeAfficherImageChemin
             listeAfficherImageChemin = chemin
 
@@ -452,7 +407,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
 
         # Téléchargement de l'image d'illustration
         animeId = str(self.idEntry.text())
-        myanimelist.telecharger_image(animeId, "./data/covers/")
+        myanimelist.telecharger_image(animeId, "./profile/covers/")
 
         # Mise a jour de l'image
         chemin = os.path.join(dossier, animeId)
@@ -521,8 +476,8 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             animeTitre = self.table.item(ligneActuelle, 1).text()          
 
             # Supression de l'image
-            if os.path.exists("./data/covers/%s" %animeId):
-                os.remove("./data/covers/%s" %animeId)
+            if os.path.exists("./profile/covers/%s" %animeId):
+                os.remove("./profile/covers/%s" %animeId)
 
             # Supression du champ dans la base SQL
             curseur.execute("DELETE FROM anime WHERE animeTitre = '%s'" %animeTitre)
@@ -706,7 +661,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         
         # Identifiant du numéro de page
         pageId = self.spinboxPageId.value()
-        filename = "./data/characters/%s_%s" %(pageId, filename)
+        filename = "./profile/characters/%s_%s" %(pageId, filename)
         urllib.urlretrieve(url, filename)
         
 
@@ -749,9 +704,9 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
                 # Identifiant du numéro de la page affichée
                 pageId = self.spinboxPageId.value()
                 # Charge l'image téléchargée
-                pixmap = PyQt4.QtGui.QPixmap("./data/characters/%s_%s" %(pageId, imageId))
+                pixmap = PyQt4.QtGui.QPixmap("./profile/characters/%s_%s" %(pageId, imageId))
                 
-                log.info("Image chargee: ./data/characters/%s_%s" %(pageId, imageId))
+                log.info("Image chargee: ./profile/characters/%s_%s" %(pageId, imageId))
 
                 # Si la case de déformation n'est pas cochée
                 if self.deformerCheckBox.isChecked() == False:
@@ -779,26 +734,26 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
         if url != "": self.telechargement_image(url, "wallpaper")
         
         # Charge l'image téléchargée
-        pixmap = PyQt4.QtGui.QPixmap("./data/characters/wallpaper")
+        pixmap = PyQt4.QtGui.QPixmap("./profile/characters/wallpaper")
 
         # Application de l'image (avec aspect ratio et lissage)
         image = pixmap.scaled(self.waifuWallpaper.size(), PyQt4.QtCore.Qt.IgnoreAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
         self.waifuWallpaper.setPixmap(image)
 
     
-    def importation_du_profil(self):
-        """Fonction qui permet d'importer un profil"""
+    def importation_du_profile(self):
+        """Fonction qui permet d'importer un profile"""
         
         pass
 
 
-    def exportation_du_profil(self):
-        """Fonction qui permet d'exporter un profil"""
+    def exportation_du_profile(self):
+        """Fonction qui permet d'exporter un profile"""
 
         cheminDeSauvegarde = PyQt4.QtGui.QFileDialog(self)
 
 
-    def suppression_du_profil(self):
+    def suppression_du_profile(self):
         """Fonction qui supprime toutes les données utilisateurs"""
     
         # Supression des fichiers individuels
@@ -816,25 +771,25 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./data/gui.ui")[0]): #
             curseur.close()
             bdd.close()
 
-            log.info("Suppression du fichier: ./data/MyAnimeManager.sqlite3")
-            os.remove("./data/MyAnimeManager.sqlite3")
+            log.info("Suppression du fichier: ./profile/MyAnimeManager.sqlite3")
+            os.remove("./profile/MyAnimeManager.sqlite3")
 
-            if os.path.exists("./data/MyAnimeManager.sqlite3-journal"):
-                log.info("Suppression du fichier: ./data/MyAnimeManager.sqlite3-journal")
-                os.remove("./data/MyAnimeManager.sqlite3-journal")
+            if os.path.exists("./profile/MyAnimeManager.sqlite3-journal"):
+                log.info("Suppression du fichier: ./profile/MyAnimeManager.sqlite3-journal")
+                os.remove("./profile/MyAnimeManager.sqlite3-journal")
 
             # Nettoyage des dossier Characters et Covers
-            filelist = [f for f in os.listdir("./data/characters")]
-            log.info("Nettoyage du dossier: ./data/characters \t %s elements" %len(filelist))
+            filelist = [f for f in os.listdir("./profile/characters")]
+            log.info("Nettoyage du dossier: ./profile/characters \t %s elements" %len(filelist))
             for f in filelist:
                 log.info("Supression de %s" %f)
-                os.remove("./data/characters/%s" %f)
+                os.remove("./profile/characters/%s" %f)
 
-            filelist = [f for f in os.listdir("./data/covers")]
-            log.info("Nettoyage du dossier: ./data/covers - %s elements" %len(filelist))
+            filelist = [f for f in os.listdir("./profile/covers")]
+            log.info("Nettoyage du dossier: ./profile/covers - %s elements" %len(filelist))
             for f in filelist:
                 log.info("Supression de %s" %f)
-                os.remove("./data/covers/%s" %f)
+                os.remove("./profile/covers/%s" %f)
             
             # Fin de la suppression des données
             log.info("Nettoyage termine !")
@@ -883,11 +838,11 @@ if __name__ == "__main__":
     argParser.add_argument("-noupdate", action="store_true", default=False)
     args = argParser.parse_args()
     
-    # Vérification des dossiers
-    verification_des_dossiers()
+    # Création du dossier utilisateur
+    utils.creation_dossier_profil_utilisateur()
 
     # Nom de la base de donnée
-    nomBdd = "./data/MyAnimeManager.sqlite3"
+    nomBdd = "./profile/MyAnimeManager.sqlite3"
     bddVierge = False
 
     # Recherche si le fichier de la base de donnée existe déja
@@ -901,8 +856,21 @@ if __name__ == "__main__":
 
     # Si la base de donnée est vierge, on utilise la fonction creation_de_la_bdd()
     if bddVierge == True:
-        log.info("La bdd n'existe pas ! Creation d'un nouveau profil")
+        log.info("La bdd n'existe pas ! Creation d'un nouveau profile")
         creation_de_la_bdd()
+        
+    # Récupération de la version de la base de données
+    curseur.execute("SELECT * FROM information")
+    
+    bddInformations = curseur.fetchone()
+    bddVersion = int(bddInformations["version"])
+
+    
+    # MAJ de la base de données
+    if bddVersion == 5 or bddVersion == None:
+        log.info("MAJ de la base de donnees")
+        sys.exit()
+        exit()
 
     # Définition de l'application pyQt
     app = PyQt4.QtGui.QApplication(sys.argv)     

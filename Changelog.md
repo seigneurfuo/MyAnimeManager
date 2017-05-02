@@ -1,5 +1,10 @@
 # Changements
 
+02/05/2017 - version 0.23.0
+- Déplacement de fonction dans des modules externes (./core/)
+- Les erreurs d'importations sont désormais affichées par print() et non plus par log()
+- La base de donnée passe en version 6 (mise à jour de type de champs)
+
 26/04/2017 - version 0.22.50
 - Déplacement des instuctions de log dans un module externe data/libs/log.py
 - Modifications mineurs de la documentation

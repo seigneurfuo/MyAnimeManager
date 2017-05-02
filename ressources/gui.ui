@@ -1,0 +1,1599 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>657</width>
+    <height>343</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>MyAnimeManager</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>ressources/icons/icon.png</normaloff>ressources/icons/icon.png</iconset>
+  </property>
+  <property name="statusTip">
+   <string/>
+  </property>
+  <property name="whatsThis">
+   <string/>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>661</width>
+      <height>331</height>
+     </rect>
+    </property>
+    <property name="tabPosition">
+     <enum>QTabWidget::North</enum>
+    </property>
+    <property name="tabShape">
+     <enum>QTabWidget::Rounded</enum>
+    </property>
+    <property name="currentIndex">
+     <number>5</number>
+    </property>
+    <widget class="QWidget" name="planning">
+     <attribute name="icon">
+      <iconset>
+       <normaloff>ressources/icons/address-book-new-2.ico</normaloff>ressources/icons/address-book-new-2.ico</iconset>
+     </attribute>
+     <attribute name="title">
+      <string>Planning</string>
+     </attribute>
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>0</y>
+        <width>221</width>
+        <height>201</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Episodes vus pour cette date</string>
+      </property>
+      <widget class="QTextEdit" name="planningEntry">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>201</width>
+         <height>141</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="boutonAnnuler_3">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>180</y>
+         <width>71</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Retour</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>ressources/icons/edit-delete-5.ico</normaloff>ressources/icons/edit-delete-5.ico</iconset>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="boutonPlanningSauvegarder">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>170</y>
+         <width>71</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Valider</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>ressources/icons/document-export.ico</normaloff>ressources/icons/document-export.ico</iconset>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>0</y>
+        <width>181</width>
+        <height>201</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Animés en cours</string>
+      </property>
+      <widget class="QPushButton" name="boutonPlanningInserer">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>180</y>
+         <width>71</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Insérer</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>ressources/icons/list-add-6.ico</normaloff>ressources/icons/list-add-6.ico</iconset>
+       </property>
+      </widget>
+      <widget class="QTableWidget" name="animeVuTable">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>161</width>
+         <height>141</height>
+        </rect>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::SingleSelection</enum>
+       </property>
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectItems</enum>
+       </property>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>30</number>
+       </attribute>
+       <attribute name="horizontalHeaderStretchLastSection">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="verticalHeaderDefaultSectionSize">
+        <number>15</number>
+       </attribute>
+       <attribute name="verticalHeaderMinimumSectionSize">
+        <number>15</number>
+       </attribute>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_6">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>231</width>
+        <height>201</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Calendrier</string>
+      </property>
+      <widget class="QCalendarWidget" name="planningCalendrier">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>211</width>
+         <height>141</height>
+        </rect>
+       </property>
+       <property name="firstDayOfWeek">
+        <enum>Qt::Monday</enum>
+       </property>
+       <property name="selectionMode">
+        <enum>QCalendarWidget::SingleSelection</enum>
+       </property>
+       <property name="horizontalHeaderFormat">
+        <enum>QCalendarWidget::ShortDayNames</enum>
+       </property>
+       <property name="verticalHeaderFormat">
+        <enum>QCalendarWidget::NoVerticalHeader</enum>
+       </property>
+       <property name="navigationBarVisible">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="boutonPlanningReset">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>180</y>
+         <width>91</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Aujourd'hui</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>ressources/icons/today.ico</normaloff>ressources/icons/today.ico</iconset>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="liste">
+     <attribute name="icon">
+      <iconset>
+       <normaloff>ressources/icons/application-view-list.ico</normaloff>ressources/icons/application-view-list.ico</iconset>
+     </attribute>
+     <attribute name="title">
+      <string>Liste</string>
+     </attribute>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>40</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Titre:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="boutonAnnuler">
+      <property name="geometry">
+       <rect>
+        <x>580</x>
+        <y>260</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Annule les informations saisies</string>
+      </property>
+      <property name="text">
+       <string>Retour</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>ressources/icons/edit-delete-5.ico</normaloff>ressources/icons/edit-delete-5.ico</iconset>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>70</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Année:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>130</y>
+        <width>51</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Fansub:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="fansubEntry">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>130</y>
+        <width>121</width>
+        <height>20</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="studioEntry">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>100</y>
+        <width>121</width>
+        <height>20</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="anneeEntry">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>70</y>
+        <width>121</width>
+        <height>20</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="titreEntry">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>40</y>
+        <width>121</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="idEntry">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>10</y>
+        <width>121</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="inputMethodHints">
+       <set>Qt::ImhDigitsOnly</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="boutonEnregistrer">
+      <property name="geometry">
+       <rect>
+        <x>580</x>
+        <y>220</y>
+        <width>71</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Enregistre les informations sur l'animé en cours</string>
+      </property>
+      <property name="text">
+       <string>Valider</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>ressources/icons/document-export.ico</normaloff>ressources/icons/document-export.ico</iconset>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>10</y>
+        <width>61</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Identifiant:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>100</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Studio:</string>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>190</y>
+        <width>181</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Visionnage</string>
+      </property>
+      <widget class="QSpinBox" name="spinBox">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>50</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Indiquer le nombre de fois que vous avez regardé cet animé</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_9">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>50</y>
+         <width>51</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Nombre</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="comboBoxEtatVisionnage">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>20</y>
+         <width>121</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>Terminé</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>En cours</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>A voir</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>ressources/icons/appointment-new-2.ico</normaloff>ressources/icons/appointment-new-2.ico</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Indéfini</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>ressources/icons/help-about.ico</normaloff>ressources/icons/help-about.ico</iconset>
+        </property>
+       </item>
+      </widget>
+     </widget>
+     <widget class="QLineEdit" name="rechercheEntry">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>270</y>
+        <width>131</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Taper un titre pour le rechercher dans votre collection</string>
+      </property>
+      <property name="inputMethodHints">
+       <set>Qt::ImhDigitsOnly</set>
+      </property>
+      <property name="frame">
+       <bool>true</bool>
+      </property>
+      <property name="placeholderText">
+       <string>Rechercher un animé</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="rechercheViderBoutton">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>270</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Reinitalise la liste et la zone de recherche</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>ressources/icons/edit-clear-2.ico</normaloff>ressources/icons/edit-clear-2.ico</iconset>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_5">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>10</y>
+        <width>121</width>
+        <height>181</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_23">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>0</y>
+        <width>41</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Notes</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="boutonCompleter">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>630</x>
+        <y>0</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Compléter les différentes informations grâce a un service en ligne</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>ressources/icons/go-next-5.ico</normaloff>ressources/icons/go-next-5.ico</iconset>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="malEntry">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>580</x>
+        <y>0</y>
+        <width>51</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="inputMethodHints">
+       <set>Qt::ImhNone</set>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="placeholderText">
+       <string>Id MAL</string>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="notesEntry">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>20</y>
+        <width>161</width>
+        <height>171</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Entrez ici vos impressions ou ce que vous voulez !</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="boutonAjouterAnime">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>210</y>
+        <width>81</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Permet d'ajouter un nouvel animé</string>
+      </property>
+      <property name="text">
+       <string>Ajouter</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>ressources/icons/list-add-6.ico</normaloff>ressources/icons/list-add-6.ico</iconset>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="boutonSupprimerAnime">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>210</y>
+        <width>81</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Permet de suppimer un animé</string>
+      </property>
+      <property name="text">
+       <string>Supprimer</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>ressources/icons/edit-delete-5.ico</normaloff>ressources/icons/edit-delete-5.ico</iconset>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_12">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>160</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Ajouté le:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="ajoutEntry">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>160</y>
+        <width>121</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="inputMethodHints">
+       <set>Qt::ImhDigitsOnly</set>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="table">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>161</width>
+        <height>211</height>
+       </rect>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectItems</enum>
+      </property>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>30</number>
+      </attribute>
+      <attribute name="horizontalHeaderStretchLastSection">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderDefaultSectionSize">
+       <number>15</number>
+      </attribute>
+      <attribute name="verticalHeaderMinimumSectionSize">
+       <number>15</number>
+      </attribute>
+     </widget>
+     <widget class="QPushButton" name="rechercheLancer">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>240</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Affiche les animés à voir</string>
+      </property>
+      <property name="statusTip">
+       <string/>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>ressources/icons/system-search-5.ico</normaloff>ressources/icons/system-search-5.ico</iconset>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBoxFiltreRecherche">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>240</y>
+        <width>91</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>Tous</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>ressources/icons/dialog-information-2.ico</normaloff>ressources/icons/dialog-information-2.ico</iconset>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Favoris</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>ressources/icons/favorites.ico</normaloff>ressources/icons/favorites.ico</iconset>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>A voir</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>ressources/icons/appointment-new-2.ico</normaloff>ressources/icons/appointment-new-2.ico</iconset>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="label_15">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>240</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Filtre:</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="checkBoxFavoris">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>270</y>
+        <width>21</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_7">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>270</y>
+        <width>46</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Favori:</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="album">
+     <attribute name="icon">
+      <iconset>
+       <normaloff>ressources/icons/application-view-tile.ico</normaloff>ressources/icons/application-view-tile.ico</iconset>
+     </attribute>
+     <attribute name="title">
+      <string>Album</string>
+     </attribute>
+     <widget class="QLabel" name="waifu008">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>140</y>
+        <width>111</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="waifu003">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>0</y>
+        <width>111</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="waifu007">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>140</y>
+        <width>111</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="waifu001">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>111</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="testButton">
+      <property name="geometry">
+       <rect>
+        <x>590</x>
+        <y>90</y>
+        <width>61</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Rafraichir</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="waifu007Entry">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>250</y>
+        <width>51</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Url:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="waifu002Entry">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>110</y>
+        <width>51</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Url:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="waifu001Entry">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>110</y>
+        <width>51</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="inputMask">
+       <string/>
+      </property>
+      <property name="placeholderText">
+       <string>Url:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="waifu008Entry">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>250</y>
+        <width>51</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Url:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="waifu004Entry">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>110</y>
+        <width>51</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Url:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="waifu003Entry">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>110</y>
+        <width>51</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Url:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="waifu004">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>0</y>
+        <width>111</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="waifu002">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>0</y>
+        <width>111</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="waifu006">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>140</y>
+        <width>111</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="waifu006Entry">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>250</y>
+        <width>51</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Url:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="waifu005Entry">
+      <property name="geometry">
+       <rect>
+        <x>440</x>
+        <y>110</y>
+        <width>51</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Url:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="waifu005">
+      <property name="geometry">
+       <rect>
+        <x>440</x>
+        <y>0</y>
+        <width>111</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="waifu010Entry">
+      <property name="geometry">
+       <rect>
+        <x>440</x>
+        <y>250</y>
+        <width>51</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Url:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="waifu009Entry">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>250</y>
+        <width>51</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Url:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="waifu010">
+      <property name="geometry">
+       <rect>
+        <x>440</x>
+        <y>140</y>
+        <width>111</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="waifu009">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>140</y>
+        <width>111</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="deformerCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>590</x>
+        <y>30</y>
+        <width>91</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Adapter </string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="waifuWallpaper">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>-20</y>
+        <width>651</width>
+        <height>301</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="waifuWallpaperEntry">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>60</y>
+        <width>51</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Url:</string>
+      </property>
+     </widget>
+     <widget class="Line" name="line">
+      <property name="geometry">
+       <rect>
+        <x>550</x>
+        <y>0</y>
+        <width>20</width>
+        <height>281</height>
+       </rect>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="spinboxPageId">
+      <property name="geometry">
+       <rect>
+        <x>610</x>
+        <y>10</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>5</number>
+      </property>
+      <property name="value">
+       <number>1</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_14">
+      <property name="geometry">
+       <rect>
+        <x>570</x>
+        <y>10</y>
+        <width>51</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Page:</string>
+      </property>
+     </widget>
+     <zorder>waifuWallpaper</zorder>
+     <zorder>testButton</zorder>
+     <zorder>waifu007Entry</zorder>
+     <zorder>waifu002Entry</zorder>
+     <zorder>waifu001Entry</zorder>
+     <zorder>waifu008Entry</zorder>
+     <zorder>waifu004Entry</zorder>
+     <zorder>waifu003Entry</zorder>
+     <zorder>waifu006Entry</zorder>
+     <zorder>waifu005Entry</zorder>
+     <zorder>waifu010Entry</zorder>
+     <zorder>waifu009Entry</zorder>
+     <zorder>waifu007</zorder>
+     <zorder>waifu006</zorder>
+     <zorder>waifu001</zorder>
+     <zorder>waifu002</zorder>
+     <zorder>waifu003</zorder>
+     <zorder>waifu004</zorder>
+     <zorder>waifu005</zorder>
+     <zorder>waifu010</zorder>
+     <zorder>waifu009</zorder>
+     <zorder>waifu008</zorder>
+     <zorder>deformerCheckBox</zorder>
+     <zorder>waifuWallpaperEntry</zorder>
+     <zorder>line</zorder>
+     <zorder>spinboxPageId</zorder>
+     <zorder>label_14</zorder>
+    </widget>
+    <widget class="QWidget" name="outils">
+     <attribute name="icon">
+      <iconset>
+       <normaloff>ressources/icons/tools-wizard-3.ico</normaloff>ressources/icons/tools-wizard-3.ico</iconset>
+     </attribute>
+     <attribute name="title">
+      <string>Outils</string>
+     </attribute>
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>331</width>
+        <height>171</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Calcul de temps</string>
+      </property>
+      <widget class="QSpinBox" name="spinBox_2">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>20</y>
+         <width>51</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_8">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>121</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Nombre d'épisodes:</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBox_3">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>50</y>
+         <width>51</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="value">
+        <number>24</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_10">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>50</y>
+         <width>141</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Durée de l'épisode:</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>140</y>
+         <width>71</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Calculer</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>ressources/icons/go-next-5.ico</normaloff>ressources/icons/go-next-5.ico</iconset>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>100</y>
+         <width>71</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Actuelle</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_11">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>80</y>
+         <width>91</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Heure de début:</string>
+       </property>
+      </widget>
+      <widget class="QListWidget" name="listWidget_2">
+       <property name="geometry">
+        <rect>
+         <x>190</x>
+         <y>10</y>
+         <width>131</width>
+         <height>151</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTimeEdit" name="timeEdit">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>80</y>
+         <width>71</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_3">
+     <attribute name="icon">
+      <iconset>
+       <normaloff>ressources/icons/configure-2.ico</normaloff>ressources/icons/configure-2.ico</iconset>
+     </attribute>
+     <attribute name="title">
+      <string>Préférences</string>
+     </attribute>
+     <widget class="QPushButton" name="pushButton_3">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>60</y>
+        <width>211</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Supprimer les données utilisateur</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>ressources/icons/edit-clear-2.ico</normaloff>ressources/icons/edit-clear-2.ico</iconset>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_4">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>211</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Importer les données utilisateur</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>ressources/icons/document-import-2.ico</normaloff>ressources/icons/document-import-2.ico</iconset>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_5">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>211</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exporter les données utilisateur</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>ressources/icons/document-export-4.ico</normaloff>ressources/icons/document-export-4.ico</iconset>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab">
+     <attribute name="icon">
+      <iconset>
+       <normaloff>ressources/icons/help-about.ico</normaloff>ressources/icons/help-about.ico</iconset>
+     </attribute>
+     <attribute name="title">
+      <string>A propos</string>
+     </attribute>
+     <widget class="QLabel" name="label_13">
+      <property name="geometry">
+       <rect>
+        <x>5</x>
+        <y>0</y>
+        <width>331</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Application: &lt;a href=&quot;https://github.com/seigneurfuo/MyAnimeManager&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;seigneurfuo&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QWebView" name="webView" native="true">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>20</y>
+        <width>651</width>
+        <height>281</height>
+       </rect>
+      </property>
+      <property name="url" stdset="0">
+       <url>
+        <string>https://raw.githubusercontent.com/seigneurfuo/MyAnimeManager/master/Changelog.md</string>
+       </url>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_16">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>0</y>
+        <width>131</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Logo: &lt;a href=&quot;https://www.facebook.com/lesCreationsdAlexandre/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Alexandre Vert&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="barreDeStatus"/>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebView</class>
+   <extends>QWidget</extends>
+   <header>QtWebKit/QWebView</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>planningCalendrier</tabstop>
+  <tabstop>planningEntry</tabstop>
+  <tabstop>boutonPlanningReset</tabstop>
+  <tabstop>boutonPlanningInserer</tabstop>
+  <tabstop>boutonAnnuler_3</tabstop>
+  <tabstop>boutonPlanningSauvegarder</tabstop>
+  <tabstop>table</tabstop>
+  <tabstop>idEntry</tabstop>
+  <tabstop>titreEntry</tabstop>
+  <tabstop>anneeEntry</tabstop>
+  <tabstop>studioEntry</tabstop>
+  <tabstop>fansubEntry</tabstop>
+  <tabstop>ajoutEntry</tabstop>
+  <tabstop>notesEntry</tabstop>
+  <tabstop>malEntry</tabstop>
+  <tabstop>boutonCompleter</tabstop>
+  <tabstop>boutonAjouterAnime</tabstop>
+  <tabstop>boutonSupprimerAnime</tabstop>
+  <tabstop>rechercheEntry</tabstop>
+  <tabstop>rechercheViderBoutton</tabstop>
+  <tabstop>boutonEnregistrer</tabstop>
+  <tabstop>boutonAnnuler</tabstop>
+  <tabstop>spinboxPageId</tabstop>
+  <tabstop>deformerCheckBox</tabstop>
+  <tabstop>waifuWallpaperEntry</tabstop>
+  <tabstop>testButton</tabstop>
+  <tabstop>waifu001Entry</tabstop>
+  <tabstop>waifu002Entry</tabstop>
+  <tabstop>waifu003Entry</tabstop>
+  <tabstop>waifu004Entry</tabstop>
+  <tabstop>waifu005Entry</tabstop>
+  <tabstop>waifu006Entry</tabstop>
+  <tabstop>waifu007Entry</tabstop>
+  <tabstop>waifu008Entry</tabstop>
+  <tabstop>waifu009Entry</tabstop>
+  <tabstop>waifu010Entry</tabstop>
+  <tabstop>spinBox_2</tabstop>
+  <tabstop>spinBox_3</tabstop>
+  <tabstop>pushButton_2</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>listWidget_2</tabstop>
+  <tabstop>pushButton_3</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
