@@ -1,13 +1,14 @@
 # Changements
 
-02/05/2017 - version 0.23.0
-- Déplacement de fonction dans des modules externes (./core/)
+02/05/2017 - version 0.23.07
+- Modification de la structure des fichiers: Le profil utilisateur est sauvegardé dans ./profile, les ressources sont désormais dans un dossier propre ./ressources
+- Déplacement de fonction dans des modules externes (./ressources/core/)
 - Les erreurs d'importations sont désormais affichées par print() et non plus par log()
-- La base de donnée passe en version 6 (mise à jour de type de champs)
+- La base de données passe en version 6 (mise à jour de type de champs)
 
 26/04/2017 - version 0.22.50
 - Déplacement des instuctions de log dans un module externe data/libs/log.py
-- Modifications mineurs de la documentation
+- Modifications mineures de la documentation
 
 21/04/2017 - version 0.22.48
 - Ouverture de la page de téléchargement lors de la détection d'une nouvelle version
