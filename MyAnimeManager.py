@@ -3,11 +3,11 @@
 
 # Informations sur l'application
 __titre__ = "MyAnimeManager"
-__version__ = "0.23.10"
+__version__ = "0.23.11"
 __auteur__ = "seigneurfuo"
 __db_version__ = 6
 __dateDeCreation__ = "12/06/2016"
-__derniereModification__ = "02/05/2017"
+__derniereModification__ = "03/05/2017"
 
 try:
     # Librairies standards
@@ -656,12 +656,21 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[
             plageA = plageB # Décale la plage
 
 
-    def telechargement_image(self, url, filename):
+    def telechargement_image_personnage(self, url, filename):
         """Fonction qui permet de télécharger des images et de changer le nom du fichier enregistré"""
         
         # Identifiant du numéro de page
         pageId = self.spinboxPageId.value()
         filename = "./profile/characters/%s_%s" %(pageId, filename)
+        urllib.urlretrieve(url, filename)
+        
+        
+    def telechargement_image_wallpaper(self, url):
+        """Fonction qui permet de télécharger des images et de changer le nom du fichier enregistré"""
+        
+        # Identifiant du numéro de page
+        pageId = self.spinboxPageId.value()
+        filename = "./profile/characters/wallpaper"
         urllib.urlretrieve(url, filename)
         
 
@@ -698,7 +707,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[
             # Si l'url n'est pas vide
             if url != "":
                 # On télécharge l'image
-                self.telechargement_image(url, imageId)
+                self.telechargement_image_personnage(url, imageId)
 
             try:
                 # Identifiant du numéro de la page affichée
@@ -731,7 +740,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[
         # Lit l'url depuis l'entrée texte
         url = str(self.waifuWallpaperEntry.text())
 
-        if url != "": self.telechargement_image(url, "wallpaper")
+        if url != "": self.telechargement_image_wallpaper(url)
         
         # Charge l'image téléchargée
         pixmap = PyQt4.QtGui.QPixmap("./profile/characters/wallpaper")

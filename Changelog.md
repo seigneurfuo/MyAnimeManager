@@ -1,6 +1,9 @@
 # Changements
 
-02/05/2017 - version 0.23.07
+03/05/2017 - version 0.23.11
+- BUGFIX: Le fond d'écran des personnages favoris était mal renseigné
+
+02/05/2017 - version 0.23.10
 - Modification de la structure des fichiers: Le profil utilisateur est sauvegardé dans ./profile, les ressources sont désormais dans un dossier propre ./ressources
 - Déplacement de fonction dans des modules externes (./ressources/core/)
 - Les erreurs d'importations sont désormais affichées par print() et non plus par log()
