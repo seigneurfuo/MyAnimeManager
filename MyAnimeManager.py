@@ -3,11 +3,11 @@
 
 # Informations sur l'application
 __titre__ = "MyAnimeManager"
-__version__ = "0.23.11"
+__version__ = "0.23.12"
 __auteur__ = "seigneurfuo"
 __db_version__ = 6
 __dateDeCreation__ = "12/06/2016"
-__derniereModification__ = "03/05/2017"
+__derniereModification__ = "16/05/2017"
 
 try:
     # Librairies standards
@@ -677,32 +677,21 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[
     def personnages_favoris(self):
         """Fonction qui affiche les personnages préférés"""
 
-        waifuEntry = {1:self.waifu001Entry,
-                      2:self.waifu002Entry,
-                      3:self.waifu003Entry,
-                      4:self.waifu004Entry,
-                      5:self.waifu005Entry,
-                      6:self.waifu006Entry,
-                      7:self.waifu007Entry,
-                      8:self.waifu008Entry,
-                      9:self.waifu009Entry,
-                      10:self.waifu010Entry}
-
-        waifu = {1:self.waifu001,
-                 2:self.waifu002,
-                 3:self.waifu003,
-                 4:self.waifu004,
-                 5:self.waifu005,
-                 6:self.waifu006,
-                 7:self.waifu007,
-                 8:self.waifu008,
-                 9:self.waifu009,
-                 10:self.waifu010}
+        waifu = {1:[self.waifu001Entry, self.waifu001],
+                      2:[self.waifu002Entry, self.waifu002],
+                      3:[self.waifu003Entry, self.waifu003],
+                      4:[self.waifu004Entry, self.waifu004],
+                      5:[self.waifu005Entry, self.waifu005],
+                      6:[self.waifu006Entry, self.waifu006],
+                      7:[self.waifu007Entry, self.waifu007],
+                      8:[self.waifu008Entry, self.waifu008],
+                      9:[self.waifu009Entry, self.waifu009],
+                      10:[self.waifu010Entry, self.waifu010]}
 
         # Rajouter la sauvegarde dans la base de données
         for imageId in range(1, 11):
             # Lit l'url depuis l'entrée texte
-            url = str(waifuEntry[imageId].text())
+            url = str(waifu[imageId][0].text())
 
             # Si l'url n'est pas vide
             if url != "":
@@ -721,17 +710,17 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[
                 if self.deformerCheckBox.isChecked() == False:
                    
                    # Redimentionne l'image a la taille du rectangle - lissage des images et garde l'aspect ratio
-                    image = pixmap.scaled(waifu[imageId].size(), PyQt4.QtCore.Qt.KeepAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
+                    image = pixmap.scaled(waifu[imageId][1].size(), PyQt4.QtCore.Qt.KeepAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
 
                 # Sinon, on affiche l'image dans tout le carré
                 else:
-                    image = pixmap.scaled(waifu[imageId].size(), PyQt4.QtCore.Qt.IgnoreAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
+                    image = pixmap.scaled(waifu[imageId][1].size(), PyQt4.QtCore.Qt.IgnoreAspectRatio, PyQt4.QtCore.Qt.SmoothTransformation)
 
                 # Applique l'image
-                waifu[imageId].setPixmap(image)
+                waifu[imageId][1].setPixmap(image)
 
                 # Centre l'image
-                waifu[imageId].setAlignment(PyQt4.QtCore.Qt.AlignCenter)
+                waifu[imageId][1].setAlignment(PyQt4.QtCore.Qt.AlignCenter)
 
             except Exception, e:
                 log.error(e)

@@ -1,16 +1,2 @@
-data/covers/
-data/characters/
-data/MyAnimeManager.sqlite3-backup
-data/MyAnimeManager.sqlite3
-dev/
-old/
-tests/
-tools/
-MyAnimeManagerGui.py.stats.txt
-project_info.txt
-avant_commit.txt
-.project
-.pydevproject
-.settings
-.git
+profile/
 *.pyc

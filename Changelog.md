@@ -1,5 +1,8 @@
 # Changements
 
+16/05/2017 - version 0.23.12
+- Suppression de l'affichage des changements avec Webkit qui est obselète (Fonctionne désormais sous Manajaro / Archlinux)
+
 03/05/2017 - version 0.23.11
 - BUGFIX: Le fond d'écran des personnages favoris était mal renseigné
 
