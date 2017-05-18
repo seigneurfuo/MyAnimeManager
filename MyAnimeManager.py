@@ -3,11 +3,11 @@
 
 # Informations sur l'application
 __titre__ = "MyAnimeManager"
-__version__ = "0.23.12"
+__version__ = "0.23.14"
 __auteur__ = "seigneurfuo"
 __db_version__ = 6
 __dateDeCreation__ = "12/06/2016"
-__derniereModification__ = "16/05/2017"
+__derniereModification__ = "18/05/2017"
 
 try:
     # Librairies standards
@@ -170,8 +170,8 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[
         
             # Vérification de la version
             if LooseVersion(__version__) < LooseVersion(version):
-                log.info("  Une nouvelle mise a jour est disponible")
-                self.tray.showMessage(__titre__, "Une mise a jour est disponible", msecs = 10000)
+                log.info("  Une nouvelle mise a jour est disponible: %s" %version)
+                self.tray.showMessage(__titre__, "Une mise a jour est disponible: %s" %version, msecs = 10000)
                 webbrowser.open_new_tab("https://github.com/seigneurfuo/MyAnimeManager/archive/master.zip")
             
             else:
@@ -632,6 +632,9 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[
 
         # On indique a l'application que quelque chose a été modifié
         self.modifications = True
+        
+        # On rafraichi la liste des animés dans le planining pour prendre en compte les nouveaux épisodes vus
+        self.planning__animes_vus__afficher()
 
 
 # Fonctions de l'onglet outils

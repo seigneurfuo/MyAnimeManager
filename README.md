@@ -34,6 +34,9 @@ Icones venant du projet: http://sourceforge.net/projects/openiconlibrary
 - ~~sudo pip install beautifulsoup4~~
 - ~~sudo pip install lassie~~
 
+## Archlinux / Manjaro
+
+
 # A faire
 - Ajouter la création des dossiers automatiquement lors du premier démarrage
 - Séparer les animés par saison (QTreeView)

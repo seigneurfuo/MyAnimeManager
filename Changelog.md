@@ -1,7 +1,11 @@
 # Changements
 
-16/05/2017 - version 0.23.12
-- Suppression de l'affichage des changements avec Webkit qui est obselète (Fonctionne désormais sous Manajaro / Archlinux)
+18/05/2017 - version 0.23.14
+- Les épisodes à voir dans le planning sont automatiquement mis à jour quand on enregistre le planning
+
+16/05/2017 - version 0.23.13
+- Suppression de l'affichage des changements avec Webkit qui est obscelète (Fonctionne désormais sous Manajaro / Archlinux)
+- Affiche maintenant la version distante lors d'une recherche de mise à jour
 
 03/05/2017 - version 0.23.11
 - BUGFIX: Le fond d'écran des personnages favoris était mal renseigné
