@@ -1,13 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf8 -*-
 
-# Informations sur l'application
-__titre__ = "MyAnimeManager"
-__version__ = "0.23.14"
-__auteur__ = "seigneurfuo"
-__db_version__ = 6
-__dateDeCreation__ = "12/06/2016"
-__derniereModification__ = "18/05/2017"
 
 try:
     # Librairies standards
@@ -15,9 +8,12 @@ try:
     
     # Importation des autres parties du programme
     sys.path.append("./ressources/core")
+    
+    import info
+    
     import database 
     import utils
-
+    from update import maj_disponible
     
     # Logging
     from log import *
@@ -28,7 +24,6 @@ try:
     import urllib
     import argparse
     import webbrowser
-    from distutils.version import LooseVersion
     from datetime import date, datetime, timedelta
 
 	# Importation de pyQt
@@ -55,7 +50,7 @@ def creation_de_la_bdd():
     
     # Code SQL pour créer la table information
     curseur.execute(database.CREATE_TABLE_INFORMATION)
-    curseur.execute("INSERT INTO information VALUES (%s)" %__db_version__)
+    curseur.execute("INSERT INTO information VALUES (%s)" %info.__db_version__)
     bdd.commit()
     
 
@@ -69,7 +64,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[
         self.setupUi(self)
         
         # Définition du titre
-        self.setWindowTitle("%s - %s" %(__titre__, __version__))
+        self.setWindowTitle("%s - %s" %(info.__titre__, info.__version__))
 
         # Variables qui enregistre les modifications (Permet de ne pas afficher la fenetre d'enregistrement si rien n'a été modifié)
         self.modifications = False
@@ -100,7 +95,6 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[
         
         self.animeVuTable.cellDoubleClicked.connect(self.planning__animes_vus__inserer)
 
-
         # Onglet album
         self.testButton.clicked.connect(self.personnages_favoris)
         
@@ -112,7 +106,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[
         self.pushButton_3.clicked.connect(self.suppression_du_profile)
 
         # Remplace le numéro de version A propos
-        self.barreDeStatus.showMessage("Version %s" %__version__)
+        self.barreDeStatus.showMessage("Version %s" %info.__version__)
 
         # Evenement de fermeture de l'application
         self.closeEvent = self.fermer
@@ -141,47 +135,27 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[
         
 		# Affichage de l'icone dans la zone de notifications
         self.tray.show()
-        
+            
+        # Recherche de MAJ
+          
         # Si l'argument noupdate est passé en parametres
         if args.noupdate == False:
-            # Lance la recherche de MAJ
-            self.recherche_mise_a_jour()
+            # Recherche d'une MAJ
+            majDispo = maj_disponible(info.__version__)
             
-        # Définition du premier onglet affiché
-        self.tabWidget.setCurrentIndex(0)
-
-
-    def recherche_mise_a_jour(self):
-        """Fontion de vérification de mise a jour""" 
-        
-        log.info("Recherche de mises a jour...")
-         
-        # Téléchargement du fichier contenant la dernière version disponible sur github
-        url = "http://raw.githubusercontent.com/seigneurfuo/MyAnimeManager/master/version.txt"
-        
-        try:
-            log.info("  Connection au serveur de mise a jour")
-            request = urllib.urlopen(url)
-            data = request.read()
-            version = data.replace("\n", "")
+            # Affichage d'un message si une maj est dispo
+            if majDispo == 0:
+                self.tray.showMessage(info.__titre__, "Une mise a jour est disponible. Lancer update.py pour la mettre a jour automatiquement", msecs = 15000)
             
-            # Supression des variables inutiles
-            del request, data
-        
-            # Vérification de la version
-            if LooseVersion(__version__) < LooseVersion(version):
-                log.info("  Une nouvelle mise a jour est disponible: %s" %version)
-                self.tray.showMessage(__titre__, "Une mise a jour est disponible: %s" %version, msecs = 10000)
-                webbrowser.open_new_tab("https://github.com/seigneurfuo/MyAnimeManager/archive/master.zip")
+            elif majDispo == -1:
+                log.info("Pas de nouvelle maj")
             
             else:
-                log.info("  L'application est a jour")
-                return True
-        
-        except Exception, error:
-            log.info("  Impossible de contacter le serveur de mise a jour")
-            log.info(error);
-            self.tray.showMessage(__titre__, "Impossible de vérifier la version en ligne", msecs = 10000)
+                self.tray.showMessage(info.__titre__, "Impossible de joindre le serveur de mise à jours", msecs = 10000)
+            
+
+        # Définition du premier onglet affiché
+        self.tabWidget.setCurrentIndex(0)
 
 
     def chargement_onglet(self, dump):
@@ -829,16 +803,16 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[
         log.info("Fermeture du programme")
         PyQt4.QtCore.QCoreApplication.exit(0)
 
-
-# Fonction principale
 if __name__ == "__main__":
-    log.info("Version: %s" %__version__)
+    """ Fonction principale de l'application """
+    # Fonction principale
+    log.info("Version: %s" %info.__version__)
     
     # Parsage des arguments
     argParser = argparse.ArgumentParser()
     argParser.add_argument("-noupdate", action="store_true", default=False)
     args = argParser.parse_args()
-    
+
     # Création du dossier utilisateur
     utils.creation_dossier_profil_utilisateur()
 
@@ -862,11 +836,11 @@ if __name__ == "__main__":
         
     # Récupération de la version de la base de données
     curseur.execute("SELECT * FROM information")
-    
+
     bddInformations = curseur.fetchone()
     bddVersion = int(bddInformations["version"])
 
-    
+
     # MAJ de la base de données
     if bddVersion == 5 or bddVersion == None:
         log.info("MAJ de la base de donnees")
@@ -875,10 +849,10 @@ if __name__ == "__main__":
 
     # Définition de l'application pyQt
     app = PyQt4.QtGui.QApplication(sys.argv)     
-    
+
     # Création de la fenetre principale
     fenetrePrincipale = Main(None)
     fenetrePrincipale.show()
- 
+
     # Lancement de la boucle de l'application pyQt   
     app.exec_()

@@ -1,5 +1,8 @@
 # Changements
 
+19/05/2017 - version 0.24.05
+- Réecriture du script de MAJ: la recherche de maj se fait à chaque lancement mais pour metre à jour automatiquement l'application, il faut lancer update.py manuellement.
+
 18/05/2017 - version 0.23.14
 - Les épisodes à voir dans le planning sont automatiquement mis à jour quand on enregistre le planning
 
