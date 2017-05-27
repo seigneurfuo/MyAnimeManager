@@ -52,7 +52,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>5</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="planning">
      <attribute name="icon">
@@ -65,7 +65,7 @@
      <widget class="QGroupBox" name="groupBox_3">
       <property name="geometry">
        <rect>
-        <x>430</x>
+        <x>240</x>
         <y>0</y>
         <width>221</width>
         <height>201</height>
@@ -84,58 +84,11 @@
         </rect>
        </property>
       </widget>
-      <widget class="QPushButton" name="boutonAnnuler_3">
-       <property name="geometry">
-        <rect>
-         <x>70</x>
-         <y>180</y>
-         <width>71</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Retour</string>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>ressources/icons/edit-delete-5.ico</normaloff>ressources/icons/edit-delete-5.ico</iconset>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="boutonPlanningSauvegarder">
+      <widget class="QPushButton" name="boutonPlanningInserer">
        <property name="geometry">
         <rect>
          <x>140</x>
          <y>170</y>
-         <width>71</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Valider</string>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>ressources/icons/document-export.ico</normaloff>ressources/icons/document-export.ico</iconset>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_4">
-      <property name="geometry">
-       <rect>
-        <x>240</x>
-        <y>0</y>
-        <width>181</width>
-        <height>201</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Animés en cours</string>
-      </property>
-      <widget class="QPushButton" name="boutonPlanningInserer">
-       <property name="geometry">
-        <rect>
-         <x>100</x>
-         <y>180</y>
          <width>71</width>
          <height>21</height>
         </rect>
@@ -145,9 +98,22 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>ressources/icons/list-add-6.ico</normaloff>ressources/icons/list-add-6.ico</iconset>
+         <normaloff>ressources/icons/edit-add-4.ico</normaloff>ressources/icons/edit-add-4.ico</iconset>
        </property>
       </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="geometry">
+       <rect>
+        <x>470</x>
+        <y>0</y>
+        <width>181</width>
+        <height>201</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Episodes à regarder</string>
+      </property>
       <widget class="QTableWidget" name="animeVuTable">
        <property name="geometry">
         <rect>
@@ -224,7 +190,7 @@
        <property name="geometry">
         <rect>
          <x>130</x>
-         <y>180</y>
+         <y>170</y>
          <width>91</width>
          <height>21</height>
         </rect>
@@ -237,6 +203,40 @@
          <normaloff>ressources/icons/today.ico</normaloff>ressources/icons/today.ico</iconset>
        </property>
       </widget>
+     </widget>
+     <widget class="QPushButton" name="boutonPlanningSauvegarder">
+      <property name="geometry">
+       <rect>
+        <x>570</x>
+        <y>250</y>
+        <width>71</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Valider</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>ressources/icons/document-export.ico</normaloff>ressources/icons/document-export.ico</iconset>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="boutonAnnuler_3">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>260</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Retour</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>ressources/icons/edit-delete-5.ico</normaloff>ressources/icons/edit-delete-5.ico</iconset>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="liste">
@@ -459,10 +459,18 @@
         <property name="text">
          <string>Terminé</string>
         </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>ressources/icons/tick.ico</normaloff>ressources/icons/tick.ico</iconset>
+        </property>
        </item>
        <item>
         <property name="text">
          <string>En cours</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>ressources/icons/media-playback-start-3.ico</normaloff>ressources/icons/media-playback-start-3.ico</iconset>
         </property>
        </item>
        <item>
@@ -471,7 +479,7 @@
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>ressources/icons/appointment-new-2.ico</normaloff>ressources/icons/appointment-new-2.ico</iconset>
+          <normaloff>ressources/icons/appointment-soon.ico</normaloff>ressources/icons/appointment-soon.ico</iconset>
         </property>
        </item>
        <item>
@@ -631,7 +639,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>ressources/icons/list-add-6.ico</normaloff>ressources/icons/list-add-6.ico</iconset>
+        <normaloff>ressources/icons/edit-add-4.ico</normaloff>ressources/icons/edit-add-4.ico</iconset>
       </property>
       <property name="flat">
        <bool>false</bool>
@@ -776,7 +784,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>ressources/icons/appointment-new-2.ico</normaloff>ressources/icons/appointment-new-2.ico</iconset>
+         <normaloff>ressources/icons/appointment-soon.ico</normaloff>ressources/icons/appointment-soon.ico</iconset>
        </property>
       </item>
      </widget>
@@ -1167,7 +1175,7 @@
      <widget class="QCheckBox" name="deformerCheckBox">
       <property name="geometry">
        <rect>
-        <x>590</x>
+        <x>580</x>
         <y>30</y>
         <width>91</width>
         <height>31</height>
@@ -1196,9 +1204,9 @@
      <widget class="QLineEdit" name="waifuWallpaperEntry">
       <property name="geometry">
        <rect>
-        <x>600</x>
+        <x>570</x>
         <y>60</y>
-        <width>51</width>
+        <width>81</width>
         <height>20</height>
        </rect>
       </property>
@@ -1499,9 +1507,9 @@
      <widget class="QLabel" name="label_13">
       <property name="geometry">
        <rect>
-        <x>5</x>
+        <x>140</x>
         <y>0</y>
-        <width>331</width>
+        <width>151</width>
         <height>20</height>
        </rect>
       </property>
@@ -1512,14 +1520,43 @@
      <widget class="QLabel" name="label_16">
       <property name="geometry">
        <rect>
-        <x>150</x>
-        <y>0</y>
+        <x>140</x>
+        <y>20</y>
         <width>131</width>
         <height>20</height>
        </rect>
       </property>
       <property name="text">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Logo: &lt;a href=&quot;https://www.facebook.com/lesCreationsdAlexandre/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Alexandre Vert&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_17">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>131</width>
+        <height>131</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap>ressources/icons/icon.png</pixmap>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_18">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>110</y>
+        <width>191</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Développé avec Python et pyQt</string>
       </property>
      </widget>
     </widget>

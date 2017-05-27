@@ -5,7 +5,7 @@ import os
 def creation_dossier_profil_utilisateur():
     """Fonction qui va créer les dossiers utiles"""
     
-    log.info("Verification de l'existance des dossiers ...")
+    log.info("Verification de l'existence des dossiers utilisateur ...")
 
     # Dossier ./profile
     if os.path.exists("./profile"):

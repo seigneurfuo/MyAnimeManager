@@ -59,7 +59,7 @@ def maj_disponible(versionLocale=None):
         
     # Essaye de se connecter en ligne pour trouver la version distante
     try:
-        print "  Connection au serveur de mise a jour"
+        print "  Connection au serveur..."
         
         # Ouverture de l'url
         request = urllib.urlopen(urlVersion)
@@ -111,6 +111,7 @@ if __name__ == "__main__":
     if maj_disponible() == 0:
         preparation_dossiers()
         telechargement_maj()
-        #extraction_maj()
+        extraction_maj()
 
-        print "Vous pouvez maintenant profiter de votre nouvelle mise à jour de l'application"
+        print "Vous pouvez maintenant profiter de votre application mise a jour !"
+        raw_input()

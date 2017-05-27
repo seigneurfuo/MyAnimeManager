@@ -1,13 +1,28 @@
 # Changements
 
+27/05/2017 - version 0.24.12
+- POUR EFFECTUER CETTE MAJ, REMPLACER LE FICHIER update.py PAR CELUI-CI:
+- BUGFIX: Une ligne commentée dans le fichier update.py empéchait l'extraction des mise à jour
+- Le planning affiche désormais les futurs épisodes à voir.
+- BUGFIX: Les fonction relatives au préchargement des onglets (remplissage des liste, des textbox, ...) était désactivé
+- Renommage de quelques fonctions dont le nom portait à confusion (fonctions du planning essentiellement)
+- BUGFIX: Les prochains épisodes à voir restaient bloqués à 9.
+- Ajout et modification de certains icônes de l'interface
+- Correction de certaines informations dans ce fichier changelog.md
+- Correction d'une erreur UTF8 dans la fenetre de dialoge en cas d'erreur d'identifiant
+- Correction d'erreurs UTF8 dans les bulles de notification
+- BUGFIX: Le logo de l'application est désormais affiché dans "A propos" (erreur de chemin depuis Qt Designer)
+- Modification mineure de l'interface du planning
+
 19/05/2017 - version 0.24.05
-- Réecriture du script de MAJ: la recherche de maj se fait à chaque lancement mais pour metre à jour automatiquement l'application, il faut lancer update.py manuellement.
+- Réecriture du script de MAJ: la recherche de maj se fait à chaque lancement mais pour metre à jour automatiquement l'application, il faut lancer update.py manuellement
+- La page de téléchargement du projet ne s'ouvre plus lors de la détection d'une nouvelle version
 
 18/05/2017 - version 0.23.14
-- Les épisodes à voir dans le planning sont automatiquement mis à jour quand on enregistre le planning
+- Les épisodes à voir dans le planning sont automatiquement mis à jour quand le planning est validé
 
 16/05/2017 - version 0.23.13
-- Suppression de l'affichage des changements avec Webkit qui est obscelète (Fonctionne désormais sous Manajaro / Archlinux)
+- Suppression de l'affichage des changements avec Webkit qui est obscelète (Fonctionne désormais sous Manjaro / Archlinux)
 - Affiche maintenant la version distante lors d'une recherche de mise à jour
 
 03/05/2017 - version 0.23.11

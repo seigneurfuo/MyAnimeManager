@@ -145,21 +145,22 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[
             
             # Affichage d'un message si une maj est dispo
             if majDispo == 0:
-                self.tray.showMessage(info.__titre__, "Une mise a jour est disponible. Lancer update.py pour la mettre a jour automatiquement", msecs = 15000)
+                self.tray.showMessage(info.__titre__, u"Une mise à jour est disponible. Lancer update.py pour la mettre à jour automatiquement", msecs = 15000)
             
             elif majDispo == -1:
                 log.info("Pas de nouvelle maj")
             
             else:
-                self.tray.showMessage(info.__titre__, "Impossible de joindre le serveur de mise à jours", msecs = 10000)
+                self.tray.showMessage(info.__titre__, u"Impossible de joindre le serveur de mise à jour", msecs = 10000)
             
 
         # Définition du premier onglet affiché
         self.tabWidget.setCurrentIndex(0)
+        self.chargement_onglet(self)
 
 
     def chargement_onglet(self, dump):
-        """Fonction déclanché a chaque fois qu'un onglet est chargé"""
+        """Fonction déclanchée a chaque fois qu'un onglet est lancé"""
         
         ongletId = self.tabWidget.currentIndex()
         log.info("Id onglet actif: %s" %ongletId)
@@ -167,7 +168,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[
         # Onglet planning
         if ongletId == 0:
             self.planning__afficher()
-            self.planning__animes_vus__afficher()
+            self.planning__derniers_episodes_vus__remplir()
         
         # Onglet liste d'animé
         elif ongletId == 1: self.liste_rafraichir()
@@ -209,9 +210,9 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[
 
         # Si rien n'est rentré dans la barre de recherche:
         if titreRecherche != False and titreRecherche !="" :
-            log.info("Filtrage de la liste: Par correspondance")
+            log.info("Filtrage de la liste: Par recherche")
 
-            # On afiche la liste normale
+            # On afiche la liste des séries dont le nom contiends le texte entré
             curseur.execute("SELECT * FROM anime WHERE animeTitre LIKE('%s%s%s') ORDER BY LENGTH(animeId), animeId" %("%", titreRecherche, "%"))
 
         # Si on veut afficher la liste des animés à voir
@@ -428,12 +429,12 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[
 
             # Rafraichi après avoir enregistré
             self.liste_rafraichir()
-            self.planning__animes_vus__afficher()
+            self.planning__derniers_episodes_vus__remplir()
 
         # Si l'identifiant n'a pas été rempli
         else:
             # Remplacer la fenetre par une version 1 bouton.
-            information = PyQt4.QtGui.QMessageBox.information(self, "Identifiant invalide", "Veuillez entrer un identifiant composé uniquement de chiffres !", "Continuer")
+            information = PyQt4.QtGui.QMessageBox.information(self, "Identifiant invalide", u"Veuillez entrer un identifiant composé uniquement de chiffres !", "Continuer")
 
 
     def liste_supprimer(self):
@@ -461,11 +462,11 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[
 
             # Rafraichi après avoir supprimé
             self.liste_rafraichir()
-            self.planning__animes_vus__afficher()
+            self.planning__derniers_episodes_vus__remplir()
 
 
 # Fonctions de l'onglet planning
-    def planning__animes_vus__afficher(self):
+    def planning__derniers_episodes_vus__remplir(self):
         """Fonction qui ajoute les animés vus dans la liste des animés vus"""
         
         # On vide la liste des animés
@@ -473,7 +474,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[
 
         # On éxécute la commande sql qui retourne: les animés en cours de visionnage qui avec leur épisode vu le plus récent
         curseur.execute("""
-                        SELECT anime.animeTitre, max(planning.planningEpisode) AS planningEpisode
+                        SELECT anime.animeTitre, planning.planningEpisode AS planningEpisode
                         FROM anime, planning
                         WHERE planning.planningAnime = anime.animeId
                         AND anime.animeEtatVisionnage = 1
@@ -492,7 +493,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[
 
         # Ajout des éléments
         for indice, anime in enumerate(animesVus):
-            colonne1 = PyQt4.QtGui.QTableWidgetItem(anime["planningEpisode"])
+            colonne1 = PyQt4.QtGui.QTableWidgetItem(str(int(anime["planningEpisode"]) + 1) )
             self.animeVuTable.setItem(indice, 0, colonne1)
 
             colonne2 = PyQt4.QtGui.QTableWidgetItem(anime["animeTitre"])
@@ -608,7 +609,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[
         self.modifications = True
         
         # On rafraichi la liste des animés dans le planining pour prendre en compte les nouveaux épisodes vus
-        self.planning__animes_vus__afficher()
+        self.planning__derniers_episodes_vus__remplir()
 
 
 # Fonctions de l'onglet outils
@@ -654,18 +655,19 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[
     def personnages_favoris(self):
         """Fonction qui affiche les personnages préférés"""
 
-        waifu = {1:[self.waifu001Entry, self.waifu001],
-                      2:[self.waifu002Entry, self.waifu002],
-                      3:[self.waifu003Entry, self.waifu003],
-                      4:[self.waifu004Entry, self.waifu004],
-                      5:[self.waifu005Entry, self.waifu005],
-                      6:[self.waifu006Entry, self.waifu006],
-                      7:[self.waifu007Entry, self.waifu007],
-                      8:[self.waifu008Entry, self.waifu008],
-                      9:[self.waifu009Entry, self.waifu009],
-                      10:[self.waifu010Entry, self.waifu010]}
+        waifu = {
+                    1:[self.waifu001Entry, self.waifu001],
+                    2:[self.waifu002Entry, self.waifu002],
+                    3:[self.waifu003Entry, self.waifu003],
+                    4:[self.waifu004Entry, self.waifu004],
+                    5:[self.waifu005Entry, self.waifu005],
+                    6:[self.waifu006Entry, self.waifu006],
+                    7:[self.waifu007Entry, self.waifu007],
+                    8:[self.waifu008Entry, self.waifu008],
+                    9:[self.waifu009Entry, self.waifu009],
+                    10:[self.waifu010Entry, self.waifu010]}
 
-        # Rajouter la sauvegarde dans la base de données
+        # Pour chaque champ texte
         for imageId in range(1, 11):
             # Lit l'url depuis l'entrée texte
             url = str(waifu[imageId][0].text())
@@ -678,6 +680,7 @@ class Main(PyQt4.QtGui.QMainWindow, PyQt4.uic.loadUiType("./ressources/gui.ui")[
             try:
                 # Identifiant du numéro de la page affichée
                 pageId = self.spinboxPageId.value()
+                
                 # Charge l'image téléchargée
                 pixmap = PyQt4.QtGui.QPixmap("./profile/characters/%s_%s" %(pageId, imageId))
                 
