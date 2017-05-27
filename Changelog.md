@@ -1,6 +1,6 @@
 # Changements
 
-27/05/2017 - version 0.24.12
+27/05/2017 - version 0.24.13
 - POUR EFFECTUER CETTE MAJ, REMPLACER LE FICHIER update.py PAR CELUI-CI:
 - BUGFIX: Une ligne commentée dans le fichier update.py empéchait l'extraction des mise à jour
 - Le planning affiche désormais les futurs épisodes à voir.
@@ -13,6 +13,8 @@
 - Correction d'erreurs UTF8 dans les bulles de notification
 - BUGFIX: Le logo de l'application est désormais affiché dans "A propos" (erreur de chemin depuis Qt Designer)
 - Modification mineure de l'interface du planning
+- Modifications mineures de l'onglet "A propros"
+- Création d'un onglet "Aide" qui affichera des images explicatives
 
 19/05/2017 - version 0.24.05
 - Réecriture du script de MAJ: la recherche de maj se fait à chaque lancement mais pour metre à jour automatiquement l'application, il faut lancer update.py manuellement

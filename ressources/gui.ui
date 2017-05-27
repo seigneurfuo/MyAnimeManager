@@ -45,6 +45,9 @@
       <height>331</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="tabPosition">
      <enum>QTabWidget::North</enum>
     </property>
@@ -52,7 +55,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>6</number>
     </property>
     <widget class="QWidget" name="planning">
      <attribute name="icon">
@@ -245,7 +248,7 @@
        <normaloff>ressources/icons/application-view-list.ico</normaloff>ressources/icons/application-view-list.ico</iconset>
      </attribute>
      <attribute name="title">
-      <string>Liste</string>
+      <string>Liste des séries</string>
      </attribute>
      <widget class="QLabel" name="label_2">
       <property name="geometry">
@@ -1496,10 +1499,32 @@
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab">
+    <widget class="QWidget" name="tab_2">
      <attribute name="icon">
       <iconset>
        <normaloff>ressources/icons/help-about.ico</normaloff>ressources/icons/help-about.ico</iconset>
+     </attribute>
+     <attribute name="title">
+      <string>Aide</string>
+     </attribute>
+     <widget class="QLabel" name="label_19">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>0</y>
+        <width>641</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Vous verrez ici, comment utiliser l'application grâce à des images explicatives</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab">
+     <attribute name="icon">
+      <iconset>
+       <normaloff>ressources/icons/dialog-information-2.ico</normaloff>ressources/icons/dialog-information-2.ico</iconset>
      </attribute>
      <attribute name="title">
       <string>A propos</string>
@@ -1550,13 +1575,26 @@
       <property name="geometry">
        <rect>
         <x>140</x>
-        <y>110</y>
+        <y>60</y>
         <width>191</width>
         <height>17</height>
        </rect>
       </property>
       <property name="text">
        <string>Développé avec Python et pyQt</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_20">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>150</y>
+        <width>671</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Vous souhaitez rapporter un bug ou une suggestion ? Passer sur la page du projet et dites nous tout !</string>
       </property>
      </widget>
     </widget>
