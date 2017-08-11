@@ -29,13 +29,13 @@ Icones venant du projet: http://sourceforge.net/projects/openiconlibrary
 - ~~Lassie: (https://pypi.python.org/pypi/lassie)~~
 
 ## Ubuntu / Debian / Linux Mint
-- sudo apt-get python-qt4
-- sudo install python-pip
+- sudo apt install python-qt4
+- ~~sudo apt install python-pip~~
 - ~~sudo pip install beautifulsoup4~~
 - ~~sudo pip install lassie~~
 
 ## Archlinux / Manjaro
-
+- sudo pacman -S python2-pyqt4
 
 # A faire
 - Ajouter la création des dossiers automatiquement lors du premier démarrage
